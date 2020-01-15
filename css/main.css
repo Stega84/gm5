@@ -1,0 +1,104 @@
+body, html {
+  height: 100%;
+  width: 100%;
+}
+
+hr.top {
+  border: 1px solid Gainsboro;
+}
+
+p.cardForm {
+  font-size:0.8em;
+}
+
+.bg {
+  /* The image used */
+  background-image: url(../image/main.jpg);
+  /* 70% height */
+  height: 70%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.bg-1 {
+  /* The image used */
+  background-image: url(../image/list_2.jpg);
+  /* Full height */
+  height: 30%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.cardDescription{
+  height: 120px;
+}
+
+@media only screen and (max-width: 767px ) {
+  .title{
+    /*Google Font*/
+    font-family: 'Satisfy', cursive;
+    color: white;
+    font-size: 5em;
+    height: 55%;
+    /*Ausrichtung Text*/
+    display: flex;
+    align-items: flex-end; /* Vertikale Zentrierung*/
+    justify-content: center; /* Horizontale Zentrierung*/
+  }
+
+  .title-1{
+    font-family: 'Satisfy', cursive;
+    color: white;
+    font-size: 4.5em;
+    height: 65%;
+    display: flex;
+    align-items: flex-end; /* Vertikale Zentrierung */
+    justify-content: center; /* Horizontale Zentrierung */
+  }
+
+  .title-1-text{
+    font-family: 'Satisfy', cursive;
+    color: white;
+    font-size: 1.1em;
+    display: flex;
+    align-items: flex-end; /* Vertikale Zentrierung */
+    justify-content: center; /* Horizontale Zentrierung */
+  }
+}
+
+@media only screen and (min-width: 768px ) {
+  .title{
+    font-family: 'Satisfy', cursive;
+    color: white;
+    font-size: 8em;
+    height: 55%;
+    display: flex;
+    align-items: flex-end; /* Vertikale Zentrierung*/
+    justify-content: center; /* Horizontale Zentrierung*/
+  }
+
+  .title-1{
+    font-family: 'Satisfy', cursive;
+    color: white;
+    font-size: 8em;
+    height: 80%;
+    display: flex;
+    align-items: flex-end; /* Vertikale Zentrierung */
+    justify-content: center; /* Horizontale Zentrierung */
+  }
+
+  .title-1-text{
+    font-family: 'Satisfy', cursive;
+    color: white;
+    font-size: 1.4em;
+    display: flex;
+    align-items: flex-end; /* Vertikale Zentrierung */
+    justify-content: center; /* Horizontale Zentrierung */
+  }
+}
