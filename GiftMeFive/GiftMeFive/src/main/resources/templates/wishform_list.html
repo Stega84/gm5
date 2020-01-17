@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html xmlns:th="http://www.thymeleaf.org" lang="de">
 
 <head>
   <meta charset="utf-8">
@@ -37,7 +37,7 @@
               <p class="card-title" style="text-align: center">Upload an image of your wish</p>
               <div class="input-group">
                   <div class="custom-file">
-                      <input type="file" id="w_image" type="text" class="custom-file-input" aria-describedby="inputFileChoose" name="wishimage">
+                      <input type="file" id="w_image" class="custom-file-input" aria-describedby="inputFileChoose" name="wishimage">
                       <label class="custom-file-label" for="w_image">Choose image file</label>
                   </div>
               </div>
@@ -52,7 +52,7 @@
                     </h5>
                     <p class="card-text">
                       <label for="wdesc" class="control-label">Describe your wish: </label>
-                      <textarea  id="wdesc" class="form-control" name="wdesc" type="text" placeholder="This is the greatest wish ever"></textarea>
+                      <textarea  id="wdesc" class="form-control" name="wdesc" placeholder="This is the greatest wish ever"></textarea>
                       <label for="hlink" class="control-label">Link to your wish: </label>
                       <input  id="hlink" class="form-control" name="hlink" type="url" placeholder="https://stega84.github.io/gm5/">
                       <br>
@@ -129,27 +129,27 @@
   <!-- Binde alle kompilierten Plugins zusammen ein (wie hier unten) oder such dir einzelne Dateien nach Bedarf aus -->
   <script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
   <!-- Code below to display filename after selection in form input, retrieved from https://github.com/twbs/bootstrap/issues/23994 on 16 Jan 2020 -->
-  <script>
-  $('.custom-file-input').on('change', function() {
-  let fileName = $(this).val().split('\\').pop();
-  let label = $(this).siblings('.custom-file-label');
-
-  if (label.data('default-title') === undefined) {
-      label.data('default-title', label.html());
-  }
-
-  if (fileName === '') {
-      label.removeClass("selected").html(label.data('default-title'));
-  } else {
-      label.addClass("selected").html(fileName);
-  }
-  });
-  </script>
-  <script>
-// Reset the text of an element in a form with id="wishForm"
-function imgResetFunction() {
-  document.getElementById("w_image").value = "";
-}
-</script>
+	<script>
+	  $('.custom-file-input').on('change', function() {
+	  let fileName = $(this).val().split('\\').pop();
+	  let label = $(this).siblings('.custom-file-label');
+	
+	  if (label.data('default-title') === undefined) {
+	      label.data('default-title', label.html());
+	  }
+	
+	  if (fileName === '') {
+	      label.removeClass("selected").html(label.data('default-title'));
+	  } else {
+	      label.addClass("selected").html(fileName);
+	  }
+	  });
+	</script>
+  	<script>
+	// Reset the text of an element in a form with id="wishForm"
+	function imgResetFunction() {
+	  document.getElementById("w_image").value = "";
+	}
+	</script>
 </body>
 </html>

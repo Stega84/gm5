@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html xmlns:th="http://www.thymeleaf.org" lang="de">
 
 <head>
   <meta charset="utf-8">
@@ -76,7 +76,7 @@
           <h5 class="card-title">Schnelleinstieg</h5>
           <p class="card-text cardForm">With supporting text below as a natural lead-in to additional content.With supporting text below as a natural lead-in to. With supporting text below as a natural lead-in to
             additional content.</p>
-          <a href="#" class="btn btn-primary">Schnelleinstieg</a>
+          <a th:href="@{wishform_list}" class="btn btn-primary">Schnelleinstieg</a>
         </div>
       </div>
 
@@ -86,8 +86,8 @@
           <h5 class="card-title">Beispiel</h5>
           <p class="card-text cardForm">With supporting text below as a natural lead-in to additional content. With supporting text below as a natural lead-in to additional content. With supporting text below as a natural lead-in to
             additional content.</p>
-          <a href="./list.html" class="btn btn-primary">Beispiel 1</a>
-          <a href="./list2.html" class="btn btn-primary">Beispiel 2</a>
+          <a th:href="@{list}" class="btn btn-primary">Beispiel 1</a>
+          <a th:href="@{list2}" class="btn btn-primary">Beispiel 2</a>
         </div>
       </div>
     </div>
