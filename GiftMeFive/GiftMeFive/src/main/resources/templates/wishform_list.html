@@ -29,23 +29,23 @@
 
 
   <!-- Liste -->
-  <!-- Form-Elemente fuer Wunsch einfuegen: Felder sind w_image, wname, wdesc, hlink -->
+  <!-- Form-Elemente fuer Wunsch einfuegen: Felder sind wimage, wname, wdesc, hlink -->
     <div class="card mb-4 mt-2" style="background-color: #ddd">
+     <form class="form-horizontal" id="wishform" method="get" onreset="myResetFunction()">
       <div class="row no-gutters">
-        <div class="col-md-4 file-field">
-          <form id="wishImage" class="card-body">
+        <div class="col-md-4 file-field" style="background-color: #ccc">
+            <div class="card-body">
               <p class="card-title" style="text-align: center">Upload an image of your wish</p>
               <div class="input-group">
                   <div class="custom-file">
-                      <input type="file" id="w_image" class="custom-file-input" aria-describedby="inputFileChoose" name="wishimage">
-                      <label class="custom-file-label" for="w_image">Choose image file</label>
+                      <input type="file" id="wimage" class="custom-file-input" aria-describedby="inputFileChoose" name="wishimage">
+                      <label class="custom-file-label" for="wimage">Choose image file</label>
                   </div>
               </div>
-          </form>
+          </div>
         </div>
         <div class="col-md-8">
           <div class="card-body">
-        <form class="form-horizontal" method="get" onreset="myResetFunction()">
               <fieldset class="form-group">
                     <h5 class="card-title"><label for="wname"class="control-label">Name your wish: </label>
                       <input id="wname" class="form-control " name="wname" type="text" placeholder="My wish">
@@ -59,11 +59,11 @@
                               <input id="clear" type="reset" onclick="imgResetFunction()" class="btn btn-danger" value="Clear">
                               <input id="submit" type="submit" class="btn btn-success" value="Save">
                       </p>
-              </fieldset>
-            </form>
+              </fieldset>   
             </div>
           </div>
         </div>
+      </form>
       </div>
   <!-- Ende von Wunsch einfuegen -->
   <!--Eintrag 1-->
@@ -146,10 +146,11 @@
 	  });
 	</script>
   	<script>
-	// Reset the text of an element in a form with id="wishForm"
+	// Reset the text of the file input element in a form with id="wimage"
 	function imgResetFunction() {
-	  document.getElementById("w_image").value = "";
-	}
+	  document.getElementById("wimage").value = '';
+	  document.getElementById("wimage").label.addClass("selected").html('default-title');
+	 }
 	</script>
 </body>
 </html>
