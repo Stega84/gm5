@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Statement;
+
 
 import WildCodeSchoolProject.GiftMeFive.util.JdbcUtils;
 import WildCodeSchoolProject.GiftMeFive.entity.*;
@@ -49,6 +51,45 @@ public class WishRepository {
 			JdbcUtils.closeStatement(statement);
 			JdbcUtils.closeConnection(connection);
 		}
+		return null;
+	}
+	
+	public Artikel addWish(String Name, String Beschreibung, String Datum,
+            String Bildlink, String Produktlink, String Preis) {
+
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet generatedKeys = null;
+
+		try {
+			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			statement = connection.prepareStatement("INSERT INTO Artikel (Name, Beschreibung, Datum, Bildlink, Produktlink, Preis) VALUES (?, ?, ?, ?, ?,?)", Statement.RETURN_GENERATED_KEYS);
+						
+			    statement.setString(1, Name);
+				statement.setString(2, Beschreibung);
+				statement.setString(3, Datum);
+				statement.setString(4, Bildlink);
+				statement.setString(5, Produktlink);
+				statement.setString(6, Preis);
+			
+				if (statement.executeUpdate() != 1) {
+	                throw new SQLException("failed to insert data");
+	            }
+				generatedKeys = statement.getGeneratedKeys();
+				if (generatedKeys.next()) {
+	                Long id = generatedKeys.getLong(1);
+	                return new Artikel(id, Name, Beschreibung, Datum, Bildlink, Produktlink, Preis);
+				} else {
+	                throw new SQLException("failed to get inserted id");
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            JdbcUtils.closeResultSet(generatedKeys);
+	            JdbcUtils.closeStatement(statement);
+	            JdbcUtils.closeConnection(connection);
+	        }
+	               
 		return null;
 	}
 }

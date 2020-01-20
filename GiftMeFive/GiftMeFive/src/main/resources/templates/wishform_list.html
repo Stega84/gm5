@@ -27,11 +27,10 @@
     <div class="title-1-text">Max Mustermann Wunschliste</div>
   </div>
 
-
-  <!-- Liste -->
+  <!-- Eingabefeld -->
   <!-- Form-Elemente fuer Wunsch einfuegen: Felder sind wimage, wname, wdesc, hlink -->
     <div class="card mb-4 mt-2" style="background-color: #ddd">
-     <form class="form-horizontal" id="wishform" method="get" onreset="myResetFunction()">
+     <form action="/addWish" class="form-horizontal" id="wishform" method="get" onreset="myResetFunction()">
       <div class="row no-gutters">
         <div class="col-md-4 file-field" style="background-color: #ccc">
             <div class="card-body">
@@ -66,60 +65,23 @@
       </form>
       </div>
   <!-- Ende von Wunsch einfuegen -->
+
+  <!-- Anzeigen aktuelle Wunschliste (initial leer)-->
   <!--Eintrag 1-->
-  <div class="card mb-4 mt-2">
+  <div class="card mb-4 mt-2" th:each="artikel : ${wishlist}" >
     <div class="row no-gutters">
       <div class="col-md-4">
         <a
-          href="https://www.amazon.de/PlayStation%C2%AE4-Pro-Konsole-1TB-schwarz/dp/B07HSJW7HK/ref=sr_1_1_sspa?__mk_de_DE=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=playstation+4&qid=1579097298&sr=8-1-spons&psc=1&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUEzRk1RUUJTSFlPWk5MJmVuY3J5cHRlZElkPUEwMjkzODU5MlpNQ01FQ1lONFgzMiZlbmNyeXB0ZWRBZElkPUEwOTIwODcyMzUwQjRIVjRVNk5WSyZ3aWRnZXROYW1lPXNwX2F0ZiZhY3Rpb249Y2xpY2tSZWRpcmVjdCZkb05vdExvZ0NsaWNrPXRydWU=" target="_blank">
-          <img src="image/ps4.jpg" class="card-img" alt="...">
+          th:href="@{${artikel.produktlink}}" target="_blank">
+          <img th:src="@{${artikel.bildlink}}" class="card-img" alt="...">
         </a>
       </div>
       <div class="col-md-8">
         <div class="card-body">
-          <h5 class="card-title">Play Station 4</h5>
-          <p class="card-text">Eine ganz normale Play Station. Kein Bundle oder so.</p>
-          <p class="card-text"><small class="text-muted">Hinzugefügt am 12.01.2020</small></p>
-          <div class="text-right">
-            <a href="#" class="btn btn-primary">Reservieren</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!--Eintrag 2-->
-  <div class="card mb-4 mt-2">
-    <div class="row no-gutters">
-      <div class="col-md-4">
-        <img src="image/graka.jpg" class="card-img" alt="...">
-      </div>
-      <div class="col-md-8">
-        <div class="card-body">
-          <h5 class="card-title">Grafikkarte</h5>
-          <p class="card-text">MSI GeForce GTX 1060 6GT OCV1 6GB Nvidia GDDR5 1x HDMI, 1x DP, 1x DL-DVI-D, 2 Slot Afterburner OC, VR Ready, 4K-optimiert, Grafikkarte</p>
-          <p class="card-text"><small class="text-muted">Hinzugefügt am 12.01.2020</small></p>
-          <div class="text-right">
-            <a href="#" class="btn btn-primary">Reservieren</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!--Eintrag 3-->
-  <div class="card mb-4 mt-2">
-    <div class="row no-gutters">
-      <div class="col-md-4">
-        <img src="image/lp.jpg" class="card-img" alt="...">
-      </div>
-      <div class="col-md-8">
-        <div class="card-body">
-          <h5 class="card-title">Laptop</h5>
-          <p class="card-text">Gaming Laptop von Lenovo. Anzeigen Legion Y540 | Gaming-Notebook - GeForce RTX 2060</p>
-          <p class="card-text"><small class="text-muted">Hinzugefügt am 13.01.2020</small></p>
-          <div class="text-right">
-            <a href="#" class="btn btn-primary">Reservieren</a>
-          </div>
-        </div>
+          <h5 class="card-title" th:text="${artikel.name}"></h5>
+          <p class="card-text" th:text="${artikel.beschreibung}"></p>
+          <p class="card-text"><small class="text-muted" th:text="|Hinzugefügt am ${artikel.datum}|"></small></p>
+         </div>
       </div>
     </div>
   </div>
