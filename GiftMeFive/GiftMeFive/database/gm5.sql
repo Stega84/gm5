@@ -61,7 +61,7 @@ INSERT INTO Artikel (Name, Beschreibung, Bildlink, Produktlink, Preis,wunschlist
 VALUES (
   'Play Station 4',
   'Eine ganz normale Play Station. Kein Bundle oder so.',
-  NULL,
+  'image/ps4.jpg',
   'https://www.amazon.de/PlayStation%C2%AE4-Pro-Konsole-1TB-schwarz/dp/B07HSJW7HK/ref=sr_1_1_sspa?__mk_de_DE=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=playstation+4&qid=1579097298&sr=8-1-spons&psc=1&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUEzRk1RUUJTSFlPWk5MJmVuY3J5cHRlZElkPUEwMjkzODU5MlpNQ01FQ1lONFgzMiZlbmNyeXB0ZWRBZElkPUEwOTIwODcyMzUwQjRIVjRVNk5WSyZ3aWRnZXROYW1lPXNwX2F0ZiZhY3Rpb249Y2xpY2tSZWRpcmVjdCZkb05vdExvZ0NsaWNrPXRydWU=',
   '350',
   1);
@@ -70,7 +70,7 @@ INSERT INTO Artikel (Name, Beschreibung, Bildlink, Produktlink, Preis,wunschlist
 VALUES (
   'Grafikkarte',
   'MSI GeForce GTX 1060 6GT OCV1 6GB Nvidia GDDR5 1x HDMI, 1x DP, 1x DL-DVI-D, 2 Slot Afterburner OC, VR Ready, 4K-optimiert, Grafikkarte',
-  NULL,
+  'image/graka.jpg',
   'https://www.amazon.de/MSI-GeForce-FROZR-GDDR6-Express/dp/B082NQDX32?ref_=Oct_s9_apbd_onr_hd_bw_bT6uX9_1&pf_rd_r=DDY2YGTQCD2999CKAMJT&pf_rd_p=3fe1f878-c90c-5ebf-a3da-c362d1132227&pf_rd_s=merchandised-search-10&pf_rd_t=BROWSE&pf_rd_i=430161031',
   '350',
   2);
@@ -79,7 +79,7 @@ INSERT INTO Artikel (Name, Beschreibung, Bildlink, Produktlink, Preis,wunschlist
 VALUES (
   'Laptop',
   'Jumper EZbook S5 14 "Zoll Windows 10 Heim Laptop, FHD IPS Laptop Intel Atom E3950 Quad Core, 8 GB RAM',
-  NULL,
+  'image/lp.jpg',
   'https://www.amazon.de/Jumper-EZbook-Windows-Unterst%C3%BCtzt-tf-Karte/dp/B07W91KDKX/ref=sr_1_2_sspa?__mk_de_DE=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=laptop&qid=1579169593&s=computers&sr=1-2-spons&psc=1&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUEzODdaMlc3QUZLVzZSJmVuY3J5cHRlZElkPUEwNzA1NzQyMUlTWElZMTRQRllHNSZlbmNyeXB0ZWRBZElkPUEwNjcyOTg4Mk5SUzdNUlQyNFdMQSZ3aWRnZXROYW1lPXNwX2F0ZiZhY3Rpb249Y2xpY2tSZWRpcmVjdCZkb05vdExvZ0NsaWNrPXRydWU=',
   '400',
   2);
@@ -88,7 +88,7 @@ INSERT INTO Artikel (Name, Beschreibung, Bildlink, Produktlink, Preis,wunschlist
 VALUES (
   'Play Station 4',
   'Eine ganz normale Play Station. Kein Bundle oder so.',
-  NULL,
+  'image/ps4.jpg',
   'https://www.amazon.de/PlayStation%C2%AE4-Pro-Konsole-1TB-schwarz/dp/B07HSJW7HK/ref=sr_1_1_sspa?__mk_de_DE=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=playstation+4&qid=1579097298&sr=8-1-spons&psc=1&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUEzRk1RUUJTSFlPWk5MJmVuY3J5cHRlZElkPUEwMjkzODU5MlpNQ01FQ1lONFgzMiZlbmNyeXB0ZWRBZElkPUEwOTIwODcyMzUwQjRIVjRVNk5WSyZ3aWRnZXROYW1lPXNwX2F0ZiZhY3Rpb249Y2xpY2tSZWRpcmVjdCZkb05vdExvZ0NsaWNrPXRydWU=',
   '350',
   2);

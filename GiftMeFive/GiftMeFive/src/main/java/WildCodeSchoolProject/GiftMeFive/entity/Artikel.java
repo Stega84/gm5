@@ -2,6 +2,7 @@ package WildCodeSchoolProject.GiftMeFive.entity;
 
 public class Artikel {
 
+	Long id;
 	String name;
 	String beschreibung;
 	String datum;
@@ -9,13 +10,22 @@ public class Artikel {
 	String produktlink;
 	String preis;
 
-	public Artikel(String name, String beschreibung, String datum, String bildlink, String produktlink, String preis) {
+	public Artikel(Long id, String name, String beschreibung, String datum, String bildlink, String produktlink, String preis) {
+		this.id = id;
 		this.name = name;
 		this.beschreibung = beschreibung;
 		this.datum = datum;
 		this.bildlink = bildlink;
 		this.produktlink = produktlink;
 		this.preis = preis;
+	}
+	
+	public Long getId() {
+		return id;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getName() {

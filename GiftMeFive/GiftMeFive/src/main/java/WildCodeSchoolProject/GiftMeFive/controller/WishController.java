@@ -1,10 +1,17 @@
 package WildCodeSchoolProject.GiftMeFive.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import WildCodeSchoolProject.GiftMeFive.repository.WishRepository;
 
 @Controller
 public class WishController {
+	
+	WishRepository repository = new WishRepository();
 
 	@RequestMapping ("/list")
 	public String list () {
@@ -19,6 +26,13 @@ public class WishController {
 	@RequestMapping ("wishform_list")
 	public String wishform_list () {
 		return "wishform_list";
+	}
+	
+	@GetMapping("/findWishlist")
+	public String random(Model model, @RequestParam Long id) {
+
+	  model.addAttribute("wishlist", repository.showWishlist(id));
+	  return "wishlistoutput";
 	}
 	
 }
