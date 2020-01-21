@@ -23,8 +23,9 @@ public class WishController {
 		return "list2";
 	}
 	
-	@RequestMapping ("wishform_list")
-	public String wishform_list () {
+	@GetMapping ("/addWish")
+	public String wishform_list (Model model, @RequestParam Long wunschliste_id) {
+		model.addAttribute("Wish", repository.addWish(Name, Beschreibung, Datum, Bildlink, Produktlink, Preis, wunschliste_id));
 		return "wishform_list";
 	}
 	

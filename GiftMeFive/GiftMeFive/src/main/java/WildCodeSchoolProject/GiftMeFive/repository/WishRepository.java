@@ -55,7 +55,7 @@ public class WishRepository {
 	}
 	
 	public Artikel addWish(String Name, String Beschreibung, String Datum,
-            String Bildlink, String Produktlink, String Preis) {
+            String Bildlink, String Produktlink, String Preis, Long wunschliste_id) {
 
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -63,7 +63,7 @@ public class WishRepository {
 
 		try {
 			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-			statement = connection.prepareStatement("INSERT INTO Artikel (Name, Beschreibung, Datum, Bildlink, Produktlink, Preis) VALUES (?, ?, ?, ?, ?,?)", Statement.RETURN_GENERATED_KEYS);
+			statement = connection.prepareStatement("INSERT INTO Artikel (Name, Beschreibung, Datum, Bildlink, Produktlink, Preis, wunschliste_id) VALUES (?, ?, ?, ?, ?,?)", Statement.RETURN_GENERATED_KEYS);
 						
 			    statement.setString(1, Name);
 				statement.setString(2, Beschreibung);
@@ -71,6 +71,7 @@ public class WishRepository {
 				statement.setString(4, Bildlink);
 				statement.setString(5, Produktlink);
 				statement.setString(6, Preis);
+				statement.setLong(7, wunschliste_id);
 			
 				if (statement.executeUpdate() != 1) {
 	                throw new SQLException("failed to insert data");
@@ -78,7 +79,7 @@ public class WishRepository {
 				generatedKeys = statement.getGeneratedKeys();
 				if (generatedKeys.next()) {
 	                Long id = generatedKeys.getLong(1);
-	                return new Artikel(id, Name, Beschreibung, Datum, Bildlink, Produktlink, Preis);
+	                return new Artikel(id, Name, Beschreibung, Datum, Bildlink, Produktlink, Preis, wunschliste_id);
 				} else {
 	                throw new SQLException("failed to get inserted id");
 	            }
