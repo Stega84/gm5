@@ -29,10 +29,17 @@ public class WishController {
 	}
 	
 	@GetMapping("/findWishlist")
-	public String random(Model model, @RequestParam Long id) {
+	public String show(Model model, @RequestParam Long id) {
 
 	  model.addAttribute("wishlist", repository.showWishlist(id));
 	  return "wishlistoutput";
 	}
 	
+	@GetMapping("/createWishlist")
+	public String create(Model model, @RequestParam String name, @RequestParam String datum) {
+		
+	  model.addAttribute("name", name);
+	  model.addAttribute("id", repository.erstellen(name, datum));
+	  return "wishform_list";
+	}
 }

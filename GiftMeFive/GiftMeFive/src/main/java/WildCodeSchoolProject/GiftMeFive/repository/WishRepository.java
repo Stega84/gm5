@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +45,7 @@ public class WishRepository {
 			return artikel;
 		} catch (SQLException e) {
 			e.printStackTrace();
+			
 		} finally {
 			JdbcUtils.closeResultSet(resultSet);
 			JdbcUtils.closeStatement(statement);
@@ -51,4 +53,47 @@ public class WishRepository {
 		}
 		return null;
 	}
+	
+
+	public Long erstellen(String name, String datum) {
+		
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet generatedSet = null;
+		Long id = 0l;
+		
+		try {
+            connection = DriverManager.getConnection(
+                    DB_URL, DB_USER, DB_PASSWORD
+            );
+            statement = connection.prepareStatement(
+                    "INSERT INTO Wunschliste (Name, Enddatum) VALUES (?, ?)",
+                    Statement.RETURN_GENERATED_KEYS
+            );
+            statement.setString(1, name);
+            statement.setString(2, datum);
+
+
+            if (statement.executeUpdate() != 1) {
+                throw new SQLException("failed to insert data");
+            }
+
+            generatedSet = statement.getGeneratedKeys();
+
+            if (generatedSet.next()) {
+                id = generatedSet.getLong(1);
+                //return new Wunschliste(id, name, datum);
+            } else {
+                throw new SQLException("failed to get inserted id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JdbcUtils.closeResultSet(generatedSet);
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
+        }		
+        return id;
+	}
+	
 }
