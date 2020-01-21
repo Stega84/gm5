@@ -81,7 +81,8 @@
 						natural lead-in to additional content.With supporting text below
 						as a natural lead-in to. With supporting text below as a natural
 						lead-in to additional content.</p>
-					<a th:href="@{wishform_list}" class="btn btn-primary">Schnelleinstieg</a>
+					<button type="button" class="btn btn-primary" data-toggle="modal"
+						data-target="#wunschlisteErstellen">Schnelleinstieg</button>
 				</div>
 			</div>
 
@@ -124,6 +125,36 @@
 							name="id" class="form-control" type="text">
 						<div class="modal-footer">
 							<input type="submit" class="btn btn-primary" value="Suchen">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--Eingabefenster für Wunschliste erstellen-->
+	<div class="modal fade" id="wunschlisteErstellen" tabindex="-1"
+		role="dialog" aria-labelledby="wunschliste-erstellen"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<h5 class="modal-title" id="wunschliste-erstellen">Modal title</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+				<div class="modal-body">
+					<form action="/createWishlist" method="get">
+							<label>Bitte geben Sie einen Namen für Ihre Liste ein!.</label> 
+							<input name="name" class="form-control" type="text"> 
+							<label>Bitte geben Sie ein Datum ein wie lange die Liste gültig ist!</label> 
+							<input name="datum" class="form-control" type="text">
+						<div class="modal-footer">
+							<input type="submit" class="btn btn-primary" value="Erstellen">
 						</div>
 					</form>
 				</div>

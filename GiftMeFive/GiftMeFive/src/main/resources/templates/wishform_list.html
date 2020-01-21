@@ -2,117 +2,138 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="de">
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Die 3 Meta-Tags oben *müssen* zuerst im head stehen; jeglicher sonstiger head-Inhalt muss *nach* diesen Tags kommen -->
-  <title>Gift Me Five Extrawunsch</title>
-  <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
-  <link href="css/main.css" rel="stylesheet">
-  <!-- Bootstrap -->
-  <link href="bootstrap-4.3.1-dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Unterstützung für Media Queries und HTML5-Elemente in IE8 über HTML5 shim und Respond.js -->
-  <!-- ACHTUNG: Respond.js funktioniert nicht, wenn du die Seite über file:// aufrufst -->
-  <!--[if lt IE 9]>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Die 3 Meta-Tags oben *müssen* zuerst im head stehen; jeglicher sonstiger head-Inhalt muss *nach* diesen Tags kommen -->
+<title>Gift Me Five Extrawunsch</title>
+<link
+	href="https://fonts.googleapis.com/css?family=Satisfy&display=swap"
+	rel="stylesheet">
+<link href="css/main.css" rel="stylesheet">
+<!-- Bootstrap -->
+<link href="bootstrap-4.3.1-dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Unterstützung für Media Queries und HTML5-Elemente in IE8 über HTML5 shim und Respond.js -->
+<!-- ACHTUNG: Respond.js funktioniert nicht, wenn du die Seite über file:// aufrufst -->
+<!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
       <![endif]-->
 </head>
 
 <body class="container">
-  <!--Navigation-->
-  <div class="bg-1">
-    <!--Titeltext-->
-    <div class="row text-center title-1">GiftMeFive</div>
-    <div class="title-1-text">Max Mustermann Wunschliste</div>
-  </div>
+	<!--Navigation-->
+	<div class="bg-1">
+		<!--Titeltext-->
+		<div class="row text-center title-1">GiftMeFive</div>
+		<div class="title-1-text" th:text="|${name} Wunschliste!|"></div>
+	</div>
 
-  <!-- Eingabefeld -->
-  <!-- Form-Elemente fuer Wunsch einfuegen: Felder sind wimage, wname, wdesc, hlink -->
-    <div class="card mb-4 mt-2" style="background-color: #ddd">
-     <form action="/addWish" class="form-horizontal" id="wishform" method="get" onreset="myResetFunction()">
-      <div class="row no-gutters">
-        <div class="col-md-4 file-field" style="background-color: #ccc">
-            <div class="card-body">
-              <p class="card-title" style="text-align: center">Upload an image of your wish</p>
-              <div class="input-group">
-                  <div class="custom-file">
-                      <input type="file" id="wimage" class="custom-file-input" aria-describedby="inputFileChoose" name="wishimage">
-                      <label class="custom-file-label" for="wimage">Choose image file</label>
-                  </div>
-              </div>
-          </div>
-        </div>
-        <div class="col-md-8">
-          <div class="card-body">
-              <fieldset class="form-group">
-                    <h5 class="card-title"><label for="wname"class="control-label">Name your wish: </label>
-                      <input id="wname" class="form-control " name="wname" type="text" placeholder="My wish">
-                    </h5>
-                    <p class="card-text">
-                      <label for="wdesc" class="control-label">Describe your wish: </label>
-                      <textarea  id="wdesc" class="form-control" name="wdesc" placeholder="This is the greatest wish ever"></textarea>
-                      <label for="hlink" class="control-label">Link to your wish: </label>
-                      <input  id="hlink" class="form-control" name="hlink" type="url" placeholder="https://stega84.github.io/gm5/">
-                      <br>
-                              <input id="clear" type="reset" onclick="imgResetFunction()" class="btn btn-danger" value="Clear">
-                              <input id="submit" type="submit" class="btn btn-success" value="Save">
-                      </p>
-              </fieldset>   
-            </div>
-          </div>
-        </div>
-      </form>
-      </div>
-  <!-- Ende von Wunsch einfuegen -->
+	<!-- Eingabefeld -->
+	<!-- Form-Elemente fuer Wunsch einfuegen: Felder sind wimage, wname, wdesc, hlink -->
+	<div class="card mb-4 mt-2" style="background-color: #ddd">
+		<form class="form-horizontal" id="wishform" method="get"
+			onreset="myResetFunction()">
+			<div class="row no-gutters">
+				<div class="col-md-4 file-field" style="background-color: #ccc">
+					<div class="card-body">
+						<p class="card-title" style="text-align: center">Upload an
+							image of your wish</p>
+						<div class="input-group">
+							<div class="custom-file">
+								<input type="file" id="wimage" class="custom-file-input"
+									aria-describedby="inputFileChoose" name="wishimage"> <label
+									class="custom-file-label" for="wimage">Choose image
+									file</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-8">
+					<div class="card-body">
+						<fieldset class="form-group">
+							<h5 class="card-title">
+								<label for="wname" class="control-label">Name your wish:</label> 
+								<input id="wname" class="form-control " name="wname" type="text" placeholder="My wish">
+							</h5>					
+							<p class="card-text">
+								<label for="wdesc" class="control-label">Describe your wish: </label>
+								<textarea id="wdesc" class="form-control" name="wdesc" placeholder="This is the greatest wish ever"></textarea>
+								
+								<label for="hlink" class="control-label">Link to your wish: </label> 
+								<input id="hlink" class="form-control" name="hlink" type="url" placeholder="https://stega84.github.io/gm5/"> <br> 
+								
+								<input type="hidden" name="wunschliste_id" value="" th:value="${id}">
+								<input type="hidden" name="titelName" value="" th:value="${name}">
+								
+								<input id="clear" type="reset" onclick="imgResetFunction()" class="btn btn-danger" value="Clear"> 
+								<input id="submit" type="submit" class="btn btn-success" value="Save">
+							</p>
+						</fieldset>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- Ende von Wunsch einfuegen -->
 
-  <!-- Anzeigen aktuelle Wunschliste (initial leer)-->
-  <!--Eintrag 1-->
-  <div class="card mb-4 mt-2" th:each="artikel : ${wishlist}" >
-    <div class="row no-gutters">
-      <div class="col-md-4">
-        <a
-          th:href="@{${artikel.produktlink}}" target="_blank">
-          <img th:src="@{${artikel.bildlink}}" class="card-img" alt="...">
-        </a>
-      </div>
-      <div class="col-md-8">
-        <div class="card-body">
-          <h5 class="card-title" th:text="${artikel.name}"></h5>
-          <p class="card-text" th:text="${artikel.beschreibung}"></p>
-          <p class="card-text"><small class="text-muted" th:text="|Hinzugefügt am ${artikel.datum}|"></small></p>
-         </div>
-      </div>
-    </div>
-  </div>
+	<!--Eintrag 1-->
+	<div class="card mb-4 mt-2" th:each="artikel : ${newList}">
+		<div class="row no-gutters">
+			<div class="col-md-4">
+				<a th:href="@{${artikel.produktlink}}" target="_blank"> <img
+					th:src="@{${artikel.bildlink}}" class="card-img" alt="...">
+				</a>
+			</div>
+			<div class="col-md-8">
+				<div class="card-body">
+					<h5 class="card-title" th:text="${artikel.name}"></h5>
+					<p class="card-text" th:text="${artikel.beschreibung}"></p>
+					<p class="card-text">
+						<small class="text-muted"
+							th:text="|Hinzugefügt am ${artikel.datum}|"></small>
+					</p>
+					<div class="text-right">
+						<a href="#" class="btn btn-primary">Reservieren</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-  <!-- jQuery (wird für Bootstrap JavaScript-Plugins benötigt) -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <!-- Binde alle kompilierten Plugins zusammen ein (wie hier unten) oder such dir einzelne Dateien nach Bedarf aus -->
-  <script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
-  <!-- Code below to display filename after selection in form input, retrieved from https://github.com/twbs/bootstrap/issues/23994 on 16 Jan 2020 -->
+
+	<!-- jQuery (wird für Bootstrap JavaScript-Plugins benötigt) -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<!-- Binde alle kompilierten Plugins zusammen ein (wie hier unten) oder such dir einzelne Dateien nach Bedarf aus -->
+	<script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+	<!-- Code below to display filename after selection in form input, retrieved from https://github.com/twbs/bootstrap/issues/23994 on 16 Jan 2020 -->
 	<script>
-	  $('.custom-file-input').on('change', function() {
-	  let fileName = $(this).val().split('\\').pop();
-	  let label = $(this).siblings('.custom-file-label');
-	
-	  if (label.data('default-title') === undefined) {
-	      label.data('default-title', label.html());
-	  }
-	
-	  if (fileName === '') {
-	      label.removeClass("selected").html(label.data('default-title'));
-	  } else {
-	      label.addClass("selected").html(fileName);
-	  }
-	  });
+		$('.custom-file-input').on(
+				'change',
+				function() {
+					let fileName = $(this).val().split('\\').pop();
+					let label = $(this).siblings('.custom-file-label');
+
+					if (label.data('default-title') === undefined) {
+						label.data('default-title', label.html());
+					}
+
+					if (fileName === '') {
+						label.removeClass("selected").html(
+								label.data('default-title'));
+					} else {
+						label.addClass("selected").html(fileName);
+					}
+				});
 	</script>
-  	<script>
-	// Reset the text of the file input element in a form with id="wimage"
-	function imgResetFunction() {
-	  document.getElementById("wimage").value = '';
-	  document.getElementById("wimage").label.addClass("selected").html('default-title');
-	 }
+	<script>
+		// Reset the text of the file input element in a form with id="wimage"
+		function imgResetFunction() {
+			document.getElementById("wimage").value = '';
+			document.getElementById("wimage").label.addClass("selected").html(
+					'default-title');
+		}
 	</script>
 </body>
 </html>
