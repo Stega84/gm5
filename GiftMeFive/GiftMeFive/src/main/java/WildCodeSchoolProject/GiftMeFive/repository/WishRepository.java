@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.Statement;
 
 
 import WildCodeSchoolProject.GiftMeFive.util.JdbcUtils;
@@ -56,9 +55,8 @@ public class WishRepository {
 		return null;
 	}
 	
-<<<<<<< HEAD
 	public Artikel addWish(String Name, String Beschreibung, String Datum,
-            String Bildlink, String Produktlink, String Preis, Long wunschliste_id) {
+            String Bildlink, String Produktlink, String Preis, Long wunschliste_id, String titelname) {
 
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -66,7 +64,7 @@ public class WishRepository {
 
 		try {
 			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-			statement = connection.prepareStatement("INSERT INTO Artikel (Name, Beschreibung, Datum, Bildlink, Produktlink, Preis, wunschliste_id) VALUES (?, ?, ?, ?, ?,?)", Statement.RETURN_GENERATED_KEYS);
+			statement = connection.prepareStatement("INSERT INTO Artikel (Name, Beschreibung, Datum, Bildlink, Produktlink, Preis, wunschliste_id) VALUES (?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 						
 			    statement.setString(1, Name);
 				statement.setString(2, Beschreibung);
@@ -82,7 +80,8 @@ public class WishRepository {
 				generatedKeys = statement.getGeneratedKeys();
 				if (generatedKeys.next()) {
 	                Long id = generatedKeys.getLong(1);
-	                return new Artikel(id, Name, Beschreibung, Datum, Bildlink, Produktlink, Preis, wunschliste_id);
+	                System.out.println("Repo: "+ id + Name + Beschreibung + Datum + Bildlink + Produktlink + Preis);
+	                return new Artikel(id, Name, Beschreibung, Datum, Bildlink, Produktlink, Preis);
 				} else {
 	                throw new SQLException("failed to get inserted id");
 	            }

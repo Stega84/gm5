@@ -26,13 +26,13 @@
 	<div class="bg-1">
 		<!--Titeltext-->
 		<div class="row text-center title-1">GiftMeFive</div>
-		<div class="title-1-text" th:text="|${name} Wunschliste!|"></div>
+		<div class="title-1-text" th:text="|${titelname} Wunschliste!|"></div>
 	</div>
 
 	<!-- Eingabefeld -->
-	<!-- Form-Elemente fuer Wunsch einfuegen: Felder sind wimage, wname, wdesc, hlink -->
+	<!-- Form-Elemente fuer Wunsch einfuegen: Felder sind bildlink, name, beschreibung, produktlink, datum, preis -->
 	<div class="card mb-4 mt-2" style="background-color: #ddd">
-		<form class="form-horizontal" id="wishform" method="get"
+		<form action="/addWish" class="form-horizontal" id="wishform" method="get"
 			onreset="myResetFunction()">
 			<div class="row no-gutters">
 				<div class="col-md-4 file-field" style="background-color: #ccc">
@@ -41,10 +41,9 @@
 							image of your wish</p>
 						<div class="input-group">
 							<div class="custom-file">
-								<input type="file" id="wimage" class="custom-file-input"
-									aria-describedby="inputFileChoose" name="wishimage"> <label
-									class="custom-file-label" for="wimage">Choose image
-									file</label>
+								<input type="file" id="bildlink" class="custom-file-input"
+									aria-describedby="inputFileChoose" name="bildlink"> <label
+									class="custom-file-label" for="bildlink"></label>
 							</div>
 						</div>
 					</div>
@@ -53,18 +52,21 @@
 					<div class="card-body">
 						<fieldset class="form-group">
 							<h5 class="card-title">
-								<label for="wname" class="control-label">Name your wish:</label> 
-								<input id="wname" class="form-control " name="wname" type="text" placeholder="My wish">
+								<label for="name" class="control-label">Name your wish:</label> 
+								<input id="name" class="form-control " name="name" type="text" placeholder="My wish">
 							</h5>					
 							<p class="card-text">
-								<label for="wdesc" class="control-label">Describe your wish: </label>
-								<textarea id="wdesc" class="form-control" name="wdesc" placeholder="This is the greatest wish ever"></textarea>
+								<label for="beschreibung" class="control-label">Describe your wish: </label>
+								<textarea id="beschreibung" class="form-control" name="beschreibung" placeholder="This is the greatest wish ever"></textarea>
 								
-								<label for="hlink" class="control-label">Link to your wish: </label> 
-								<input id="hlink" class="form-control" name="hlink" type="url" placeholder="https://stega84.github.io/gm5/"> <br> 
+								<label for="produktlink" class="control-label">Link to your wish: </label> 
+								<input id="produktlink" class="form-control" name="produktlink" type="url" placeholder="https://stega84.github.io/gm5/"> <br> 
 								
 								<input type="hidden" name="wunschliste_id" value="" th:value="${id}">
-								<input type="hidden" name="titelName" value="" th:value="${name}">
+								<input type="hidden" name="titelname" value="" th:value="${name}">
+								<!--  Achtung: datum und preis auf Festwert gesetzt, noch anders zu lösen -->
+								<input type="hidden" name="datum" value="" th:value="2020-02-21">
+								<input type="hidden" name="preis" value="" th:value="1">
 								
 								<input id="clear" type="reset" onclick="imgResetFunction()" class="btn btn-danger" value="Clear"> 
 								<input id="submit" type="submit" class="btn btn-success" value="Save">
@@ -78,7 +80,7 @@
 	<!-- Ende von Wunsch einfuegen -->
 
 	<!--Eintrag 1-->
-	<div class="card mb-4 mt-2" th:each="artikel : ${newList}">
+	<div class="card mb-4 mt-2" th:each="artikel : ${artikel}">
 		<div class="row no-gutters">
 			<div class="col-md-4">
 				<a th:href="@{${artikel.produktlink}}" target="_blank"> <img
@@ -130,8 +132,8 @@
 	<script>
 		// Reset the text of the file input element in a form with id="wimage"
 		function imgResetFunction() {
-			document.getElementById("wimage").value = '';
-			document.getElementById("wimage").label.addClass("selected").html(
+			document.getElementById("bildlink").value = '';
+			document.getElementById("bildlink").label.addClass("selected").html(
 					'default-title');
 		}
 	</script>

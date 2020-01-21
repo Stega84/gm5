@@ -24,8 +24,20 @@ public class WishController {
 	}
 	
 	@GetMapping ("/addWish")
-	public String wishform_list (Model model, @RequestParam String name, @RequestParam Long wunschliste_id) {
-		model.addAttribute("Wish", repository.addWish(Name, Beschreibung, Datum, Bildlink, Produktlink, Preis, wunschliste_id));
+	public String wishform_list (Model model, @RequestParam String name, @RequestParam String beschreibung, @RequestParam String datum,
+            @RequestParam String bildlink, @RequestParam String produktlink, @RequestParam String preis, @RequestParam Long wunschliste_id, @RequestParam String titelname) {
+		model.addAttribute("name", name);
+		model.addAttribute("beschreibung", beschreibung);
+		model.addAttribute("datum", datum);
+		model.addAttribute("bildlink", bildlink);
+		model.addAttribute("produktlink", produktlink);
+		model.addAttribute("preis", preis);
+		model.addAttribute("id", wunschliste_id);
+		model.addAttribute("titelname", titelname);
+		
+		System.out.println("Contr: " + wunschliste_id + name + beschreibung + datum + bildlink + produktlink + preis);
+		model.addAttribute("artikel", repository.addWish(name, beschreibung, datum, bildlink, produktlink, preis, wunschliste_id, titelname));
+		
 		return "wishform_list";
 	}
 	
