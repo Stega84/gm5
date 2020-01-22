@@ -37,8 +37,7 @@
 			<div class="row no-gutters">
 				<div class="col-md-4 file-field" style="background-color: #ccc">
 					<div class="card-body">
-						<p class="card-title" style="text-align: center">Upload an
-							image of your wish</p>
+						<p class="card-title" style="text-align: center">Bild des Wunschs hochladen:</p>
 						<div class="input-group">
 							<div class="custom-file">
 								<input type="file" id="bildlink" class="custom-file-input"
@@ -52,14 +51,14 @@
 					<div class="card-body">
 						<fieldset class="form-group">
 							<h5 class="card-title">
-								<label for="name" class="control-label">Name your wish:</label> 
+								<label for="name" class="control-label">Ihr Wunsch:</label> 
 								<input id="name" class="form-control " name="name" type="text" placeholder="My wish">
 							</h5>					
 							<p class="card-text">
-								<label for="beschreibung" class="control-label">Describe your wish: </label>
+								<label for="beschreibung" class="control-label">Beschreibung: </label>
 								<textarea id="beschreibung" class="form-control" name="beschreibung" placeholder="This is the greatest wish ever"></textarea>
 								
-								<label for="produktlink" class="control-label">Link to your wish: </label> 
+								<label for="produktlink" class="control-label">Link zum Wunsch: </label> 
 								<input id="produktlink" class="form-control" name="produktlink" type="url" placeholder="https://stega84.github.io/gm5/"> <br> 
 								
 								<input type="hidden" name="wunschliste_id" value="" th:value="${id}">
@@ -68,8 +67,8 @@
 								<input type="hidden" name="datum" value="" th:value="2020-02-21">
 								<input type="hidden" name="preis" value="" th:value="1">
 								
-								<input id="clear" type="reset" onclick="imgResetFunction()" class="btn btn-danger" value="Clear"> 
-								<input id="submit" type="submit" class="btn btn-success" value="Save">
+								<input id="clear" type="reset" onclick="imgResetFunction()" class="btn btn-danger" value="Leeren"> 
+								<input id="submit" type="submit" class="btn btn-success" value="Speichern">
 							</p>
 						</fieldset>
 					</div>
@@ -80,11 +79,13 @@
 	<!-- Ende von Wunsch einfuegen -->
 
 	<!--Eintrag 1-->
-	<div class="card mb-4 mt-2" th:each="artikel : ${artikel}">
+	<div class="card mb-4 mt-2" th:each="artikel : ${wishlist}">
+	<form action="/removeWish" id="${artikel.id}" method="get">
 		<div class="row no-gutters">
 			<div class="col-md-4">
-				<a th:href="@{${artikel.produktlink}}" target="_blank"> <img
-					th:src="@{${artikel.bildlink}}" class="card-img" alt="...">
+				<a th:href="@{${artikel.produktlink}}" target="_blank">
+				<!--  Testweise Verzeichnispfad angefügt -->
+				<img th:src="@{${'image/' + artikel.bildlink}}" class="card-img" alt="...">
 				</a>
 			</div>
 			<div class="col-md-8">
@@ -94,13 +95,16 @@
 					<p class="card-text">
 						<small class="text-muted"
 							th:text="|Hinzugefügt am ${artikel.datum}|"></small>
+						<small class="text-muted" 
+							th:text="|Artikel-ID ${artikel.id}|"></small>						
 					</p>
 					<div class="text-right">
-						<a href="#" class="btn btn-primary">Reservieren</a>
+						<a href="#" type="submit" class="btn btn-danger" value="Löschen">Löschen</a>
 					</div>
 				</div>
 			</div>
 		</div>
+		</form>
 	</div>
 
 

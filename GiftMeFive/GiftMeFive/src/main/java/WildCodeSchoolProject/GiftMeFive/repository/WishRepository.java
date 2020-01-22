@@ -64,7 +64,9 @@ public class WishRepository {
 
 		try {
 			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-			statement = connection.prepareStatement("INSERT INTO Artikel (Name, Beschreibung, Datum, Bildlink, Produktlink, Preis, wunschliste_id) VALUES (?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+			statement = connection.prepareStatement(
+					"INSERT INTO Artikel (Name, Beschreibung, Datum, Bildlink, Produktlink, Preis, wunschliste_id) VALUES (?, ?, ?, ?, ?, ?, ?);",
+					Statement.RETURN_GENERATED_KEYS);
 						
 			    statement.setString(1, Name);
 				statement.setString(2, Beschreibung);
@@ -94,6 +96,33 @@ public class WishRepository {
 	        }
 	               
 		return null;
+	}
+	
+	public void removeWish(Long id) {
+
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet generatedKeys = null;
+
+		try {
+			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			statement = connection.prepareStatement(
+					"DELETE FROM Artikel WHERE id = ?;", 
+					Statement.RETURN_GENERATED_KEYS);
+						
+				statement.setLong(1, id);
+			
+				if (statement.executeUpdate() != 1) {
+	                throw new SQLException("failed to remove data");
+	            }
+				System.out.println("Repo: "+ id + "gelöscht.");
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            JdbcUtils.closeResultSet(generatedKeys);
+	            JdbcUtils.closeStatement(statement);
+	            JdbcUtils.closeConnection(connection);
+	        }
 	}
 
 	public Long erstellen(String name, String datum) {
