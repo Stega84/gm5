@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import WildCodeSchoolProject.GiftMeFive.util.JdbcUtils;
 import WildCodeSchoolProject.GiftMeFive.entity.*;
 
@@ -54,6 +55,75 @@ public class WishRepository {
 		return null;
 	}
 	
+	public Artikel addWish(String Name, String Beschreibung, String Datum,
+            String Bildlink, String Produktlink, String Preis, Long wunschliste_id, String titelname) {
+
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet generatedKeys = null;
+
+		try {
+			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			statement = connection.prepareStatement(
+					"INSERT INTO Artikel (Name, Beschreibung, Datum, Bildlink, Produktlink, Preis, wunschliste_id) VALUES (?, ?, ?, ?, ?, ?, ?);",
+					Statement.RETURN_GENERATED_KEYS);
+						
+			    statement.setString(1, Name);
+				statement.setString(2, Beschreibung);
+				statement.setString(3, Datum);
+				statement.setString(4, Bildlink);
+				statement.setString(5, Produktlink);
+				statement.setString(6, Preis);
+				statement.setLong(7, wunschliste_id);
+			
+				if (statement.executeUpdate() != 1) {
+	                throw new SQLException("failed to insert data");
+	            }
+				generatedKeys = statement.getGeneratedKeys();
+				if (generatedKeys.next()) {
+	                Long id = generatedKeys.getLong(1);
+	                System.out.println("Repo: "+ id + Name + Beschreibung + Datum + Bildlink + Produktlink + Preis);
+	                return new Artikel(id, Name, Beschreibung, Datum, Bildlink, Produktlink, Preis);
+				} else {
+	                throw new SQLException("failed to get inserted id");
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            JdbcUtils.closeResultSet(generatedKeys);
+	            JdbcUtils.closeStatement(statement);
+	            JdbcUtils.closeConnection(connection);
+	        }
+	               
+		return null;
+	}
+	
+	public void removeWish(Long id) {
+
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet generatedKeys = null;
+
+		try {
+			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			statement = connection.prepareStatement(
+					"DELETE FROM Artikel WHERE id = ?;", 
+					Statement.RETURN_GENERATED_KEYS);
+						
+				statement.setLong(1, id);
+			
+				if (statement.executeUpdate() != 1) {
+	                throw new SQLException("failed to remove data");
+	            }
+				System.out.println("Repo: "+ id + "gelöscht.");
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            JdbcUtils.closeResultSet(generatedKeys);
+	            JdbcUtils.closeStatement(statement);
+	            JdbcUtils.closeConnection(connection);
+	        }
+	}
 
 	public Long erstellen(String name, String datum) {
 		
