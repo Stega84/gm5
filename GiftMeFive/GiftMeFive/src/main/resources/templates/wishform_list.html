@@ -26,7 +26,7 @@
 	<div class="bg-1">
 		<!--Titeltext-->
 		<div class="row text-center title-1">GiftMeFive</div>
-		<div class="title-1-text" th:text="|${titelname} Wunschliste!|"></div>
+		<div class="title-1-text" th:text="|${name} Wunschliste!|"></div>
 	</div>
 
 	<!-- Eingabefeld -->
@@ -64,7 +64,7 @@
 								<input type="hidden" name="wunschliste_id" value="" th:value="${id}">
 								<input type="hidden" name="titelname" value="" th:value="${name}">
 								<!--  Achtung: datum und preis auf Festwert gesetzt, noch anders zu lösen -->
-								<input type="hidden" name="datum" value="" th:value="2020-02-21">
+								<input type="hidden" name="datum" value="" th:value="2020-02-22">
 								<input type="hidden" name="preis" value="" th:value="1">
 								
 								<input id="clear" type="reset" onclick="imgResetFunction()" class="btn btn-danger" value="Leeren"> 
@@ -94,17 +94,19 @@
 					<p class="card-text" th:text="${artikel.beschreibung}"></p>
 					<p class="card-text">
 						<small class="text-muted"
-							th:text="|Hinzugefügt am ${artikel.datum}|"></small>
-						<small class="text-muted" 
-							th:text="|Artikel-ID ${artikel.id}|"></small>						
+							th:text="|Hinzugefügt am ${artikel.datum}|"></small>	
+						<small class="text-muted"
+							th:text="| / Artikel-id ${artikel.id}|"></small>
+						<small class="text-muted"
+							th:text="| / Wunschliste-id ${wunschliste_id}|"></small>							
 					</p>
 					<div class="text-right">
-						<a href="#" type="submit" class="btn btn-danger" value="Löschen">Löschen</a>
+						<a th:href="@{/removeWish(id=${artikel.id}, wunschliste_id=${wunschliste_id})}" class="btn btn-danger">Löschen</a>
 					</div>
-				</div>
+				</div>	
 			</div>
 		</div>
-		</form>
+		</form>	
 	</div>
 
 
