@@ -1,0 +1,11 @@
+Sammlung an Punkten die uns während der Entwicklung aufgefallen sind und die
+jeder beim nächsten mal besser machen will / wird.
+
+Stefan:
+1. Direkt ein Spring Projekt aufsetzen. Alle relevanten Daten können hier Direkt
+gespeichert werden und man muss sich im Nachgang nicht damit auseinander aufsetzen
+wie man alles zusammenführt.
+
+2. Jeder erstellt immer seinen eigenen Branch wenn er etwas entwickelt. Eventuell
+wäre ein kurzfristiger temporärer Entwicklungsbranch möglich wenn man vorher schon weiß das sich
+Bearbeitungen schneiden.

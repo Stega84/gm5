@@ -39,6 +39,10 @@ p.cardForm {
   height: 120px;
 }
 
+.home{
+	color:lightgrey;
+	font-size: 1.3em;
+}
 @media only screen and (max-width: 767px ) {
   .title{
     /*Google Font*/

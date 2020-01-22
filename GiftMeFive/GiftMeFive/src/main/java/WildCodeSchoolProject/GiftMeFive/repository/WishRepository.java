@@ -34,12 +34,12 @@ public class WishRepository {
 
 			while (resultSet.next()) {
 				Long id = resultSet.getLong("id");
-				String name = resultSet.getString("Name");
-				String beschreibung = resultSet.getString("Beschreibung");
-				String datum = resultSet.getString("Datum");
-				String bildlink = resultSet.getString("Bildlink");
-				String produktlink = resultSet.getString("Produktlink");
-				String preis = resultSet.getString("Preis");
+				String name = resultSet.getString("name");
+				String beschreibung = resultSet.getString("beschreibung");
+				String datum = resultSet.getString("datum");
+				String bildlink = resultSet.getString("bildlink");
+				String produktlink = resultSet.getString("produktlink");
+				String preis = resultSet.getString("preis");
 				artikel.add(new Artikel(id, name, beschreibung, datum, bildlink, produktlink, preis));
 			}
 			return artikel;
@@ -67,7 +67,7 @@ public class WishRepository {
                     DB_URL, DB_USER, DB_PASSWORD
             );
             statement = connection.prepareStatement(
-                    "INSERT INTO Wunschliste (Name, Enddatum) VALUES (?, ?)",
+                    "INSERT INTO Wunschliste (name, enddatum) VALUES (?, ?)",
                     Statement.RETURN_GENERATED_KEYS
             );
             statement.setString(1, name);
