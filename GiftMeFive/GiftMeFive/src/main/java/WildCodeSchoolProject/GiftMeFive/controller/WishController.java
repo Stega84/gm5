@@ -56,24 +56,31 @@ public class WishController {
 		model.addAttribute("titelname", titelname);
 
 		System.out.println("Contr: " + wunschliste_id + name + beschreibung + datum + bildlink + produktlink + preis);
-		model.addAttribute("artikel",
-				repository.addWish(name, beschreibung, datum, bildlink, produktlink, preis, wunschliste_id, titelname));
+		
+		if(bildlink.equals("")) {
+			model.addAttribute("artikel",
+					repository.addWish(name, beschreibung, datum,"image/default.jpg", produktlink, preis, wunschliste_id, titelname));
+		}else {
+			model.addAttribute("artikel",
+					repository.addWish(name, beschreibung, datum, bildlink, produktlink, preis, wunschliste_id, titelname));
+		}
 
 		model.addAttribute("wishlist", repository.showWishlist(wunschliste_id));
-		redirect.addAttribute("name", name);
+		redirect.addAttribute("name", titelname);
 		redirect.addAttribute("id", wunschliste_id);
 		return "redirect:/wishform_list";
 	}
 
 	@GetMapping("/removeWish")
-	public String removewish_fromform(Model model, @RequestParam Long id, @RequestParam Long wunschliste_id) {
+	public String removewish_fromform(RedirectAttributes redirect, Model model, @RequestParam Long id, @RequestParam Long wunschliste_id, @RequestParam String name) {
 		/*
 		 * Vermutlich redundant: model.addAttribute("id", id);
 		 */
 		repository.removeWish(id);
 		System.out.println("Contr: Wunsch " + id + " gelöscht aus " + wunschliste_id);
-		model.addAttribute("wishlist", repository.showWishlist(wunschliste_id));
-		return "wishform_list";
+		redirect.addAttribute("name", name);
+		redirect.addAttribute("id", wunschliste_id);
+		return "redirect:/wishform_list";
 	}
 
 	@GetMapping("/findWishlist")

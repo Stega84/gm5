@@ -95,7 +95,7 @@
                         <small class="text-muted" th:text="| / Wunschliste-id ${wunschliste_id}|"></small>
                     </p>
                     <div class="text-right">
-                        <a th:href="@{/removeWish(id=${artikel.id}, wunschliste_id=${wunschliste_id})}" class="btn btn-danger">Löschen</a>
+                        <a th:href="@{/removeWish(id=${artikel.id}, wunschliste_id=${id}, name=${name})}" class="btn btn-danger">Löschen</a>
                     </div>
                 </div>
             </div>

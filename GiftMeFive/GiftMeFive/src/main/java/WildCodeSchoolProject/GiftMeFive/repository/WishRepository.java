@@ -65,16 +65,15 @@ public class WishRepository {
 		try {
 			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 			statement = connection.prepareStatement(
-					"INSERT INTO Artikel (Name, Beschreibung, Datum, Bildlink, Produktlink, Preis, wunschliste_id) VALUES (?, ?, ?, ?, ?, ?, ?);",
+					"INSERT INTO Artikel (Name, Beschreibung,Bildlink, Produktlink, Preis, wunschliste_id) VALUES (?, ?, ?, ?, ?, ?);",
 					Statement.RETURN_GENERATED_KEYS);
 						
 			    statement.setString(1, Name);
 				statement.setString(2, Beschreibung);
-				statement.setString(3, Datum);
-				statement.setString(4, Bildlink);
-				statement.setString(5, Produktlink);
-				statement.setString(6, Preis);
-				statement.setLong(7, wunschliste_id);
+				statement.setString(3, Bildlink);
+				statement.setString(4, Produktlink);
+				statement.setString(5, Preis);
+				statement.setLong(6, wunschliste_id);
 			
 				if (statement.executeUpdate() != 1) {
 	                throw new SQLException("failed to insert data");
