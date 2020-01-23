@@ -9,7 +9,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import WildCodeSchoolProject.GiftMeFive.util.JdbcUtils;
 import WildCodeSchoolProject.GiftMeFive.entity.*;
 
@@ -46,7 +45,7 @@ public class WishRepository {
 			return artikel;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			
+
 		} finally {
 			JdbcUtils.closeResultSet(resultSet);
 			JdbcUtils.closeStatement(statement);
@@ -54,9 +53,9 @@ public class WishRepository {
 		}
 		return null;
 	}
-	
-	public Artikel addWish(String Name, String Beschreibung, String Datum,
-            String Bildlink, String Produktlink, String Preis, Long wunschliste_id, String titelname) {
+
+	public Artikel addWish(String Name, String Beschreibung, String Bildlink, String Produktlink, String Preis,
+			Long wunschliste_id, String titelname) {
 
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -67,36 +66,36 @@ public class WishRepository {
 			statement = connection.prepareStatement(
 					"INSERT INTO Artikel (Name, Beschreibung,Bildlink, Produktlink, Preis, wunschliste_id) VALUES (?, ?, ?, ?, ?, ?);",
 					Statement.RETURN_GENERATED_KEYS);
-						
-			    statement.setString(1, Name);
-				statement.setString(2, Beschreibung);
-				statement.setString(3, Bildlink);
-				statement.setString(4, Produktlink);
-				statement.setString(5, Preis);
-				statement.setLong(6, wunschliste_id);
-			
-				if (statement.executeUpdate() != 1) {
-	                throw new SQLException("failed to insert data");
-	            }
-				generatedKeys = statement.getGeneratedKeys();
-				if (generatedKeys.next()) {
-	                Long id = generatedKeys.getLong(1);
-	                System.out.println("Repo: "+ id + Name + Beschreibung + Datum + Bildlink + Produktlink + Preis);
-	                return new Artikel(id, Name, Beschreibung, Datum, Bildlink, Produktlink, Preis);
-				} else {
-	                throw new SQLException("failed to get inserted id");
-	            }
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        } finally {
-	            JdbcUtils.closeResultSet(generatedKeys);
-	            JdbcUtils.closeStatement(statement);
-	            JdbcUtils.closeConnection(connection);
-	        }
-	               
+
+			statement.setString(1, Name);
+			statement.setString(2, Beschreibung);
+			statement.setString(3, Bildlink);
+			statement.setString(4, Produktlink);
+			statement.setString(5, Preis);
+			statement.setLong(6, wunschliste_id);
+
+			if (statement.executeUpdate() != 1) {
+				throw new SQLException("failed to insert data");
+			}
+			generatedKeys = statement.getGeneratedKeys();
+			if (generatedKeys.next()) {
+				Long id = generatedKeys.getLong(1);
+				System.out.println("Repo: " + id + Name + Beschreibung + Bildlink + Produktlink + Preis);
+				return new Artikel(id, Name, Beschreibung, Bildlink, Produktlink, Preis);
+			} else {
+				throw new SQLException("failed to get inserted id");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtils.closeResultSet(generatedKeys);
+			JdbcUtils.closeStatement(statement);
+			JdbcUtils.closeConnection(connection);
+		}
+
 		return null;
 	}
-	
+
 	public void removeWish(Long id) {
 
 		Connection connection = null;
@@ -105,64 +104,58 @@ public class WishRepository {
 
 		try {
 			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-			statement = connection.prepareStatement(
-					"DELETE FROM Artikel WHERE id = ?;", 
+			statement = connection.prepareStatement("DELETE FROM Artikel WHERE id = ?;",
 					Statement.RETURN_GENERATED_KEYS);
-						
-				statement.setLong(1, id);
-			
-				if (statement.executeUpdate() != 1) {
-	                throw new SQLException("failed to remove data");
-	            }
-				System.out.println("Repo: "+ id + "gelöscht.");
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        } finally {
-	            JdbcUtils.closeResultSet(generatedKeys);
-	            JdbcUtils.closeStatement(statement);
-	            JdbcUtils.closeConnection(connection);
-	        }
+
+			statement.setLong(1, id);
+
+			if (statement.executeUpdate() != 1) {
+				throw new SQLException("failed to remove data");
+			}
+			System.out.println("Repo: " + id + "gelöscht.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtils.closeResultSet(generatedKeys);
+			JdbcUtils.closeStatement(statement);
+			JdbcUtils.closeConnection(connection);
+		}
 	}
 
 	public Long erstellen(String name, String datum) {
-		
+
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet generatedSet = null;
 		Long id = 0l;
-		
+
 		try {
-            connection = DriverManager.getConnection(
-                    DB_URL, DB_USER, DB_PASSWORD
-            );
-            statement = connection.prepareStatement(
-                    "INSERT INTO Wunschliste (name, enddatum) VALUES (?, ?)",
-                    Statement.RETURN_GENERATED_KEYS
-            );
-            statement.setString(1, name);
-            statement.setString(2, datum);
+			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			statement = connection.prepareStatement("INSERT INTO Wunschliste (name, enddatum) VALUES (?, ?)",
+					Statement.RETURN_GENERATED_KEYS);
+			statement.setString(1, name);
+			statement.setString(2, datum);
 
+			if (statement.executeUpdate() != 1) {
+				throw new SQLException("failed to insert data");
+			}
 
-            if (statement.executeUpdate() != 1) {
-                throw new SQLException("failed to insert data");
-            }
+			generatedSet = statement.getGeneratedKeys();
 
-            generatedSet = statement.getGeneratedKeys();
-
-            if (generatedSet.next()) {
-                id = generatedSet.getLong(1);
-                //return new Wunschliste(id, name, datum);
-            } else {
-                throw new SQLException("failed to get inserted id");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            JdbcUtils.closeResultSet(generatedSet);
-            JdbcUtils.closeStatement(statement);
-            JdbcUtils.closeConnection(connection);
-        }		
-        return id;
+			if (generatedSet.next()) {
+				id = generatedSet.getLong(1);
+				// return new Wunschliste(id, name, datum);
+			} else {
+				throw new SQLException("failed to get inserted id");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtils.closeResultSet(generatedSet);
+			JdbcUtils.closeStatement(statement);
+			JdbcUtils.closeConnection(connection);
+		}
+		return id;
 	}
-	
+
 }

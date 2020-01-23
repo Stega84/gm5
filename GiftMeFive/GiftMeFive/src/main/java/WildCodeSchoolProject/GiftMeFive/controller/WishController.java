@@ -1,5 +1,7 @@
 package WildCodeSchoolProject.GiftMeFive.controller;
 
+import java.io.IOException;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,33 +38,36 @@ public class WishController {
 	public String wishform_list(Model model, @RequestParam String name, @RequestParam Long id) {
 		model.addAttribute("name", name);
 		model.addAttribute("id", id);
+
 		model.addAttribute("wishlist", repository.showWishlist(id));
 		return "wishform_list";
 	}
 
 	@GetMapping("/addWish")
 	public String wishform_list(RedirectAttributes redirect, Model model, @RequestParam String name,
-			@RequestParam String beschreibung, @RequestParam String datum, @RequestParam String bildlink,
-			@RequestParam String produktlink, @RequestParam String preis, @RequestParam Long wunschliste_id,
-			@RequestParam String titelname) {
+			@RequestParam String beschreibung, @RequestParam String bildlink, @RequestParam String preis,
+			@RequestParam Long wunschliste_id, @RequestParam String titelname, @RequestParam String kategorie) {
+
+		String produktlink = "https://www.amazon.de/s?k=play+Station";
+		
+		System.out.println(kategorie);
 		/* Vermutlich redundant: */
 		model.addAttribute("name", name);
 		model.addAttribute("beschreibung", beschreibung);
-		model.addAttribute("datum", datum);
 		model.addAttribute("bildlink", bildlink);
 		model.addAttribute("produktlink", produktlink);
 		model.addAttribute("preis", preis);
 		model.addAttribute("id", wunschliste_id);
 		model.addAttribute("titelname", titelname);
 
-		System.out.println("Contr: " + wunschliste_id + name + beschreibung + datum + bildlink + produktlink + preis);
-		
-		if(bildlink.equals("")) {
+		System.out.println("Contr: " + wunschliste_id + name + beschreibung + bildlink + produktlink + preis);
+
+		if (bildlink.equals("")) {
+			model.addAttribute("artikel", repository.addWish(name, beschreibung, "image/lp.jpg", produktlink,
+					preis, wunschliste_id, titelname));
+		} else {
 			model.addAttribute("artikel",
-					repository.addWish(name, beschreibung, datum,"image/default.jpg", produktlink, preis, wunschliste_id, titelname));
-		}else {
-			model.addAttribute("artikel",
-					repository.addWish(name, beschreibung, datum, bildlink, produktlink, preis, wunschliste_id, titelname));
+					repository.addWish(name, beschreibung, bildlink, produktlink, preis, wunschliste_id, titelname));
 		}
 
 		model.addAttribute("wishlist", repository.showWishlist(wunschliste_id));
@@ -72,7 +77,8 @@ public class WishController {
 	}
 
 	@GetMapping("/removeWish")
-	public String removewish_fromform(RedirectAttributes redirect, Model model, @RequestParam Long id, @RequestParam Long wunschliste_id, @RequestParam String name) {
+	public String removewish_fromform(RedirectAttributes redirect, Model model, @RequestParam Long id,
+			@RequestParam Long wunschliste_id, @RequestParam String name) {
 		/*
 		 * Vermutlich redundant: model.addAttribute("id", id);
 		 */
@@ -97,7 +103,6 @@ public class WishController {
 		Long id = repository.erstellen(name, datum);
 		redirectAttributes.addAttribute("name", name);
 		redirectAttributes.addAttribute("id", id);
-
 		return "redirect:/wishform_list";
 	}
 

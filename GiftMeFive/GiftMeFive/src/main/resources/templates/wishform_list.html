@@ -36,13 +36,8 @@
             <div class="row no-gutters">
                 <div class="col-md-4 file-field" style="background-color: #ccc">
                     <div class="card-body">
-                        <p class="card-title" style="text-align: center">Bild des Wunschs hochladen:</p>
-                        <div class="input-group">
-                            <div class="custom-file">
-                                <input type="file" id="bildlink" class="custom-file-input" aria-describedby="inputFileChoose" name="bildlink">
-                                <label class="custom-file-label" for="bildlink"></label>
-                            </div>
-                        </div>
+                        <p class="card-title" style="text-align: center">Vorschau(nach Kategorie):</p>
+                        <img src="/image/default.jpg" class="card-img" alt="..." id="image">
                     </div>
                 </div>
                 <div class="col-md-8">
@@ -56,14 +51,41 @@
                                 <label for="beschreibung" class="control-label">Beschreibung: </label>
                                 <textarea id="beschreibung" class="form-control" name="beschreibung" placeholder="This is the greatest wish ever"></textarea>
 
-                                <label for="produktlink" class="control-label">Link zum Wunsch: </label>
-                                <input id="produktlink" class="form-control" name="produktlink" type="url" placeholder="https://stega84.github.io/gm5/">
-                                <br>
+                                <label for="kategorie" class="control-label">Kategorie:</label>
+                                <select class="form-control" id="kategorie" name="kategorie" onchange="newImageFunction()">
+                                    <option>Baby</option>
+                                    <option>Beauty</option>
+                                    <option>Bekleidung</option>
+                                    <option>Bücher & Zeitschriften</option>
+                                    <option>Bürobedarf & Schreibwaren</option>
+                                    <option>Computer & Laptop & Zubehör</option>
+                                    <option>DVD & Blu-ray</option>
+                                    <option>Drogerie & Körperpflege</option>
+                                    <option>Elektronik & Foto</option>
+                                    <option>Games</option>
+                                    <option>Garten</option>
+                                    <option>Geschenkgutscheine</option>
+                                    <option>Haustier</option>
+                                    <option>Kamera & Foto</option>
+                                    <option> Küche, Haushalt & Wohnen</option>
+                                    <option> Musik-CDs & Vinyl</option>
+                                    <option> Schmuck</option>
+                                    <option>Schuhe & Handtaschen</option>
+                                    <option>Software</option>
+                                    <option> Spielzeug</option>
+                                    <option> Sport & Freizeit</option>
+                                    <option> Uhren</option>
+                                    <option> Sonstiges</option>
+                                </select>
 
+                                <div class="form-group">
+                                    <label for="bildlink">Eigenes Bild hochladen.</label>
+                                    <input type="file" class="form-control-file" name="bildlink" placeholder="">
+                                </div>
+                                <br>
                                 <input type="hidden" name="wunschliste_id" value="" th:value="${id}">
                                 <input type="hidden" name="titelname" value="" th:value="${name}">
                                 <!--  Achtung: datum und preis auf Festwert gesetzt, noch anders zu lösen -->
-                                <input type="hidden" name="datum" value="" th:value="2020-02-22">
                                 <input type="hidden" name="preis" value="" th:value="1">
 
                                 <input id="clear" type="reset" onclick="imgResetFunction()" class="btn btn-danger" value="Leeren">
@@ -102,11 +124,11 @@
         </div>
     </div>
 
-    <!-- jQuery (wird für Bootstrap JavaScript-Plugins benötigt) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <!-- Binde alle kompilierten Plugins zusammen ein (wie hier unten) oder such dir einzelne Dateien nach Bedarf aus -->
-    <script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
-    <!-- Code below to display filename after selection in form input, retrieved from https://github.com/twbs/bootstrap/issues/23994 on 16 Jan 2020 -->
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script>
         $('.custom-file-input').on(
             'change',
@@ -136,6 +158,17 @@
             document.getElementById("bildlink").value = '';
             document.getElementById("bildlink").label.addClass("selected").html(
                 'default-title');
+        }
+        //Bild laden während der Kunde auswählt
+        function newImageFunction() {
+            var get = document.getElementById('kategorie');
+            var kategorie = get.options[get.selectedIndex].value;
+            
+           
+            if (kategorie === "Computer & Laptop & Zubehör"){
+            	document.getElementById("image").src ="/image/lp.jpg";
+            	 window.alert(kategorie);
+            }
         }
     </script>
 

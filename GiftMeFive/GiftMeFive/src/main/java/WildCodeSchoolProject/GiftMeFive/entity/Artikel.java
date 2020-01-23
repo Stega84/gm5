@@ -20,6 +20,15 @@ public class Artikel {
 		this.preis = preis;
 	}
 	
+	public Artikel(Long id, String name, String beschreibung, String bildlink, String produktlink, String preis) {
+		this.id = id;
+		this.name = name;
+		this.beschreibung = beschreibung;
+		this.bildlink = bildlink;
+		this.produktlink = produktlink;
+		this.preis = preis;
+	}
+	
 	public Long getId() {
 		return id;
 	}
