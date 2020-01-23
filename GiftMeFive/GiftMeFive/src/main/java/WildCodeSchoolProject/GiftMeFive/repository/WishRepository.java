@@ -41,7 +41,8 @@ public class WishRepository {
 				String bildlink = resultSet.getString("bildlink");
 				String produktlink = resultSet.getString("produktlink");
 				String preis = resultSet.getString("preis");
-				artikel.add(new Artikel(id, name, beschreibung, datum, bildlink, produktlink, preis));
+				Long wunschliste_id = resultSet.getLong("wunschliste_id");
+				artikel.add(new Artikel(id, name, beschreibung, datum, bildlink, produktlink, preis, wunschliste_id));
 			}
 			return artikel;
 		} catch (SQLException e) {
@@ -82,7 +83,7 @@ public class WishRepository {
 				if (generatedKeys.next()) {
 	                Long id = generatedKeys.getLong(1);
 	                System.out.println("Repo: "+ id + Name + Beschreibung + Datum + Bildlink + Produktlink + Preis);
-	                return new Artikel(id, Name, Beschreibung, Datum, Bildlink, Produktlink, Preis);
+	                return new Artikel(id, Name, Beschreibung, Datum, Bildlink, Produktlink, Preis, wunschliste_id);
 				} else {
 	                throw new SQLException("failed to get inserted id");
 	            }
@@ -163,6 +164,44 @@ public class WishRepository {
             JdbcUtils.closeConnection(connection);
         }		
         return id;
+	}
+	
+	public Reservierung reserveWish(Long id, String Name) {
+
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet generatedKeys = null;
+
+		try {
+			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			statement = connection.prepareStatement(
+					"UPDATE Reservierung SET name=?, reserviert=true WHERE id = ?;");
+						
+			    statement.setString(1, Name);
+				statement.setLong(2, id);
+			
+				if (statement.executeUpdate() != 1) {
+	                throw new SQLException("failed to insert data");
+	            }
+				System.out.println("Repo: " + id + " reserviert als " + Name);
+
+	            generatedKeys = statement.getGeneratedKeys();
+
+	            if (generatedKeys.next()) {
+	                id = generatedKeys.getLong(1);
+	                return new Reservierung(id, Name, true);
+	            } else {
+	                throw new SQLException("failed to get inserted id");
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            JdbcUtils.closeResultSet(generatedKeys);
+	            JdbcUtils.closeStatement(statement);
+	            JdbcUtils.closeConnection(connection);
+	        }
+	               
+		return null;
 	}
 	
 }

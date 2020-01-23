@@ -9,8 +9,9 @@ public class Artikel {
 	String bildlink;
 	String produktlink;
 	String preis;
+	Long wunschliste_id;
 
-	public Artikel(Long id, String name, String beschreibung, String datum, String bildlink, String produktlink, String preis) {
+	public Artikel(Long id, String name, String beschreibung, String datum, String bildlink, String produktlink, String preis, Long wunschliste_id) {
 		this.id = id;
 		this.name = name;
 		this.beschreibung = beschreibung;
@@ -18,6 +19,7 @@ public class Artikel {
 		this.bildlink = bildlink;
 		this.produktlink = produktlink;
 		this.preis = preis;
+		this.wunschliste_id = wunschliste_id;
 	}
 	
 	public Long getId() {
