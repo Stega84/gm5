@@ -24,6 +24,35 @@ public class WishRepository {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
+		
+//		try {
+//			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+//			statement = connection.prepareStatement("SELECT name FROM Wunschliste WHERE id = ?;");
+//			statement.setLong(1, eingabe);
+//			resultSet = statement.executeQuery();
+//
+//			List<Artikel> artikel = new ArrayList<>();
+//
+//			while (resultSet.next()) {
+//				Long id = resultSet.getLong("id");
+//				String name = resultSet.getString("name");
+//				String beschreibung = resultSet.getString("beschreibung");
+//				String datum = resultSet.getString("datum");
+//				String bildlink = resultSet.getString("bildlink");
+//				String produktlink = resultSet.getString("produktlink");
+//				String preis = resultSet.getString("preis");
+//				Long wunschliste_id = eingabe;
+//				artikel.add(new Artikel(id, name, beschreibung, datum, bildlink, produktlink, preis, wunschliste_id));
+//			}
+//			return artikel;
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			
+//		} finally {
+//			JdbcUtils.closeResultSet(resultSet);
+//			JdbcUtils.closeStatement(statement);
+//			JdbcUtils.closeConnection(connection);
+//		}
 
 		try {
 			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
