@@ -12,8 +12,9 @@ public class Artikel {
 	Long wunschliste_id;
 	String wunschliste_name;
 	Boolean reserviert;
+	String reservierung_name;
 
-	public Artikel(Long id, String name, String beschreibung, String datum, String bildlink, String produktlink, String preis, Long wunschliste_id, String wunschliste_name, Boolean reserviert) {
+	public Artikel(Long id, String name, String beschreibung, String datum, String bildlink, String produktlink, String preis, Long wunschliste_id, String wunschliste_name, Boolean reserviert, String reservierung_name) {
 		this.id = id;
 		this.name = name;
 		this.beschreibung = beschreibung;
@@ -24,6 +25,7 @@ public class Artikel {
 		this.wunschliste_id = wunschliste_id;
 		this.wunschliste_name = wunschliste_name;
 		this.reserviert = reserviert;
+		this.reservierung_name = reservierung_name;
 	}
 	
 	public Artikel(Long id, String name, String beschreibung, String bildlink, String produktlink, String preis) {
@@ -96,6 +98,12 @@ public class Artikel {
 	}
 	public void setReserviert(Boolean reserviert) {
 		this.reserviert = reserviert;
+	}
+	public String getReservierung_name() {
+		return reservierung_name;
+	}
+	public void setReservierung_name(String reservierung_name) {
+		this.reservierung_name = reservierung_name;
 	}
 
 }

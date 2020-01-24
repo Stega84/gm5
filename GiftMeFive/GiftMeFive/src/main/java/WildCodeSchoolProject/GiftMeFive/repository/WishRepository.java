@@ -26,7 +26,7 @@ public class WishRepository {
 		
 		try {
 			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-			statement = connection.prepareStatement("SELECT *, Wunschliste.name AS wunschliste_name, Reservierung.reserviert FROM Artikel JOIN Wunschliste ON wunschliste_id = Wunschliste.id JOIN Reservierung ON Artikel.id = Reservierung.id WHERE wunschliste_id = ? ;");
+			statement = connection.prepareStatement("SELECT *, Wunschliste.name AS wunschliste_name, Reservierung.reserviert, Reservierung.name AS reservierung_name FROM Artikel JOIN Wunschliste ON wunschliste_id = Wunschliste.id JOIN Reservierung ON Artikel.id = Reservierung.id WHERE wunschliste_id = ? ;");
 			statement.setLong(1, eingabe);
 			resultSet = statement.executeQuery();
 
@@ -43,8 +43,9 @@ public class WishRepository {
 				Long wunschliste_id = eingabe;
 				String wunschliste_name = resultSet.getString("wunschliste_name");
 				Boolean reserviert = resultSet.getBoolean("reserviert");
+				String reservierung_name = resultSet.getString("reservierung_name");
 				
-				artikel.add(new Artikel(id, name, beschreibung, datum, bildlink, produktlink, preis, wunschliste_id, wunschliste_name, reserviert));
+				artikel.add(new Artikel(id, name, beschreibung, datum, bildlink, produktlink, preis, wunschliste_id, wunschliste_name, reserviert, reservierung_name));
 			}
 			return artikel;
 		} catch (SQLException e) {

@@ -26,7 +26,10 @@
         <a class="home pl-4" th:href="@{home}">Home<span class="sr-only">(current)</span></a>
         <!--Titeltext-->
         <div class="row text-center title-1">GiftMeFive</div>
-        <div class="title-1-text" th:text="|${name} Wunschliste!|"></div>
+        <!-- <div class="title-1-text" th:text="|${wishlist[0].wunschliste_name} Wunschliste!|"></div>
+        <div class="title-1-text" th:text="|$name} Wunschliste!|"></div> -->
+        <div class="title-1-text" th:text="${name != null} ? |${name} Wunschliste!| : |${wishlist[0].wunschliste_name} Wunschliste!|"></div>
+
     </div>
 
     <!-- Liste -->
@@ -45,10 +48,10 @@
                         <small class="text-muted" th:text="|Hinzugefügt am ${artikel.datum}|"></small>
                         <small class="text-muted" th:text=" | Wunsch-id ${artikel.id}|"></small>
                         <small class="text-muted" th:text=" | in Liste ${artikel.wunschliste_id}|"></small>
-                        <small class="text-muted" th:text=" | Reserviert=${artikel.reserviert}|"></small>
+                        <small class="text-muted" th:text=" | Reserviert=${artikel.reserviert} für ${artikel.reservierung_name}|"></small>
                     </p>
                     <div class="text-right">
-                    	<a data-toggle="modal" data-target="#wunschReservieren" th:attr="data-artikel=${artikel.id}, data-wunschliste=${artikel.wunschliste_id}" class="btn btn-primary">Reservieren</a>
+                        <a data-toggle="modal" data-target="#wunschReservieren" th:attr="data-artikel=${artikel.id}, data-wunschliste=${artikel.wunschliste_id}" class="btn btn-primary">Reservieren</a>
                     </div>
                 </div>
             </div>
@@ -93,7 +96,7 @@
         $('#wunschReservieren').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
             var artikel = button.data('artikel') // Extract info from data-* attributes
- 			var wunschliste = button.data('wunschliste')
+            var wunschliste = button.data('wunschliste')
             var modal = $(this)
             modal.find('.modal-title').text('Erfülle den Wunsch ' + artikel)
             modal.find('.artklid').val(artikel)
