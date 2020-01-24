@@ -37,7 +37,7 @@
                 <div class="col-md-4 file-field" style="background-color: #ccc">
                     <div class="card-body">
                         <p class="card-title" style="text-align: center">Vorschau(nach Kategorie):</p>
-                        <img src="/image/default.jpg" class="card-img" alt="..." id="image">
+                        <img src="/image/default.jpg" class="card-img" alt="..." id="category_wish_image">
                     </div>
                 </div>
                 <div class="col-md-8">
@@ -52,7 +52,7 @@
                                 <textarea id="beschreibung" class="form-control" name="beschreibung" placeholder="This is the greatest wish ever"></textarea>
 
                                 <label for="kategorie" class="control-label">Kategorie:</label>
-                                <select class="form-control" id="kategorie" name="kategorie" onchange="newImageFunction()">
+                                <select class="form-control" id="category" name="kategorie" onchange="newImageFunction()">
                                     <option>Baby</option>
                                     <option>Beauty</option>
                                     <option>Bekleidung</option>
@@ -67,15 +67,15 @@
                                     <option>Geschenkgutscheine</option>
                                     <option>Haustier</option>
                                     <option>Kamera & Foto</option>
-                                    <option> Küche, Haushalt & Wohnen</option>
-                                    <option> Musik-CDs & Vinyl</option>
-                                    <option> Schmuck</option>
+                                    <option>Küche, Haushalt & Wohnen</option>
+                                    <option>Musik-CDs & Vinyl</option>
+                                    <option>Schmuck</option>
                                     <option>Schuhe & Handtaschen</option>
                                     <option>Software</option>
-                                    <option> Spielzeug</option>
-                                    <option> Sport & Freizeit</option>
-                                    <option> Uhren</option>
-                                    <option> Sonstiges</option>
+                                    <option>Spielzeug</option>
+                                    <option>Sport & Freizeit</option>
+                                    <option>Uhren</option>
+                                    <option>Sonstiges</option>
                                 </select>
 
                                 <div class="form-group">
@@ -161,13 +161,11 @@
         }
         //Bild laden während der Kunde auswählt
         function newImageFunction() {
-            var get = document.getElementById('kategorie');
-            var kategorie = get.options[get.selectedIndex].value;
-            
-           
-            if (kategorie === "Computer & Laptop & Zubehör"){
-            	document.getElementById("image").src ="/image/lp.jpg";
-            	 window.alert(kategorie);
+            var category = document.getElementById('category');
+            var categoryName = category.options[category.selectedIndex].value;
+                    
+            if (categoryName === "Computer & Laptop & Zubehör"){
+            	document.getElementById("category_wish_image").src ="/image/lp.jpg";
             }
         }
     </script>

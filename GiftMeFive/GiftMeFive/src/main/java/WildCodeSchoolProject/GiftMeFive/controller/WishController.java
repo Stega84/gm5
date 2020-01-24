@@ -48,6 +48,7 @@ public class WishController {
 			@RequestParam String beschreibung, @RequestParam String bildlink, @RequestParam String preis,
 			@RequestParam Long wunschliste_id, @RequestParam String titelname, @RequestParam String kategorie) {
 
+		//Funktion schreiben die aus dem eingegebenen Namen ein Amazonsuchlink macht
 		String produktlink = "https://www.amazon.de/s?k=play+Station";
 		
 		System.out.println(kategorie);
@@ -59,8 +60,6 @@ public class WishController {
 		model.addAttribute("preis", preis);
 		model.addAttribute("id", wunschliste_id);
 		model.addAttribute("titelname", titelname);
-
-		System.out.println("Contr: " + wunschliste_id + name + beschreibung + bildlink + produktlink + preis);
 
 		if (bildlink.equals("")) {
 			model.addAttribute("artikel", repository.addWish(name, beschreibung, "image/lp.jpg", produktlink,
@@ -79,11 +78,8 @@ public class WishController {
 	@GetMapping("/removeWish")
 	public String removewish_fromform(RedirectAttributes redirect, Model model, @RequestParam Long id,
 			@RequestParam Long wunschliste_id, @RequestParam String name) {
-		/*
-		 * Vermutlich redundant: model.addAttribute("id", id);
-		 */
+
 		repository.removeWish(id);
-		System.out.println("Contr: Wunsch " + id + " gelöscht aus " + wunschliste_id);
 		redirect.addAttribute("name", name);
 		redirect.addAttribute("id", wunschliste_id);
 		return "redirect:/wishform_list";
@@ -100,7 +96,7 @@ public class WishController {
 	public String create(Model model, @RequestParam String name, @RequestParam String datum,
 			RedirectAttributes redirectAttributes) {
 
-		Long id = repository.erstellen(name, datum);
+		Long id = repository.createWishlist(name, datum);
 		redirectAttributes.addAttribute("name", name);
 		redirectAttributes.addAttribute("id", id);
 		return "redirect:/wishform_list";

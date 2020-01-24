@@ -122,7 +122,7 @@ public class WishRepository {
 		}
 	}
 
-	public Long erstellen(String name, String datum) {
+	public Long createWishlist(String name, String datum) {
 
 		Connection connection = null;
 		PreparedStatement statement = null;
