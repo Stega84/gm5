@@ -88,9 +88,10 @@ public class WishController {
 		System.out.println("Contr: Prüfe Reservierung Wunsch " + id + " in Liste " + wunschliste_id + " für " + name);
 		repository.reserveWish(id, name);
 		System.out.println("Contr: Wunsch " + id + " in Liste " + wunschliste_id + " reserviert für " + name);
-		redirect.addAttribute("name", name);
+		//redirect.addAttribute("name", name);
 		redirect.addAttribute("id", wunschliste_id);
-		return "redirect:/wishform_list";
+		return "redirect:/findWishlist";
+		//return "redirect:/wishlistoutput";
 	}
 
 	@GetMapping("/findWishlist")

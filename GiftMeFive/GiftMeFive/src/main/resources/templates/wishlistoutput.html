@@ -43,18 +43,18 @@
                     <p class="card-text" th:text="${artikel.beschreibung}"></p>
                     <p class="card-text">
                         <small class="text-muted" th:text="|Hinzugefügt am ${artikel.datum}|"></small>
-                        <small class="text-muted" th:text=" | ${artikel.id}"></small>
-                        <!--  <small class="text-muted" th:text=" | ${artikel.wunschliste_id}"></small> -->
+                        <small class="text-muted" th:text=" | Wunsch-id ${artikel.id}|"></small>
+                        <small class="text-muted" th:text=" | in Liste ${artikel.wunschliste_id}|"></small>
                     </p>
                     <div class="text-right">
-                        <a data-toggle="modal" data-target="#wunschReservieren" class="btn btn-primary">Reservieren</a>	
+                        <a data-toggle="modal" data-target="#wunschReservieren" th:attr="data-artikel=${artikel.id}, data-wunschliste=${artikel.wunschliste_id}" class="btn btn-primary">Reservieren</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
-        <!--Eingabefenster für Reservierung erstellen-->
+
+    <!--Eingabefenster für Reservierung erstellen-->
     <div class="modal fade" id="wunschReservieren" tabindex="-1" role="dialog" aria-labelledby="wunsch-reservieren" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -66,17 +66,19 @@
                     </button>
                 </div>
 
-                <div class="modal-body">
-                    <form action="/reserveWish" method="get">
+                <form action="/reserveWish" method="get">
+                    <div class="modal-body">
+                        <input type="text" class="artklid" name="id" value="">
+                        <input type="text" class="wnschliste" name="wunschliste_id" value="">
                         <label>Bitte geben Sie den Namen ein, auf den die Reservierung erfolgt:</label>
                         <input name="name" class="form-control" type="text">
-                        <input type="hidden" name="wunschliste_id" value="" th:value="${wunschliste_id}">
-                        <input type="hidden" name="id" value="" th:value="${id}">
-                         <div class="modal-footer">
-                            <input type="submit" class="btn btn-primary" value="Reservieren">
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-primary" value="Reservieren">
+                    </div>
+
+                </form>
+
             </div>
         </div>
     </div>
@@ -85,5 +87,20 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Binde alle kompilierten Plugins zusammen ein (wie hier unten) oder such dir einzelne Dateien nach Bedarf aus -->
     <script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+    <!-- jQuery für Dateneintrag ins Modal, Quelle: https://getbootstrap.com/docs/4.0/components/modal/#varying-modal-content -->
+    <script>
+        $('#wunschReservieren').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var artikel = button.data('artikel') // Extract info from data-* attributes
+ 			var wunschliste = button.data('wunschliste')
+            var modal = $(this)
+            modal.find('.modal-title').text('Erfülle den Wunsch ' + artikel)
+            modal.find('.artklid').val(artikel)
+            modal.find('.wnschliste').val(wunschliste)
+            modal.find('.form-control').val('...')
+        })
+    </script>
+
 </body>
+
 </html>

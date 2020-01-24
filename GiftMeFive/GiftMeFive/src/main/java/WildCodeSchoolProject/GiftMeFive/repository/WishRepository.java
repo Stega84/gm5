@@ -41,7 +41,7 @@ public class WishRepository {
 				String bildlink = resultSet.getString("bildlink");
 				String produktlink = resultSet.getString("produktlink");
 				String preis = resultSet.getString("preis");
-				Long wunschliste_id = resultSet.getLong("wunschliste_id");
+				Long wunschliste_id = eingabe;
 				artikel.add(new Artikel(id, name, beschreibung, datum, bildlink, produktlink, preis, wunschliste_id));
 			}
 			return artikel;
@@ -175,9 +175,10 @@ public class WishRepository {
 		try {
 			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 			statement = connection.prepareStatement(
-					"UPDATE Reservierung SET name=?, reserviert=true WHERE id = ?;");
-						
-			    statement.setString(1, Name);
+					"UPDATE Reservierung SET name=?, reserviert=true WHERE id = ?;",
+                    Statement.RETURN_GENERATED_KEYS
+                );
+				statement.setString(1, Name);
 				statement.setLong(2, id);
 			
 				if (statement.executeUpdate() != 1) {

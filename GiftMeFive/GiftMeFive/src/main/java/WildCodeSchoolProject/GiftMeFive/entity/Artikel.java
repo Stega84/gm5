@@ -66,5 +66,11 @@ public class Artikel {
 	public void setPreis(String preis) {
 		this.preis = preis;
 	}
+	public Long getWunschliste_id() {
+		return wunschliste_id;
+	}	
+	public void setWunschliste_id(Long wunschliste_id) {
+		this.wunschliste_id = wunschliste_id;
+	}
 
 }
