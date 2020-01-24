@@ -45,9 +45,10 @@
                         <small class="text-muted" th:text="|Hinzugefügt am ${artikel.datum}|"></small>
                         <small class="text-muted" th:text=" | Wunsch-id ${artikel.id}|"></small>
                         <small class="text-muted" th:text=" | in Liste ${artikel.wunschliste_id}|"></small>
+                        <small class="text-muted" th:text=" | Reserviert=${artikel.reserviert}|"></small>
                     </p>
                     <div class="text-right">
-                        <a data-toggle="modal" data-target="#wunschReservieren" th:attr="data-artikel=${artikel.id}, data-wunschliste=${artikel.wunschliste_id}" class="btn btn-primary">Reservieren</a>
+                    	<a data-toggle="modal" data-target="#wunschReservieren" th:attr="data-artikel=${artikel.id}, data-wunschliste=${artikel.wunschliste_id}" class="btn btn-primary">Reservieren</a>
                     </div>
                 </div>
             </div>
