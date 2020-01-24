@@ -91,7 +91,7 @@ INSERT INTO Artikel (name, beschreibung, bildlink, produktlink, preis,wunschlist
 VALUES (
   'Play Station 4',
   'Eine ganz normale Play Station. Kein Bundle oder so.',
-  'image/ps4.jpg',
+  'https://images-na.ssl-images-amazon.com/images/I/711AM5GuE2L._SX342_.jpg',
   'https://www.amazon.de/PlayStation%C2%AE4-Pro-Konsole-1TB-schwarz/dp/B07HSJW7HK/ref=sr_1_1_sspa?__mk_de_DE=%C3%85M%C3%85%C5%BD%C3%95%C3%91&keywords=playstation+4&qid=1579097298&sr=8-1-spons&psc=1&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUEzRk1RUUJTSFlPWk5MJmVuY3J5cHRlZElkPUEwMjkzODU5MlpNQ01FQ1lONFgzMiZlbmNyeXB0ZWRBZElkPUEwOTIwODcyMzUwQjRIVjRVNk5WSyZ3aWRnZXROYW1lPXNwX2F0ZiZhY3Rpb249Y2xpY2tSZWRpcmVjdCZkb05vdExvZ0NsaWNrPXRydWU=',
   '350',
   2);
