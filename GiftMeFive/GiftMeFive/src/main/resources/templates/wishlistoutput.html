@@ -28,7 +28,7 @@
         <div class="row text-center title-1">GiftMeFive</div>
         <!-- <div class="title-1-text" th:text="|${wishlist[0].wunschliste_name} Wunschliste!|"></div>
         <div class="title-1-text" th:text="|$name} Wunschliste!|"></div> -->
-        <div class="title-1-text" th:text="${name != null} ? |${name} Wunschliste!| : |${wishlist[0].wunschliste_name} Wunschliste!|"></div>
+        <div class="title-1-text" th:text="${wishlist[0].wunschliste_name} ? |${wishlist[0].wunschliste_name} Wunschliste!| : |${name} Wunschliste!|"></div>
 
     </div>
 
@@ -51,7 +51,7 @@
                         <small class="text-muted" th:text=" | Reserviert=${artikel.reserviert} für ${artikel.reservierung_name}|"></small>
                     </p>
                     <div class="text-right">
-                        <a data-toggle="modal" data-target="#wunschReservieren" th:attr="data-artikel=${artikel.id}, data-wunschliste=${artikel.wunschliste_id}" class="btn btn-primary">Reservieren</a>
+                        <a id="res_button" data-toggle="modal" data-target="#wunschReservieren" th:attr="data-artikel=${artikel.id}, data-wunschliste=${artikel.wunschliste_id}, data-reserviert=${artikel.reserviert}" class="btn btn-primary">Reservieren</a>
                     </div>
                 </div>
             </div>
@@ -104,7 +104,12 @@
             modal.find('.form-control').val('...')
         })
     </script>
-
+    <!--  Javascript zum Verbergen des Reservieren-Buttons wenn bereits reserviert -->
+	   <script> 
+	   if(document.getElementById("res_button"}).getAttribute('data-reserviert') == true){
+	       document.getElementById("res_button").style.display = 'none';
+		  }
+	   </script>
 </body>
 
 </html>
