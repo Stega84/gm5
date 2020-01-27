@@ -26,7 +26,10 @@
         <a class="home pl-4" th:href="@{home}">Home<span class="sr-only">(current)</span></a>
         <!--Titeltext-->
         <div class="row text-center title-1">GiftMeFive</div>
-        <div class="title-1-text">Max Mustermann Wunschliste</div>
+        <!-- <div class="title-1-text" th:text="|${wishlist[0].wunschliste_name} Wunschliste!|"></div>
+        <div class="title-1-text" th:text="|$name} Wunschliste!|"></div> -->
+        <div class="title-1-text" th:text="${wishlist[0].wunschliste_name} ? |${wishlist[0].wunschliste_name} Wunschliste!| : |${name} Wunschliste!|"></div>
+
     </div>
 
     <!-- Liste -->
@@ -43,11 +46,43 @@
                     <p class="card-text" th:text="${artikel.beschreibung}"></p>
                     <p class="card-text">
                         <small class="text-muted" th:text="|Hinzugefügt am ${artikel.datum}|"></small>
+                        <small class="text-muted" th:text=" | Wunsch-id ${artikel.id}|"></small>
+                        <small class="text-muted" th:text=" | in Liste ${artikel.wunschliste_id}|"></small>
+                        <small class="text-muted" th:text=" | Reserviert=${artikel.reserviert} für ${artikel.reservierung_name}|"></small>
                     </p>
                     <div class="text-right">
-                        <a href="#" class="btn btn-primary">Reservieren</a>
+                        <a id="res_button" data-toggle="modal" data-target="#wunschReservieren" th:attr="data-artikel=${artikel.id}, data-wunschliste=${artikel.wunschliste_id}, data-reserviert=${artikel.reserviert}" class="btn btn-primary">Reservieren</a>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Eingabefenster für Reservierung erstellen-->
+    <div class="modal fade" id="wunschReservieren" tabindex="-1" role="dialog" aria-labelledby="wunsch-reservieren" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="wunsch_reservierung">Erfülle den Wunsch</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <form action="/reserveWish" method="get">
+                    <div class="modal-body">
+                        <input type="hidden" class="artklid" name="id" value="">
+                        <input type="hidden" class="wnschliste" name="wunschliste_id" value="">
+                        <label>Bitte geben Sie den Namen ein, auf den die Reservierung erfolgt:</label>
+                        <input name="name" class="form-control" type="text">
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-primary" value="Reservieren">
+                    </div>
+
+                </form>
+
             </div>
         </div>
     </div>
@@ -56,6 +91,25 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Binde alle kompilierten Plugins zusammen ein (wie hier unten) oder such dir einzelne Dateien nach Bedarf aus -->
     <script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+    <!-- jQuery für Dateneintrag ins Modal, Quelle: https://getbootstrap.com/docs/4.0/components/modal/#varying-modal-content -->
+    <script>
+        $('#wunschReservieren').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var artikel = button.data('artikel') // Extract info from data-* attributes
+            var wunschliste = button.data('wunschliste')
+            var modal = $(this)
+            modal.find('.modal-title').text('Erfülle den Wunsch ' + artikel)
+            modal.find('.artklid').val(artikel)
+            modal.find('.wnschliste').val(wunschliste)
+            modal.find('.form-control').val('...')
+        })
+    </script>
+    <!--  Javascript zum Verbergen des Reservieren-Buttons wenn bereits reserviert -->
+	   <script> 
+	   if(document.getElementById("res_button"}).getAttribute('data-reserviert') == true){
+	       document.getElementById("res_button").style.display = 'none';
+		  }
+	   </script>
 </body>
 
 </html>

@@ -84,6 +84,17 @@ public class WishController {
 		redirect.addAttribute("id", wunschliste_id);
 		return "redirect:/wishform_list";
 	}
+	
+	@GetMapping("/reserveWish")
+	public String reservewishDo(RedirectAttributes redirect, Model model, @RequestParam Long id,  @RequestParam Long wunschliste_id, @RequestParam String name) {
+		System.out.println("Contr: Prüfe Reservierung Wunsch " + id + " in Liste " + wunschliste_id + " für " + name);
+		repository.reserveWish(id, name);
+		System.out.println("Contr: Wunsch " + id + " in Liste " + wunschliste_id + " reserviert für " + name);
+		//redirect.addAttribute("name", name);
+		redirect.addAttribute("id", wunschliste_id);
+		return "redirect:/findWishlist";
+		//return "redirect:/wishlistoutput";
+	}
 
 	@GetMapping("/findWishlist")
 	public String show(Model model, @RequestParam Long id) {
