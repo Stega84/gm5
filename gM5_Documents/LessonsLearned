@@ -9,3 +9,9 @@ wie man alles zusammenführt.
 2. Jeder erstellt immer seinen eigenen Branch wenn er etwas entwickelt. Eventuell
 wäre ein kurzfristiger temporärer Entwicklungsbranch möglich wenn man vorher schon weiß das sich
 Bearbeitungen schneiden.
+
+3. Namensgebung muss konsistent über das ganze Projekt sein.
+z.b. eine Sprache (Beim testen und probieren schleichen sich immer Magic Numbers und Strings ein.)
+
+4. Nur den Branch löschen ohne die Änderungen zu commiten hat zur Folge das die Änderungen noch zu
+sehen sind nach dem Löschen des Branches.
