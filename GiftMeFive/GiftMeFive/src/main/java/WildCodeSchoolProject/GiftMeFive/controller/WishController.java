@@ -34,7 +34,7 @@ public class WishController {
 		model.addAttribute("titlename", titlename);
 		model.addAttribute("wishlistId", wishlistId);
 
-		model.addAttribute("wishlist", repository.showWishlist(wishlistId));
+		model.addAttribute("wishlist", repository.showWishlistForm(wishlistId));
 		return "wishform_list";
 	}
 

@@ -18,7 +18,7 @@ public class WishRepository {
 	private final static String DB_USER = "gm5admin5";
 	private final static String DB_PASSWORD = "WildCodeGm_5!";
 	
-	public List<Article> showWishlist(Long wishlistId) {
+	public List<Article> showWishlistForm(Long wishlistId) {
 
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -27,27 +27,23 @@ public class WishRepository {
 		try {
 			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 			statement = connection.prepareStatement(
-					"SELECT *, wishlist.name AS wishlistname, reservation.reserved, reservation.name AS reservationname FROM article JOIN wishlist ON wishlistId = wishlist.id JOIN reservation ON article.id = reservation.id WHERE wishlistId = ? ;");
+					"SELECT * FROM article WHERE wishlistId = ?;");
 			statement.setLong(1, wishlistId);
 			resultSet = statement.executeQuery();
 
-			List<Article> Article = new ArrayList<>();
+			List<Article> article = new ArrayList<>();
 
 			while (resultSet.next()) {
 				Long id = resultSet.getLong("id");
 				String name = resultSet.getString("name");
-				String beschreibung = resultSet.getString("description");
-				String datum = resultSet.getString("creationdate");
-				String bildlink = resultSet.getString("imagelink");
-				String produktlink = resultSet.getString("productlink");
-				String wunschliste_name = resultSet.getString("wishlistname");
-				Boolean reserviert = resultSet.getBoolean("reserved");
-				String reservierung_name = resultSet.getString("reservationname");
+				String description = resultSet.getString("description");
+				String creationdate = resultSet.getString("creationdate");
+				String imagelink = resultSet.getString("imagelink");
+				String productlink = resultSet.getString("productlink");
 
-				Article.add(new Article(id, name, beschreibung, datum, bildlink, produktlink, wishlistId,
-						wunschliste_name, reserviert, reservierung_name));
+				article.add(new Article(id, name, description, creationdate, imagelink, productlink, wishlistId));
 			}
-			return Article;
+			return article;
 		} catch (SQLException e) {
 			e.printStackTrace();
 
@@ -172,6 +168,47 @@ public class WishRepository {
 			e.printStackTrace();
 		} finally {
 
+			JdbcUtils.closeStatement(statement);
+			JdbcUtils.closeConnection(connection);
+		}
+		return null;
+	}
+	
+	public List<Article> showWishlist(Long wishlistId) {
+
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+
+		try {
+			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			statement = connection.prepareStatement(
+					"SELECT *, wishlist.name AS wishlistname, reservation.reserved, reservation.name AS reservationname FROM article JOIN wishlist ON wishlistId = wishlist.id JOIN reservation ON article.id = reservation.id WHERE wishlistId = ? ;");
+			statement.setLong(1, wishlistId);
+			resultSet = statement.executeQuery();
+
+			List<Article> Article = new ArrayList<>();
+
+			while (resultSet.next()) {
+				Long id = resultSet.getLong("id");
+				String name = resultSet.getString("name");
+				String description = resultSet.getString("description");
+				String creationdate = resultSet.getString("creationdate");
+				String imagelink = resultSet.getString("imagelink");
+				String productlink = resultSet.getString("productlink");
+				String wishlistname = resultSet.getString("wishlistname");
+				Boolean reserved = resultSet.getBoolean("reserved");
+				String reservationname = resultSet.getString("reservationname");
+
+				Article.add(new Article(id, name, description, creationdate, imagelink, productlink, wishlistId,
+						wishlistname, reserved, reservationname));
+			}
+			return Article;
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		} finally {
+			JdbcUtils.closeResultSet(resultSet);
 			JdbcUtils.closeStatement(statement);
 			JdbcUtils.closeConnection(connection);
 		}

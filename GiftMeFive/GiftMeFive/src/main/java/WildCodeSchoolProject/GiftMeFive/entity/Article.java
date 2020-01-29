@@ -28,10 +28,12 @@ public class Article {
 		this.reservationname = reservationname;
 	}
 
-	public Article(String name, String description, String imagelink, String productlink, Long wishlistId) {
+	public Article(Long id, String name, String description, String creationdate, String imagelink, String productlink, Long wishlistId) {
 		super();
+		this.id = id;
 		this.name = name;
 		this.description = description;
+		this.creationdate = creationdate;
 		this.imagelink = imagelink;
 		this.productlink = productlink;
 		this.wishlistId = wishlistId;
