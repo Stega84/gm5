@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Die 3 Meta-Tags oben *müssen* zuerst im head stehen; jeglicher sonstiger head-Inhalt muss *nach* diesen Tags kommen -->
     <title>Gift Me Five Extrawunsch</title>
+    <script type="text/javascript" src="js/wishform.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <!-- Bootstrap -->
@@ -26,33 +27,34 @@
         <a class="home pl-4" th:href="@{home}">Home<span class="sr-only">(current)</span></a>
         <!--Titeltext-->
         <div class="row text-center title-1">GiftMeFive</div>
-        <div class="title-1-text" th:text="|${name} Wunschliste!|"></div>
+        <div class="title-1-text" th:text="|${titlename} Wunschliste!|"></div>
     </div>
 
     <!-- Eingabefeld -->
     <!-- Form-Elemente fuer Wunsch einfuegen: Felder sind bildlink, name, beschreibung, produktlink, datum, preis -->
     <div class="card mb-4 mt-2" style="background-color: #ddd">
-        <form action="/addWish" class="form-horizontal" id="wishform" method="get" onreset="myResetFunction()">
+        <form action="/addWish" class="form-horizontal" method="get" onreset="myResetFunction()">
             <div class="row no-gutters">
                 <div class="col-md-4 file-field" style="background-color: #ccc">
                     <div class="card-body">
-                        <p class="card-title" style="text-align: center">Vorschau(nach Kategorie):</p>
+                        <p class="card-title">Vorschau(nach Kategorie):</p>
                         <img src="/image/default.jpg" class="card-img" alt="..." id="category_wish_image">
+                        <input type="hidden" id="categoryImage" name="categoryImage" value="/image/default.jpg">
                     </div>
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
                         <fieldset class="form-group">
-                            <h5 class="card-title">
-								<label for="name" class="control-label">Ihr Wunsch:</label> 
-								<input id="name" class="form-control " name="name" type="text" placeholder="My wish">
-							</h5>
+                            <h5 class="card-title">Ihr Wunsch</h5>
                             <p class="card-text">
-                                <label for="beschreibung" class="control-label">Beschreibung: </label>
-                                <textarea id="beschreibung" class="form-control" name="beschreibung" placeholder="This is the greatest wish ever"></textarea>
+                                <label class="control-label mt-2 mb-0">Was wünschen Sie sich:</label>
+                                <input class="form-control " name="articlename" type="text" placeholder="My wish">
 
-                                <label for="kategorie" class="control-label">Kategorie:</label>
-                                <select class="form-control" id="category" name="kategorie" onchange="newImageFunction()">
+                                <label class="control-label mt-2 mb-0">Beschreibung:</label>
+                                <textarea class="form-control" name="description" placeholder="This is the greatest wish ever"></textarea>
+
+                                <label class="control-label mt-2 mb-0">Kategorie:</label>
+                                <select class="form-control" id="category" onchange="newImageFunction()">
                                     <option>Baby</option>
                                     <option>Beauty</option>
                                     <option>Bekleidung</option>
@@ -78,18 +80,14 @@
                                     <option>Sonstiges</option>
                                 </select>
 
-                                <div class="form-group">
-                                    <label for="bildlink">Eigenes Bild hochladen.</label>
-                                    <input type="file" class="form-control-file" name="bildlink" placeholder="">
-                                </div>
-                                <br>
-                                <input type="hidden" name="wunschliste_id" value="" th:value="${id}">
-                                <input type="hidden" name="titelname" value="" th:value="${name}">
-                                <!--  Achtung: datum und preis auf Festwert gesetzt, noch anders zu lösen -->
-                                <input type="hidden" name="preis" value="" th:value="1">
+                                <label class="control-label mt-4 mb-0">Eigenes Bild hochladen.</label>
+                                <input type="file" class="form-control-file" name="userimage" placeholder="">
 
-                                <input id="clear" type="reset" onclick="imgResetFunction()" class="btn btn-danger" value="Leeren">
-                                <input id="submit" type="submit" class="btn btn-success" value="Speichern">
+                                <input type="hidden" name="wishlistId" value="" th:value="${wishlistId}">
+                                <input type="hidden" name="titlename" value="" th:value="${titlename}">
+
+                                <input type="reset" onclick="imgResetFunction()" class="btn btn-danger mt-3 mb-0" value="Leeren">
+                                <input type="submit" class="btn btn-success mt-3 mb-0" value="Speichern">
                             </p>
                         </fieldset>
                     </div>
@@ -100,24 +98,24 @@
     <!-- Ende von Wunsch einfuegen -->
 
     <!--Eintrag 1-->
-    <div class="card mb-4 mt-2" th:each="artikel : ${wishlist}">
+    <div class="card mb-4 mt-2" th:each="article : ${wishlist}">
         <div class="row no-gutters">
             <div class="col-md-4">
-                <a th:href="@{${artikel.produktlink}}" target="_blank">
-                    <img th:src="@{${artikel.bildlink}}" class="card-img" alt="...">
+                <a th:href="@{${article.productlink}}" target="_blank">
+                    <img th:src="@{${article.imagelink}}" class="card-img" alt="...">
                 </a>
             </div>
             <div class="col-md-8">
                 <div class="card-body">
-                    <h5 class="card-title" th:text="${artikel.name}"></h5>
-                    <p class="card-text" th:text="${artikel.beschreibung}"></p>
+                    <h5 class="card-title" th:text="${article.name}"></h5>
+                    <p class="card-text" th:text="${article.description}"></p>
                     <p class="card-text">
-                        <small class="text-muted" th:text="|Hinzugefügt am ${artikel.datum}|"></small>
-                        <small class="text-muted" th:text="| / Artikel-id ${artikel.id}|"></small>
-                        <small class="text-muted" th:text="| / Wunschliste-id ${wunschliste_id}|"></small>
+                        <small class="text-muted" th:text="|Hinzugefügt am ${article.creationdate}|"></small>
+                        <small class="text-muted" th:text="| / Artikel-id ${article.id}|"></small>
+                        <small class="text-muted" th:text="| / Wunschliste-id ${wishlistId}|"></small>
                     </p>
                     <div class="text-right">
-                        <a th:href="@{/removeWish(id=${artikel.id}, wunschliste_id=${id}, name=${name})}" class="btn btn-danger">Löschen</a>
+                        <a th:href="@{/removeWish(articleId=${article.id}, wishlistId=${wishlistId}, titlename=${titlename})}" class="btn btn-danger">Löschen</a>
                     </div>
                 </div>
             </div>
@@ -129,47 +127,6 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script>
-        $('.custom-file-input').on(
-            'change',
-            function() {
-                let fileName = $(this).val().split('\\').pop();
-                let label = $(this).siblings('.custom-file-label');
-
-                if (label.data('default-title') === undefined) {
-                    label.data('default-title', label.html());
-                }
-
-                if (label.data('default-title') === undefined) {
-                    label.data('default-title', label.html());
-                }
-
-                if (fileName === '') {
-                    label.removeClass("selected").html(
-                        label.data('default-title'));
-                } else {
-                    label.addClass("selected").html(fileName);
-                }
-            });
-    </script>
-    <script>
-        // Reset the text of the file input element in a form with id="wimage"
-        function imgResetFunction() {
-            document.getElementById("bildlink").value = '';
-            document.getElementById("bildlink").label.addClass("selected").html(
-                'default-title');
-        }
-        //Bild laden während der Kunde auswählt
-        function newImageFunction() {
-            var category = document.getElementById('category');
-            var categoryName = category.options[category.selectedIndex].value;
-                    
-            if (categoryName === "Computer & Laptop & Zubehör"){
-            	document.getElementById("category_wish_image").src ="/image/lp.jpg";
-            }
-        }
-    </script>
-
 </body>
 
 </html>

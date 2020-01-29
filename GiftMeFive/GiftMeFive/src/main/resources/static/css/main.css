@@ -11,6 +11,10 @@ p.cardForm {
   font-size:0.8em;
 }
 
+p.card-title{
+	text-align: center;	
+}
+
 .bg {
   /* The image used */
   background-image: url(../image/main.jpg);
@@ -91,7 +95,7 @@ p.cardForm {
     font-family: 'Satisfy', cursive;
     color: white;
     font-size: 8em;
-    height: 80%;
+    height: 65%;
     display: flex;
     align-items: flex-end; /* Vertikale Zentrierung */
     justify-content: center; /* Horizontale Zentrierung */

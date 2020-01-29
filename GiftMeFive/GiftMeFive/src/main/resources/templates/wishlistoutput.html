@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Die 3 Meta-Tags oben *müssen* zuerst im head stehen; jeglicher sonstiger head-Inhalt muss *nach* diesen Tags kommen -->
     <title>Bootstrap-Basis-Vorlage</title>
+    <script type="text/javascript" src="js/wishlistoutput.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <!-- Bootstrap -->
@@ -26,35 +27,32 @@
         <a class="home pl-4" th:href="@{home}">Home<span class="sr-only">(current)</span></a>
         <!--Titeltext-->
         <div class="row text-center title-1">GiftMeFive</div>
-        <!-- <div class="title-1-text" th:text="|${wishlist[0].wunschliste_name} Wunschliste!|"></div>
-        <div class="title-1-text" th:text="|$name} Wunschliste!|"></div> -->
-        <div class="title-1-text" th:text="${wishlist[0].wunschliste_name} ? |${wishlist[0].wunschliste_name} Wunschliste!| : |${name} Wunschliste!|"></div>
-
+        <div class="title-1-text" th:text="|${titlename} Wunschliste!|"></div>
     </div>
 
     <!-- Liste -->
     <!--Eintrag 1-->
-    <div class="card mb-4 mt-2" th:each="artikel : ${wishlist}">
+    <div class="card mb-4 mt-2" th:each="article : ${wishlist}">
         <div class="row no-gutters">
             <div class="col-md-4">
-                <a th:href="@{${artikel.produktlink}}" target="_blank"> <img th:src="@{${artikel.bildlink}}" class="card-img" alt="...">
+                <a th:href="@{${article.productlink}}" target="_blank"> <img th:src="@{${article.imagelink}}" class="card-img" alt="...">
                 </a>
             </div>
             <div class="col-md-8">
                 <div class="card-body">
-                    <h5 class="card-title" th:text="${artikel.name}"></h5>
-                    <p class="card-text" th:text="${artikel.beschreibung}"></p>
+                    <h5 class="card-title" th:text="${article.name}"></h5>
+                    <p class="card-text" th:text="${article.description}"></p>
                     <p class="card-text">
-                        <small class="text-muted" th:text="|Hinzugefügt am ${artikel.datum}|"></small>
-                        <small class="text-muted" th:text=" | Wunsch-id ${artikel.id}|"></small>
-                        <small class="text-muted" th:text=" | in Liste ${artikel.wunschliste_id}|"></small>
-                        <small class="text-muted" th:text=" | Reserviert=${artikel.reserviert} für ${artikel.reservierung_name}|"></small>
+                        <small class="text-muted" th:text=" |Hinzugefügt am ${article.creationdate}|"></small>
+                        <small class="text-muted" th:text=" | Wunsch-id ${article.id}|"></small>
+                        <small class="text-muted" th:text=" | in Liste ${article.wishlistId}|"></small>
+                        <small class="text-muted" th:text=" | Reserviert=${article.reserved} für ${article.reservationname}|"></small>
                     </p>
                     <div class="text-right">
-                        <a id="res_button" th:if="${artikel.reserviert} == false" data-toggle="modal" data-target="#wunschReservieren" th:attr="data-artikel=${artikel.id}, data-wunschliste=${artikel.wunschliste_id}, data-reserviert=${artikel.reserviert}" class="btn btn-primary">Reservieren</a>
+                        <button th:if="${article.reserved} == false" data-toggle="modal" data-target="#reserve_wish" th:attr="data-articleid=${article.id}, data-wishlistid=${article.wishlistId}" class="btn btn-primary">Reservieren</button>
                     </div>
                     <div class="text-right">
-                        <a id="res_message" th:if="${artikel.reserviert} == true"  class="btn btn-basic disabled">Bereits reserviert</a>
+                        <button th:if="${article.reserved} == true" class="btn btn-basic disabled">Bereits reserviert</button>
                     </div>
                 </div>
             </div>
@@ -62,30 +60,26 @@
     </div>
 
     <!--Eingabefenster für Reservierung erstellen-->
-    <div class="modal fade" id="wunschReservieren" tabindex="-1" role="dialog" aria-labelledby="wunsch-reservieren" aria-hidden="true">
+    <div class="modal fade" id="reserve_wish" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-
                 <div class="modal-header">
-                    <h5 class="modal-title" id="wunsch_reservierung">Erfülle den Wunsch</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                    <h5>Der Wunsch wird für dich reserviert</h5>
+                    <button type="button" class="close" data-dismiss="modal">
                     </button>
                 </div>
 
                 <form action="/reserveWish" method="get">
                     <div class="modal-body">
-                        <input type="hidden" class="artklid" name="id" value="">
-                        <input type="hidden" class="wnschliste" name="wunschliste_id" value="">
+                        <input type="hidden" class="articleId" name="articleId" value="">
+                        <input type="hidden" class="wishlistId" name="wishlistId" value="">
                         <label>Bitte geben Sie den Namen ein, auf den die Reservierung erfolgt:</label>
-                        <input name="name" class="form-control" type="text">
+                        <input name="reservationname" class="form-control" type="text" value="...">
                     </div>
                     <div class="modal-footer">
                         <input type="submit" class="btn btn-primary" value="Reservieren">
                     </div>
-
                 </form>
-
             </div>
         </div>
     </div>
@@ -96,18 +90,15 @@
     <script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
     <!-- jQuery für Dateneintrag ins Modal, Quelle: https://getbootstrap.com/docs/4.0/components/modal/#varying-modal-content -->
     <script>
-        $('#wunschReservieren').on('show.bs.modal', function(event) {
+        $('#reserve_wish').on('show.bs.modal', function(event) {
+            alert("test")
             var button = $(event.relatedTarget) // Button that triggered the modal
-            var artikel = button.data('artikel') // Extract info from data-* attributes
-            var wunschliste = button.data('wunschliste')
             var modal = $(this)
-            modal.find('.modal-title').text('Erfülle den Wunsch ' + artikel)
-            modal.find('.artklid').val(artikel)
-            modal.find('.wnschliste').val(wunschliste)
-            modal.find('.form-control').val('...')
+
+            modal.find('.articleId').val(button.data('articleid'))
+            modal.find('.wishlistId').val(button.data('wishlistid'))
         })
     </script>
-
 </body>
 
 </html>

@@ -17,37 +17,37 @@ public class WishRepository {
 	private final static String DB_URL = "jdbc:mysql://localhost:3306/gm5?serverTimezone=GMT";
 	private final static String DB_USER = "gm5admin5";
 	private final static String DB_PASSWORD = "WildCodeGm_5!";
-
-	public List<Artikel> showWishlist(Long eingabe) {
+	
+	public List<Article> showWishlist(Long wishlistId) {
 
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
-		
+
 		try {
 			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-			statement = connection.prepareStatement("SELECT *, Wunschliste.name AS wunschliste_name, Reservierung.reserviert, Reservierung.name AS reservierung_name FROM Artikel JOIN Wunschliste ON wunschliste_id = Wunschliste.id JOIN Reservierung ON Artikel.id = Reservierung.id WHERE wunschliste_id = ? ;");
-			statement.setLong(1, eingabe);
+			statement = connection.prepareStatement(
+					"SELECT *, wishlist.name AS wishlistname, reservation.reserved, reservation.name AS reservationname FROM article JOIN wishlist ON wishlistId = wishlist.id JOIN reservation ON article.id = reservation.id WHERE wishlistId = ? ;");
+			statement.setLong(1, wishlistId);
 			resultSet = statement.executeQuery();
 
-			List<Artikel> artikel = new ArrayList<>();
+			List<Article> Article = new ArrayList<>();
 
 			while (resultSet.next()) {
 				Long id = resultSet.getLong("id");
 				String name = resultSet.getString("name");
-				String beschreibung = resultSet.getString("beschreibung");
-				String datum = resultSet.getString("datum");
-				String bildlink = resultSet.getString("bildlink");
-				String produktlink = resultSet.getString("produktlink");
-				String preis = resultSet.getString("preis");
-				Long wunschliste_id = eingabe;
-				String wunschliste_name = resultSet.getString("wunschliste_name");
-				Boolean reserviert = resultSet.getBoolean("reserviert");
-				String reservierung_name = resultSet.getString("reservierung_name");
-				
-				artikel.add(new Artikel(id, name, beschreibung, datum, bildlink, produktlink, preis, wunschliste_id, wunschliste_name, reserviert, reservierung_name));
+				String beschreibung = resultSet.getString("description");
+				String datum = resultSet.getString("creationdate");
+				String bildlink = resultSet.getString("imagelink");
+				String produktlink = resultSet.getString("productlink");
+				String wunschliste_name = resultSet.getString("wishlistname");
+				Boolean reserviert = resultSet.getBoolean("reserved");
+				String reservierung_name = resultSet.getString("reservationname");
+
+				Article.add(new Article(id, name, beschreibung, datum, bildlink, produktlink, wishlistId,
+						wunschliste_name, reserviert, reservierung_name));
 			}
-			return artikel;
+			return Article;
 		} catch (SQLException e) {
 			e.printStackTrace();
 
@@ -59,8 +59,8 @@ public class WishRepository {
 		return null;
 	}
 
-	public Artikel addWish(String Name, String Beschreibung, String Bildlink, String Produktlink, String Preis,
-			Long wunschliste_id, String titelname) {
+	public Article addWish(String articlename, String description, String userimage, String productlink,
+			Long wishlistId) {
 
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -69,27 +69,23 @@ public class WishRepository {
 		try {
 			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 			statement = connection.prepareStatement(
-					"INSERT INTO Artikel (Name, Beschreibung,Bildlink, Produktlink, Preis, wunschliste_id) VALUES (?, ?, ?, ?, ?, ?);",
+					"INSERT INTO article (name, description, imagelink, productlink, wishlistId) VALUES (?, ?, ?, ?, ?);",
 					Statement.RETURN_GENERATED_KEYS);
 
-			statement.setString(1, Name);
-			statement.setString(2, Beschreibung);
-			statement.setString(3, Bildlink);
-			statement.setString(4, Produktlink);
-			statement.setString(5, Preis);
-			statement.setLong(6, wunschliste_id);
+			statement.setString(1, articlename);
+			statement.setString(2, description);
+			statement.setString(3, userimage);
+			statement.setString(4, productlink);
+			statement.setLong(5, wishlistId);
 
 			if (statement.executeUpdate() != 1) {
 				throw new SQLException("failed to insert data");
 			}
 			generatedKeys = statement.getGeneratedKeys();
-			if (generatedKeys.next()) {
-				Long id = generatedKeys.getLong(1);
-				System.out.println("Repo: " + id + Name + Beschreibung + Bildlink + Produktlink + Preis);
-				return new Artikel(id, Name, Beschreibung, Bildlink, Produktlink, Preis);
-			} else {
+			if (!generatedKeys.next()) {
 				throw new SQLException("failed to get inserted id");
 			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -101,55 +97,49 @@ public class WishRepository {
 		return null;
 	}
 
-	public void removeWish(Long id) {
+	public void removeWish(Long articleId) {
 
 		Connection connection = null;
 		PreparedStatement statement = null;
-		ResultSet generatedKeys = null;
 
 		try {
 			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-			statement = connection.prepareStatement("DELETE FROM Artikel WHERE id = ?;",
-					Statement.RETURN_GENERATED_KEYS);
-
-			statement.setLong(1, id);
+			statement = connection.prepareStatement("DELETE FROM article WHERE id = ?;");
+			statement.setLong(1, articleId);
 
 			if (statement.executeUpdate() != 1) {
 				throw new SQLException("failed to remove data");
 			}
-			System.out.println("Repo: " + id + "gelöscht.");
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			JdbcUtils.closeResultSet(generatedKeys);
 			JdbcUtils.closeStatement(statement);
 			JdbcUtils.closeConnection(connection);
 		}
 	}
 
-	public Long createWishlist(String name, String datum) {
+	public Long createWishlist(String titlename, String enddate) {
 
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet generatedSet = null;
-		Long id = 0l;
+		Long wishlistId = null;
 
 		try {
 			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-			statement = connection.prepareStatement("INSERT INTO Wunschliste (name, enddatum) VALUES (?, ?)",
+			statement = connection.prepareStatement("INSERT INTO wishlist (name, enddate) VALUES (?, ?)",
 					Statement.RETURN_GENERATED_KEYS);
-			statement.setString(1, name);
-			statement.setString(2, datum);
+			statement.setString(1, titlename);
+			statement.setString(2, enddate);
 
 			if (statement.executeUpdate() != 1) {
 				throw new SQLException("failed to insert data");
 			}
-
 			generatedSet = statement.getGeneratedKeys();
 
 			if (generatedSet.next()) {
-				id = generatedSet.getLong(1);
-				// return new Wunschliste(id, name, datum);
+				wishlistId = generatedSet.getLong(1);
 			} else {
 				throw new SQLException("failed to get inserted id");
 			}
@@ -160,45 +150,31 @@ public class WishRepository {
 			JdbcUtils.closeStatement(statement);
 			JdbcUtils.closeConnection(connection);
 		}
-		return id;
+		return wishlistId;
 	}
-	
-	public Reservierung reserveWish(Long id, String Name) {
+
+	public Reservierung reserveWish(Long articleId, String reservationname) {
 
 		Connection connection = null;
 		PreparedStatement statement = null;
-		ResultSet generatedKeys = null;
 
 		try {
 			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-			statement = connection.prepareStatement(
-					"UPDATE Reservierung SET name=?, reserviert=true WHERE id = ?;",
-                    Statement.RETURN_GENERATED_KEYS
-                );
-				statement.setString(1, Name);
-				statement.setLong(2, id);
-			
-				if (statement.executeUpdate() != 1) {
-	                throw new SQLException("failed to insert data");
-	            }
-				System.out.println("Repo: " + id + " reserviert als " + Name);
+			statement = connection.prepareStatement("UPDATE reservation SET name=?, reserved=true WHERE id = ?;");
+			statement.setString(1, reservationname);
+			statement.setLong(2, articleId);
 
-	            generatedKeys = statement.getGeneratedKeys();
+			if (statement.executeUpdate() != 1) {
+				throw new SQLException("failed to insert data");
+			}
 
-	            if (generatedKeys.next()) {
-	                id = generatedKeys.getLong(1);
-	                return new Reservierung(id, Name, true);
-	            } else {
-	                throw new SQLException("failed to get inserted id");
-	            }
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        } finally {
-	            JdbcUtils.closeResultSet(generatedKeys);
-	            JdbcUtils.closeStatement(statement);
-	            JdbcUtils.closeConnection(connection);
-	        }
-	               
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+
+			JdbcUtils.closeStatement(statement);
+			JdbcUtils.closeConnection(connection);
+		}
 		return null;
 	}
 	

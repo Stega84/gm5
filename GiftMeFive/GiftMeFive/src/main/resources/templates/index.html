@@ -20,14 +20,13 @@
 </head>
 
 <body class="container-fluid p-0">
-
     <!--Hintergrundbild-->
     <div class="bg">
         <!--Navigation-->
         <div class="row ml-0 mr-0">
             <nav class="navbar navbar-expand-lg navbar-dark pl-5">
                 <a class="navbar-brand" href="#">Home<span class="sr-only">(current)</span></a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
@@ -45,66 +44,54 @@
         <div>
             <hr class="m-0 top">
         </div>
-
         <!--Titeltext GiftMeFive-->
         <div class="row ml-0 mr-0 text-center title">GiftMeFive</div>
     </div>
-
     <!-- Auswahl-->
     <div class="row ml-0 mr-0 text-center mt-3 mr-0 ml-0">
         <!-- leer Spalte-->
         <div class="col"></div>
-
         <!-- Karte 1-->
         <div class="card-deck m-0 col-10">
             <div class="card text-center border-0">
                 <div class="card-body">
                     <h5 class="card-title">Wunschliste</h5>
                     <p class="card-text cardForm">With supporting text below as a natural lead-in to additional content. With supporting text below as a natural lead-in to additional content. With supporting text below as a natural lead-in to additional content.</p>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#wunschlisteID">Wunschliste</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#find_wishlist">Wunschliste</button>
                 </div>
             </div>
-
             <!-- Karte 2-->
             <div class="card text-center border-0">
                 <div class="card-body">
                     <h5 class="card-title">Schnelleinstieg</h5>
                     <p class="card-text cardForm">With supporting text below as a natural lead-in to additional content.With supporting text below as a natural lead-in to. With supporting text below as a natural lead-in to additional content.</p>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#wunschlisteErstellen">Schnelleinstieg</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create_wishlist">Schnelleinstieg</button>
                 </div>
             </div>
-
             <!-- Karte 3-->
             <div class="card text-center border-0">
                 <div class="card-body">
                     <h5 class="card-title">Beispiel</h5>
                     <p class="card-text cardForm">With supporting text below as a natural lead-in to additional content. With supporting text below as a natural lead-in to additional content. With supporting text below as a natural lead-in to additional content.</p>
-                    <a th:href="@{list}" class="btn btn-primary">Beispiel 1</a> <a th:href="@{list2}" class="btn btn-primary">Beispiel 2</a>
+                    <a href="/list" class="btn btn-primary">Beispiel 1</a> <a href="/list2" class="btn btn-primary">Beispiel 2</a>
                 </div>
             </div>
         </div>
-
         <!-- leer Spalte-->
         <div class="col"></div>
     </div>
-
     <!--Eingabefenster für Wunschliste -->
-    <div class="modal fade" id="wunschlisteID" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="find_wishlist" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Wunschliste
-						Auswahl</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <h5 class="modal-title">Wunschliste Auswahl</h5>
+                    <button type="button" class="close" data-dismiss="modal"></button>
                 </div>
-
                 <div class="modal-body">
                     <form action="/findWishlist" method="get">
                         <label>Bitte geben Sie die ID Ihrer Wunschliste ein.</label>
-                        <input name="id" class="form-control" type="text">
+                        <input name="wishlistId" class="form-control" type="text">
                         <div class="modal-footer">
                             <input type="submit" class="btn btn-primary" value="Suchen">
                         </div>
@@ -113,34 +100,20 @@
             </div>
         </div>
     </div>
-
     <!--Eingabefenster für Wunschliste erstellen-->
-    <div class="modal fade" id="wunschlisteErstellen" tabindex="-1" role="dialog" aria-labelledby="wunschliste-erstellen" aria-hidden="true">
+    <div class="modal fade" id="create_wishlist" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-
                 <div class="modal-header">
-                    <h5 class="modal-title" id="wunschliste-erstellen">Modal title</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal"></button>
                 </div>
-
                 <div class="modal-body">
-                    <!--<form th:action="@{/createWishlist}" method="post">
- 							<label>Bitte geben Sie einen Namen für Ihre Liste ein!.</label> 
-							<input name="name" class="form-control" type="text" required >
-							<label>Bitte geben Sie ein Datum ein wie lange die Liste gültig ist!</label> 
-							<input name="datum" class="form-control" type="text" required>
-						<div class="modal-footer">
-							<input type="submit" class="btn btn-primary" value="Erstellen">
-						</div>
-					</form> -->
                     <form action="/createWishlist" method="get">
                         <label>Bitte geben Sie einen Namen für Ihre Liste ein!.</label>
-                        <input name="name" class="form-control" type="text">
+                        <input name="titlename" class="form-control" type="text">
                         <label>Bitte geben Sie ein Datum ein wie lange die Liste gültig ist!</label>
-                        <input name="datum" class="form-control" type="text">
+                        <input name="enddate" class="form-control" type="text">
                         <div class="modal-footer">
                             <input type="submit" class="btn btn-primary" value="Erstellen">
                         </div>
@@ -149,7 +122,6 @@
             </div>
         </div>
     </div>
-
     <!-- jQuery (wird für Bootstrap JavaScript-Plugins benötigt) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Binde alle kompilierten Plugins zusammen ein (wie hier unten) oder such dir einzelne Dateien nach Bedarf aus -->
