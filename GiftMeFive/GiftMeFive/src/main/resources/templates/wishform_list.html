@@ -33,7 +33,8 @@
     <!-- Eingabefeld -->
     <!-- Form-Elemente fuer Wunsch einfuegen: Felder sind bildlink, name, beschreibung, produktlink, datum, preis -->
     <div class="card mb-4 mt-2" style="background-color: #ddd">
-        <form action="/addWish" class="form-horizontal" method="get" onreset="myResetFunction()">
+<!--  von GET zu POST geändert -->
+        <form action="/addWish" class="form-horizontal" method="post" onreset="myResetFunction()">
             <div class="row no-gutters">
                 <div class="col-md-4 file-field" style="background-color: #ccc">
                     <div class="card-body">
