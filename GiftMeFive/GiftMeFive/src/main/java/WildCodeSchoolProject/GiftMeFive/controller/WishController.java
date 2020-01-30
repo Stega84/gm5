@@ -73,15 +73,17 @@ public class WishController {
 
 		repository.reserveWish(articleId, reservationname);
 		redirect.addAttribute("wishlistId", wishlistId);
-		return "redirect:/findWishlist";
+//		return "redirect:/findWishlist"; 
+		return "redirect:/wishlistoutput";
 	}
 
 	@GetMapping("/findWishlist")
 	public String show(Model model, @RequestParam Long wishlistId) {
 
 		model.addAttribute("wishlist", repository.showWishlist(wishlistId));
-		// Methode im repository erstellen um den Name der Liste abzufragen.
-		model.addAttribute("titlename", "Platzhalter");
+		// Methode im repository erstellen um den Name der Liste abzufragen:		
+		String titlename = repository.getWishlistname(wishlistId);
+		model.addAttribute("titlename", titlename);
 		return "wishlistoutput";
 	}
 

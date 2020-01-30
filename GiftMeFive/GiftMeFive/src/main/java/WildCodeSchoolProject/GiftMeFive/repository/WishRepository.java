@@ -215,4 +215,33 @@ public class WishRepository {
 		return null;
 	}
 	
+	public String getWishlistname(Long wishlistId) {
+
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+
+		try {
+			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			statement = connection.prepareStatement(
+					"SELECT name FROM wishlist WHERE id = ? ;");
+			
+			statement.setLong(1, wishlistId);
+			resultSet = statement.executeQuery();
+			
+			String wishlistname = "";
+			while (resultSet.next()) {
+				wishlistname = resultSet.getString("name");;	
+			}
+			return wishlistname;
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		} finally {
+			JdbcUtils.closeResultSet(resultSet);
+			JdbcUtils.closeStatement(statement);
+			JdbcUtils.closeConnection(connection);
+		}
+		return null;
+	}
 }
