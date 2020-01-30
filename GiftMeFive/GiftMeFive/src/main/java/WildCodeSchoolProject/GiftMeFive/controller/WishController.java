@@ -28,6 +28,15 @@ public class WishController {
 	public String home() {
 		return "index";
 	}
+	
+	@RequestMapping("/wishlistoutput")
+	public String wishlistoutput(Model model, @RequestParam String titlename, @RequestParam Long wishlistId) {
+		model.addAttribute("titlename", titlename);
+		model.addAttribute("wishlistId", wishlistId);
+		
+		model.addAttribute("wishlist", repository.showWishlist(wishlistId));
+		return "wishlistoutput";
+	}
 
 	@GetMapping("wishform_list")
 	public String wishform_list(Model model, @RequestParam String titlename, @RequestParam Long wishlistId) {
@@ -72,8 +81,13 @@ public class WishController {
 			@RequestParam Long wishlistId, @RequestParam String reservationname) {
 
 		repository.reserveWish(articleId, reservationname);
+//		redirect.addAttribute("wishlistId", wishlistId);
+//		return "redirect:/findWishlist";
+//		model.addAttribute("wishlist", repository.showWishlist(wishlistId));
+//		return "wishlistoutput";
+		String titlename = repository.getWishlistname(wishlistId);
+		redirect.addAttribute("titlename", titlename);
 		redirect.addAttribute("wishlistId", wishlistId);
-//		return "redirect:/findWishlist"; 
 		return "redirect:/wishlistoutput";
 	}
 
