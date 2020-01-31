@@ -49,7 +49,7 @@
                         <small class="text-muted" th:text=" | Reserviert=${article.reserved} für ${article.reservationname}|"></small>
                     </p>
                     <div class="text-right">
-                        <button th:if="${article.reserved} == false" data-toggle="modal" data-target="#reserve_wish" th:attr="data-articleid=${article.id}, data-wishlistid=${article.wishlistId}" class="btn btn-primary">Reservieren</button>
+                        <button th:if="${article.reserved} == false" class="btn btn-primary disabled">Reservieren</button>
                     </div>
                     <div class="text-right">
                         <button th:if="${article.reserved} == true" data-toggle="modal" data-target="#unreserve_wish" th:attr="data-articleid=${article.id}, data-articlename=${article.name}, data-reservationname=${article.reservationname}" class="btn btn-primary">Aufheben Reservierung</button>
