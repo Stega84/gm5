@@ -56,15 +56,16 @@
             <div class="card text-center border-0">
                 <div class="card-body">
                     <h5 class="card-title">Wunschliste</h5>
-                    <p class="card-text cardForm">With supporting text below as a natural lead-in to additional content. With supporting text below as a natural lead-in to additional content. With supporting text below as a natural lead-in to additional content.</p>
+                    <p class="card-text cardForm">Anschauen und Wünsche reservieren.</p>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#find_wishlist">Wunschliste</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#find_reservation">Reservierungen</button>
                 </div>
             </div>
             <!-- Karte 2-->
             <div class="card text-center border-0">
                 <div class="card-body">
                     <h5 class="card-title">Schnelleinstieg</h5>
-                    <p class="card-text cardForm">With supporting text below as a natural lead-in to additional content.With supporting text below as a natural lead-in to. With supporting text below as a natural lead-in to additional content.</p>
+                    <p class="card-text cardForm">Eine neue Wunschliste erstellen.</p>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create_wishlist">Schnelleinstieg</button>
                 </div>
             </div>
@@ -72,7 +73,7 @@
             <div class="card text-center border-0">
                 <div class="card-body">
                     <h5 class="card-title">Beispiel</h5>
-                    <p class="card-text cardForm">With supporting text below as a natural lead-in to additional content. With supporting text below as a natural lead-in to additional content. With supporting text below as a natural lead-in to additional content.</p>
+                    <p class="card-text cardForm">So könnten Ihre Wunschlisten ausschauen.</p>
                     <a href="/list" class="btn btn-primary">Beispiel 1</a> <a href="/list2" class="btn btn-primary">Beispiel 2</a>
                 </div>
             </div>
@@ -92,6 +93,26 @@
                     <form action="/findWishlist" method="get">
                         <label>Bitte geben Sie die ID Ihrer Wunschliste ein.</label>
                         <input name="wishlistId" class="form-control" type="text" required pattern="\d+">
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary" value="Suchen">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Eingabefenster für Reservierungen -->
+    <div class="modal fade" id="find_reservation" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reservierungen Auswahl</h5>
+                    <button type="button" class="close" data-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/reservationoutput" method="get">
+                        <label>Bitte geben Sie den Namen Ihrer Reservierungen ein.</label>
+                        <input name="reservationname" class="form-control" type="text">
                         <div class="modal-footer">
                             <input type="submit" class="btn btn-primary" value="Suchen">
                         </div>

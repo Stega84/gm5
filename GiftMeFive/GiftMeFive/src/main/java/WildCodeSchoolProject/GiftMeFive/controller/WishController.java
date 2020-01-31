@@ -90,6 +90,16 @@ public class WishController {
 		return "redirect:/wishlistoutput";
 	}
 
+	@GetMapping("/unreserveWish")
+	public String unreservewishDo(RedirectAttributes redirect, Model model, @RequestParam Long articleId,
+			@RequestParam String articlename, @RequestParam String reservationname) {
+
+		repository.unreserveWish(articleId);
+		
+		redirect.addAttribute("reservationname", reservationname);
+		return "redirect:/reservationoutput";
+	}
+	
 	@GetMapping("/findWishlist")
 	public String show(RedirectAttributes redirect, Model model, @RequestParam Long wishlistId) {
 
@@ -98,6 +108,14 @@ public class WishController {
 		return "redirect:/wishlistoutput";
 	}
 
+	@GetMapping("/reservationoutput")
+	public String show(Model model, @RequestParam String reservationname) {
+
+		model.addAttribute("wishlist", repository.showReservations(reservationname));
+		model.addAttribute("reservationname", reservationname);
+		return "reservationoutput";
+	}
+	
 	@GetMapping("/createWishlist")
 	public String create(Model model, @RequestParam String titlename, @RequestParam String enddate,
 			RedirectAttributes redirectAttributes) {

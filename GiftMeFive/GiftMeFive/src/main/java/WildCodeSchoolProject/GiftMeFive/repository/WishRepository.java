@@ -244,4 +244,67 @@ public class WishRepository {
 		}
 		return null;
 	}
+	
+	public List<Article> showReservations(String reservationname) {
+
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+
+		try {
+			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			statement = connection.prepareStatement(
+					"SELECT *, wishlist.name AS wishlistname, reservation.reserved, reservation.name AS reservationname FROM article JOIN wishlist ON wishlistId = wishlist.id JOIN reservation ON article.id = reservation.id WHERE reservation.name = ? ;");
+			statement.setString(1, reservationname);
+			resultSet = statement.executeQuery();
+
+			List<Article> Article = new ArrayList<>();
+
+			while (resultSet.next()) {
+				Long id = resultSet.getLong("id");
+				String name = resultSet.getString("name");
+				String description = resultSet.getString("description");
+				String creationdate = resultSet.getString("creationdate");
+				String imagelink = resultSet.getString("imagelink");
+				String productlink = resultSet.getString("productlink");
+				Long wishlistId = resultSet.getLong("wishlistId");
+				String wishlistname = resultSet.getString("wishlistname");
+				Boolean reserved = resultSet.getBoolean("reserved");
+				
+				Article.add(new Article(id, name, description, creationdate, imagelink, productlink, wishlistId, wishlistname, reserved, reservationname));
+			}
+			return Article;
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		} finally {
+			JdbcUtils.closeResultSet(resultSet);
+			JdbcUtils.closeStatement(statement);
+			JdbcUtils.closeConnection(connection);
+		}
+		return null;
+	}
+	
+	public void unreserveWish(Long articleId) {
+
+		Connection connection = null;
+		PreparedStatement statement = null;
+
+		try {
+			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			statement = connection.prepareStatement("UPDATE reservation SET name='nicht reserviert', reserved=false WHERE id = ?;");
+			statement.setLong(1, articleId);
+
+			if (statement.executeUpdate() != 1) {
+				throw new SQLException("failed to insert data");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+
+			JdbcUtils.closeStatement(statement);
+			JdbcUtils.closeConnection(connection);
+		}
+	}
 }
