@@ -214,5 +214,66 @@ public class WishRepository {
 		}
 		return null;
 	}
+	public String getWishlistname(Long wishlistId) {
+
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+
+		try {
+			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			statement = connection.prepareStatement(
+					"SELECT name FROM wishlist WHERE id = ? ;");
+			
+			statement.setLong(1, wishlistId);
+			resultSet = statement.executeQuery();
+			
+			String wishlistname = "";
+			while (resultSet.next()) {
+				wishlistname = resultSet.getString("name");;	
+			}
+			return wishlistname;
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		} finally {
+			JdbcUtils.closeResultSet(resultSet);
+			JdbcUtils.closeStatement(statement);
+			JdbcUtils.closeConnection(connection);
+		}
+		return null;
+	}
+	public Long editWish(Long articleId, String articlename, String description, String imagelink, String productlink,
+			Long wishlistId) {
+
+		Connection connection = null;
+		PreparedStatement statement = null;
+
+		try {
+			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			statement = connection.prepareStatement(
+					"UPDATE article SET name=?, description= ?, imagelink = ?, productlink = ?  WHERE id = ?;",
+					Statement.RETURN_GENERATED_KEYS);
+
+			statement.setString(1, articlename);
+			statement.setString(2, description);
+			statement.setString(3, imagelink);
+			statement.setString(4, productlink);
+			statement.setLong(5, articleId);
+
+			if (statement.executeUpdate() != 1) {
+				throw new SQLException("failed to insert data");
+			}
+			return wishlistId;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtils.closeStatement(statement);
+			JdbcUtils.closeConnection(connection);
+		}
+
+		return wishlistId;
+	}
 	
 }

@@ -64,8 +64,9 @@
             <div class="card text-center border-0">
                 <div class="card-body">
                     <h5 class="card-title">Schnelleinstieg</h5>
-                    <p class="card-text cardForm">With supporting text below as a natural lead-in to additional content.With supporting text below as a natural lead-in to. With supporting text below as a natural lead-in to additional content.</p>
+                    <p class="card-text cardForm">Eine neue Wunschliste erstellen.</p>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create_wishlist">Schnelleinstieg</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit_wishlist">Weiterarbeiten</button>
                 </div>
             </div>
             <!-- Karte 3-->
@@ -116,6 +117,26 @@
                         <input name="enddate" class="form-control" type="text">
                         <div class="modal-footer">
                             <input type="submit" class="btn btn-primary" value="Erstellen">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+        <!--Eingabefenster für Wunschliste -->
+    <div class="modal fade" id="edit_wishlist" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Wunschliste Auswahl</h5>
+                    <button type="button" class="close" data-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/editWishlist" method="get">
+                        <label>Bitte geben Sie die ID Ihrer Wunschliste ein.</label>
+                        <input name="wishlistId" class="form-control" type="text">
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary" value="Suchen">
                         </div>
                     </form>
                 </div>

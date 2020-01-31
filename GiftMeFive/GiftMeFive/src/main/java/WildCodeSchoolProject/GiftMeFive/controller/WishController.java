@@ -95,4 +95,23 @@ public class WishController {
 		return "redirect:/wishform_list";
 	}
 
+	@GetMapping("/editWishlist")
+	public String show(RedirectAttributes redirect, Model model, @RequestParam Long wishlistId) {
+
+		redirect.addAttribute("wishlistId", wishlistId);
+		// Methode im repository erstellen um den Name der Liste abzufragen.
+		redirect.addAttribute("titlename", repository.getWishlistname(wishlistId));
+		return "redirect:/wishform_list";
+	}
+	
+	@GetMapping("/editWish")
+	public String wishform_list(RedirectAttributes redirect, Model model, @RequestParam Long articleId, @RequestParam String articlename,
+			@RequestParam String description, @RequestParam String imagelink, @RequestParam String productlink,
+			@RequestParam Long wishlistId) {
+
+		repository.editWish(articleId, articlename, description, imagelink, productlink, wishlistId);
+		redirect.addAttribute("titlename", repository.getWishlistname(wishlistId));
+		redirect.addAttribute("wishlistId", wishlistId);
+		return "redirect:/wishform_list";
+	}
 }
