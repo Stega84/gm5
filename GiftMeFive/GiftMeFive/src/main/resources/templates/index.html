@@ -91,7 +91,7 @@
                 <div class="modal-body">
                     <form action="/findWishlist" method="get">
                         <label>Bitte geben Sie die ID Ihrer Wunschliste ein.</label>
-                        <input name="wishlistId" class="form-control" type="text">
+                        <input name="wishlistId" class="form-control" type="text" required pattern="\d+">
                         <div class="modal-footer">
                             <input type="submit" class="btn btn-primary" value="Suchen">
                         </div>

@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import WildCodeSchoolProject.GiftMeFive.repository.WishRepository;
@@ -50,7 +49,6 @@ public class WishController {
 		return "wishform_list";
 	}
 
-//Umstellung auf Post-Methode
 	@PostMapping("/addWish")
 	public String wishform_list(RedirectAttributes redirect, Model model, @RequestParam String articlename,
 			@RequestParam String description, @RequestParam String userimage, @RequestParam Long wishlistId,
@@ -85,10 +83,7 @@ public class WishController {
 			@RequestParam Long wishlistId, @RequestParam String reservationname) {
 
 		repository.reserveWish(articleId, reservationname);
-//		redirect.addAttribute("wishlistId", wishlistId);
-//		return "redirect:/findWishlist";
-//		model.addAttribute("wishlist", repository.showWishlist(wishlistId));
-//		return "wishlistoutput";
+
 		String titlename = repository.getWishlistname(wishlistId);
 		redirect.addAttribute("titlename", titlename);
 		redirect.addAttribute("wishlistId", wishlistId);
@@ -96,13 +91,11 @@ public class WishController {
 	}
 
 	@GetMapping("/findWishlist")
-	public String show(Model model, @RequestParam Long wishlistId) {
+	public String show(RedirectAttributes redirect, Model model, @RequestParam Long wishlistId) {
 
-		model.addAttribute("wishlist", repository.showWishlist(wishlistId));
-		// Methode im repository erstellen um den Name der Liste abzufragen:		
-		String titlename = repository.getWishlistname(wishlistId);
-		model.addAttribute("titlename", titlename);
-		return "wishlistoutput";
+		redirect.addAttribute("titlename", repository.getWishlistname(wishlistId));
+		redirect.addAttribute("wishlistId", wishlistId);
+		return "redirect:/wishlistoutput";
 	}
 
 	@GetMapping("/createWishlist")
