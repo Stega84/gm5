@@ -31,15 +31,18 @@
     </div>
 
     <!-- Eingabefeld -->
-    <!-- Form-Elemente fuer Wunsch einfuegen: Felder sind bildlink, name, beschreibung, produktlink, datum, preis -->
     <div class="card mb-4 mt-2" style="background-color: #ddd">
         <form action="/addWish" class="form-horizontal" method="get" onreset="myResetFunction()">
             <div class="row no-gutters">
                 <div class="col-md-4 file-field" style="background-color: #ccc">
                     <div class="card-body">
                         <p class="card-title">Vorschau(nach Kategorie):</p>
-                        <img src="/image/default.jpg" class="card-img" alt="..." id="category_wish_image">
-                        <input type="hidden" id="categoryImage" name="categoryImage" value="/image/default.jpg">
+                        
+                        
+<!-- Achtung hier ist id geändert mit Main... damit Javascript auf die id des Modals schreibt! -->
+                        <img src="/image/default.jpg" class="card-img" alt="..." id="mainCategory_wish_image">
+                        <input type="hidden" id="mainCategoryImage" name="categoryImage" value="/image/default.jpg">
+
                     </div>
                 </div>
                 <div class="col-md-8">
@@ -54,7 +57,7 @@
                                 <textarea class="form-control" name="description" placeholder="This is the greatest wish ever"></textarea>
 
                                 <label class="control-label mt-2 mb-0">Kategorie:</label>
-                                <select class="form-control" id="category" onchange="newImageFunction()">
+                                <select class="form-control" id="mainCategory" onchange="newMainImageFunction()">
                                     <option>Baby</option>
                                     <option>Beauty</option>
                                     <option>Bekleidung</option>
@@ -115,67 +118,109 @@
                         <small class="text-muted" th:text="| / Wunschliste-id ${wishlistId}|"></small>
                     </p>
                     <div class="text-right">
-                      	<a data-toggle="modal" data-target="#edit_wish" th:attr="data-articleid=${article.id},data-articlename=${article.name}, data-description=${article.description}, data-produktlink=${article.productlink}, data-imagelink=${article.imagelink}, data-wishlistid=${wishlistId}" class="btn btn-primary">Bearbeiten</a>
+                        <a data-toggle="modal" data-target="#edit_wish" th:attr="data-articleid=${article.id},data-articlename=${article.name}, data-description=${article.description}, data-produktlink=${article.productlink}, data-imagelink=${article.imagelink}, data-wishlistid=${wishlistId}" class="btn btn-primary">Bearbeiten</a>
                         <a th:href="@{/removeWish(articleId=${article.id}, wishlistId=${wishlistId}, titlename=${titlename})}" class="btn btn-danger">Löschen</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
-      <!--Modal Bearbeiten Wunsch-->
+
+    <!--Modal Bearbeiten Wunsch-->
     <div class="modal fade" id="edit_wish" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5>Wunsch bearbeiten</h5>
                     <button type="button" class="close" data-dismiss="modal">
-                    </button>	
+                    </button>
                 </div>
-
-                <form action="/editWish" class="form-horizontal" method="get">
-                    <div class="modal-body">
-                    <fieldset class="form-group">
-                        <input type="hidden" class="articleId" name="articleId" value="">
-                        <input type="hidden" class="wishlistId" name="wishlistId" value="">
-                        <label class="control-label mt-2 mb-0">Name:</label>
-                        <input type="text" class="articlename form-control" name="articlename" value=""><br>
-                        <label class="control-label mt-2 mb-0">Beschreibung:</label>
-                        <input type="text" class="description form-control" name="description" value=""><br>
-                        <label class="control-label mt-2 mb-0">Bild:</label>
-                        <input type="text" class="imagelink form-control" name="imagelink" value=""><br>
-                        <label class="control-label mt-2 mb-0">Link:</label>
-                        <input type="text" class="productlink form-control" name="productlink" value="">
-                    </fieldset>
+                <div class="card mb-4 mt-2" style="background-color: #ddd">
+                    <form action="/editWish" class="form-horizontal" method="get">
+                        <div class="row no-gutters">
+                            <div class="col-md-4 file-field" style="background-color: #ccc">
+                                <div class="card-body">
+                                    <p class="card-title">Vorschau(nach Kategorie):</p>
+                                    <img src="/image/default.jpg" class="card-img" alt="..." id="category_wish_image">
+                                    <input type="hidden" id="categoryImage" name="categoryImage" value="/image/default.jpg">
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="modal-body">
+                                    <fieldset class="form-group">
+                                        <input type="hidden" class="articleId" name="articleId" value="">
+                                        <input type="hidden" class="wishlistId" name="wishlistId" value="">
+                                        <label class="control-label mt-2 mb-0">Name:</label>
+                                        <input type="text" class="articlename form-control" name="articlename" value="">
+                                        <br>
+                                        <label class="control-label mt-2 mb-0">Beschreibung:</label>
+                                        <input type="text" class="description form-control" name="description" value="">
+                                        <br>
+                                        <label class="control-label mt-2 mb-0">Kategorie:</label>
+                                        <select class="form-control" id="category" onchange="newImageFunction()">
+                                            <option>Baby</option>
+                                            <option>Beauty</option>
+                                            <option>Bekleidung</option>
+                                            <option>Bücher & Zeitschriften</option>
+                                            <option>Bürobedarf & Schreibwaren</option>
+                                            <option>Computer & Laptop & Zubehör</option>
+                                            <option>DVD & Blu-ray</option>
+                                            <option>Drogerie & Körperpflege</option>
+                                            <option>Elektronik & Foto</option>
+                                            <option>Games</option>
+                                            <option>Garten</option>
+                                            <option>Geschenkgutscheine</option>
+                                            <option>Haustier</option>
+                                            <option>Kamera & Foto</option>
+                                            <option>Küche, Haushalt & Wohnen</option>
+                                            <option>Musik-CDs & Vinyl</option>
+                                            <option>Schmuck</option>
+                                            <option>Schuhe & Handtaschen</option>
+                                            <option>Software</option>
+                                            <option>Spielzeug</option>
+                                            <option>Sport & Freizeit</option>
+                                            <option>Uhren</option>
+                                            <option>Sonstiges</option>
+                                        </select>
+                                        <label class="control-label mt-2 mb-0">Bild:</label>
+                                        <input type="text" class="imagelink form-control" name="imagelink" value="">
+                                        <br>
+                                        <label class="control-label mt-4 mb-0">Eigenes Bild hochladen</label>
+                                        <input type="file" class="form-control-file" name="userimage" placeholder="">
+                                        <label class="control-label mt-2 mb-0">Link:</label>
+                                        <input type="text" class="productlink form-control" name="productlink" value="">
+                                    </fieldset>
+                                </div>
+                                <div class="modal-footer">
+                                    <input type="submit" class="btn btn-primary" value="Speichern">
+                                </div>
+                    </form>
                     </div>
-                    <div class="modal-footer">
-                        <input type="submit" class="btn btn-primary" value="Speichern">
                     </div>
-                </form>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <!-- jQuery für Dateneintrag ins Modal, Quelle: https://getbootstrap.com/docs/4.0/components/modal/#varying-modal-content -->
-    <script>
-        $('#edit_wish').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget) // Button that triggered the modal
-            var modal = $(this)
-			
-            modal.find('.articleId').val(button.data('articleid'))
-            modal.find('.modal-header').text("Bearbeiten von " + button.data('articlename'))
-            modal.find('.articlename').val(button.data('articlename'))
-            modal.find('.description').val(button.data('description'))
-            modal.find('.imagelink').val(button.data('imagelink'))
-            modal.find('.productlink').val(button.data('productlink'))
-            modal.find('.wishlistId').val(button.data('wishlistid'))
-        })
-    </script>
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <!-- jQuery für Dateneintrag ins Modal, Quelle: https://getbootstrap.com/docs/4.0/components/modal/#varying-modal-content -->
+        <script>
+            $('#edit_wish').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget) // Button that triggered the modal
+                var modal = $(this)
+
+                modal.find('.articleId').val(button.data('articleid'))
+                modal.find('.modal-header').text("Bearbeiten von " + button.data('articlename'))
+                modal.find('.articlename').val(button.data('articlename'))
+                modal.find('.description').val(button.data('description'))
+                modal.find('.imagelink').val(button.data('imagelink'))
+                modal.find('.productlink').val(button.data('productlink'))
+                modal.find('.wishlistId').val(button.data('wishlistid'))
+            })
+        </script>
 </body>
 
 </html>

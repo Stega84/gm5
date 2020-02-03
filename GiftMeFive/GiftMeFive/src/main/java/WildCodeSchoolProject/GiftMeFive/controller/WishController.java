@@ -41,7 +41,7 @@ public class WishController {
 	@GetMapping("/addWish")
 	public String wishform_list(RedirectAttributes redirect, Model model, @RequestParam String articlename,
 			@RequestParam String description, @RequestParam String userimage, @RequestParam Long wishlistId,
-			@RequestParam String titlename, String categoryImage) {
+			@RequestParam String titlename, @RequestParam String categoryImage) {
 
 		// Funktion schreiben die aus dem eingegebenen Namen ein Amazonsuchlink macht
 		String productlink = "https://www.amazon.de/s?k=play+Station";
@@ -106,10 +106,16 @@ public class WishController {
 	
 	@GetMapping("/editWish")
 	public String wishform_list(RedirectAttributes redirect, Model model, @RequestParam Long articleId, @RequestParam String articlename,
-			@RequestParam String description, @RequestParam String imagelink, @RequestParam String productlink,
-			@RequestParam Long wishlistId) {
-
-		repository.editWish(articleId, articlename, description, imagelink, productlink, wishlistId);
+			@RequestParam String description, @RequestParam String imagelink, @RequestParam String productlink,  @RequestParam String userimage, 
+			@RequestParam String categoryImage, @RequestParam Long wishlistId) {
+		
+		// Fall mit categoryimage oder userimage mit aufnehmen!
+		if (userimage.equals("")) {
+			repository.editWish(articleId, articlename, description, categoryImage, productlink, wishlistId);
+		} else {
+			repository.editWish(articleId, articlename, description, userimage, productlink, wishlistId);
+		}
+		
 		redirect.addAttribute("titlename", repository.getWishlistname(wishlistId));
 		redirect.addAttribute("wishlistId", wishlistId);
 		return "redirect:/wishform_list";
