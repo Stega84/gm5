@@ -128,7 +128,7 @@ public class WishRepository {
 					Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, titlename);
 			statement.setString(2, enddate);
-
+			
 			if (statement.executeUpdate() != 1) {
 				throw new SQLException("failed to insert data");
 			}
@@ -307,4 +307,5 @@ public class WishRepository {
 			JdbcUtils.closeConnection(connection);
 		}
 	}
+
 }

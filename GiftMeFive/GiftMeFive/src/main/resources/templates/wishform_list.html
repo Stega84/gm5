@@ -87,6 +87,9 @@
 
                                 <input type="reset" onclick="imgResetFunction()" class="btn btn-danger mt-3 mb-0" value="Leeren">
                                 <input type="submit" class="btn btn-success mt-3 mb-0" value="Speichern">
+                                
+                        		<a th:href="@{/saveWishlist(wishlistId=${wishlistId}, titlename=${titlename})}" class="btn btn-danger float-right mt-3 mb-0">Wunschliste speichern</a>
+
                             </p>
                         </fieldset>
                     </div>

@@ -30,23 +30,34 @@ public class WishController {
 	public String home() {
 		return "index";
 	}
-	
+
 	@RequestMapping("/wishlistoutput")
 	public String wishlistoutput(Model model, @RequestParam String titlename, @RequestParam Long wishlistId) {
 		model.addAttribute("titlename", titlename);
 		model.addAttribute("wishlistId", wishlistId);
-		
+
 		model.addAttribute("wishlist", repository.showWishlist(wishlistId));
 		return "wishlistoutput";
 	}
 
-	@GetMapping("wishform_list")
+	@GetMapping("/wishform_list")
 	public String wishform_list(Model model, @RequestParam String titlename, @RequestParam Long wishlistId) {
 		model.addAttribute("titlename", titlename);
 		model.addAttribute("wishlistId", wishlistId);
 
 		model.addAttribute("wishlist", repository.showWishlistForm(wishlistId));
 		return "wishform_list";
+	}
+	
+	@GetMapping("/wishlistSaved")
+	public String wishformSaved(Model model, @RequestParam String titlename, @RequestParam Long wishlistId, @RequestParam String userId, @RequestParam String friendsId ) {
+		model.addAttribute("titlename", titlename);
+		model.addAttribute("wishlistId", wishlistId);
+		model.addAttribute("userId", userId);
+		model.addAttribute("friendsId", friendsId);
+
+		model.addAttribute("wishlist", repository.showWishlistForm(wishlistId));
+		return "wishlistSaved";
 	}
 
 	@PostMapping("/addWish")
@@ -95,13 +106,25 @@ public class WishController {
 			@RequestParam String articlename, @RequestParam String reservationname) {
 
 		repository.unreserveWish(articleId);
-		
+
 		redirect.addAttribute("reservationname", reservationname);
 		return "redirect:/reservationoutput";
 	}
-	
+
 	@GetMapping("/findWishlist")
-	public String show(RedirectAttributes redirect, Model model, @RequestParam Long wishlistId) {
+	public String show(RedirectAttributes redirect, Model model, @RequestParam String userId) {
+
+		Long wishlistId;
+		String[] viewId = userId.split("_");
+		wishlistId = Long.parseLong(viewId[1]);
+
+		if (viewId.length == 2) {
+			redirect.addAttribute("userId", userId);
+			redirect.addAttribute("friendsId", userId+"_friends");
+			redirect.addAttribute("titlename", repository.getWishlistname(wishlistId));
+			redirect.addAttribute("wishlistId", wishlistId);
+			return "redirect:/wishlistSaved";
+		}
 
 		redirect.addAttribute("titlename", repository.getWishlistname(wishlistId));
 		redirect.addAttribute("wishlistId", wishlistId);
@@ -115,15 +138,31 @@ public class WishController {
 		model.addAttribute("reservationname", reservationname);
 		return "reservationoutput";
 	}
-	
+
 	@GetMapping("/createWishlist")
 	public String create(Model model, @RequestParam String titlename, @RequestParam String enddate,
 			RedirectAttributes redirectAttributes) {
-
+		System.out.println(enddate);
 		Long wishlistId = repository.createWishlist(titlename, enddate);
 		redirectAttributes.addAttribute("titlename", titlename);
 		redirectAttributes.addAttribute("wishlistId", wishlistId);
 		return "redirect:/wishform_list";
 	}
 
+	@GetMapping("/saveWishlist")
+	public String saveWishlist(RedirectAttributes redirect, @RequestParam String titlename,
+			@RequestParam Long wishlistId) {
+
+		String userId = titlename + "_" + wishlistId;
+		System.out.println(userId);
+		String friendsId = titlename + "_" + wishlistId + "_friends";
+		System.out.println(friendsId);
+		
+		redirect.addAttribute("userId", userId);
+		redirect.addAttribute("friendsId", friendsId);
+		redirect.addAttribute("titlename", titlename);
+		redirect.addAttribute("wishlistId", wishlistId);
+		// redirect auf eine gesonderte Seite
+		return "redirect:/wishlistSaved";
+	}
 }
