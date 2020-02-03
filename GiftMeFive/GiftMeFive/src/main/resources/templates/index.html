@@ -92,7 +92,7 @@
                 <div class="modal-body">
                     <form action="/findWishlist" method="get">
                         <label>Bitte geben Sie die ID Ihrer Wunschliste ein.</label>
-                        <input name="wishlistId" class="form-control" type="text" required pattern="\d+">
+                        <input name="userId" class="form-control" type="text" required pattern="^\w+_\d+(_friends)?$">
                         <div class="modal-footer">
                             <input type="submit" class="btn btn-primary" value="Suchen">
                         </div>
@@ -131,10 +131,10 @@
                 </div>
                 <div class="modal-body">
                     <form action="/createWishlist" method="get">
-                        <label>Bitte geben Sie einen Namen für Ihre Liste ein!</label>
-                        <input name="titlename" class="form-control" type="text">
-                        <label>Bitte geben Sie ein Datum ein wie lange die Liste gültig ist!</label>
-                        <input name="enddate" class="form-control" type="text">
+                        <label>Bitte geben Sie einen Namen ohne Leerzeichen ein.</label>
+                        <input name="titlename" class="form-control" type="text" pattern="\w+">
+                        <label>Bitte wählen Sie ein Datum.</label>
+                        <input name="enddate" class="form-control" type="date">
                         <div class="modal-footer">
                             <input type="submit" class="btn btn-primary" value="Erstellen">
                         </div>
