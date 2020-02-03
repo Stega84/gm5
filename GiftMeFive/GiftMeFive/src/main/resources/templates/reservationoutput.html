@@ -48,11 +48,12 @@
                         <small class="text-muted" th:text=" | in Liste ${article.wishlistId}|"></small>
                         <small class="text-muted" th:text=" | Reserviert=${article.reserved} für ${article.reservationname}|"></small>
                     </p>
-                    <div class="text-right">
+                    <!-- <div class="text-right">
                         <button th:if="${article.reserved} == false" class="btn btn-primary disabled">Reservieren</button>
-                    </div>
+                    </div> -->
                     <div class="text-right">
-                        <button th:if="${article.reserved} == true" data-toggle="modal" data-target="#unreserve_wish" th:attr="data-articleid=${article.id}, data-articlename=${article.name}, data-reservationname=${article.reservationname}" class="btn btn-primary">Aufheben Reservierung</button>
+                        <!-- <button data-toggle="modal" data-target="#unreserve_wish" th:attr="data-articleid=${article.id}, data-articlename=${article.name}, data-reservationname=${article.reservationname}" class="btn btn-primary">Aufheben Reservierung</button> -->
+                    	<a th:href="@{/unreserveWish(articleId=${article.id}, articlename=${article.name}, reservationname=${article.reservationname})}" class="btn btn-primary">Aufheben Reservierung</a>
                     </div>
                 </div>
             </div>
@@ -60,7 +61,7 @@
     </div>
 
     <!--Eingabefenster für Reservierung erstellen-->
-    <div class="modal fade" id="unreserve_wish" tabindex="-1" role="dialog">
+   <!--  <div class="modal fade" id="unreserve_wish" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -81,14 +82,14 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <!-- jQuery (wird für Bootstrap JavaScript-Plugins benötigt) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Binde alle kompilierten Plugins zusammen ein (wie hier unten) oder such dir einzelne Dateien nach Bedarf aus -->
     <script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
     <!-- jQuery für Dateneintrag ins Modal, Quelle: https://getbootstrap.com/docs/4.0/components/modal/#varying-modal-content -->
-    <script>
+   <!--  <script>
         $('#unreserve_wish').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
             var modal = $(this)
@@ -97,7 +98,7 @@
             modal.find('.modal-header').text("Reservierung für " + button.data('articlename') + " wird gelöscht")
             modal.find('.reservationname').val(button.data('reservationname'))
         })
-    </script>
+    </script> -->
 </body>
 
 </html>
