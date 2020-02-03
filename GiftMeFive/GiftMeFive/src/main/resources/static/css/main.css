@@ -80,6 +80,20 @@ p.card-title{
   }
 }
 
+#send_Email_Card_Image{
+	height:12em;
+}
+
+.title-email-card-image{
+	font-family: 'Satisfy', cursive;
+    color: white;
+    font-size: 2em;
+    height: 65%;
+    display: flex;
+    align-items: flex-end; /* Vertikale Zentrierung*/
+    justify-content: center; /* Horizontale Zentrierung*/
+}
+
 @media only screen and (min-width: 768px ) {
   .title{
     font-family: 'Satisfy', cursive;
@@ -110,3 +124,4 @@ p.card-title{
     justify-content: center; /* Horizontale Zentrierung */
   }
 }
+
