@@ -109,6 +109,7 @@ public class WishController {
 			@RequestParam String description, @RequestParam String imagelink, @RequestParam String productlink,  @RequestParam String userimage, 
 			@RequestParam String categoryImage, @RequestParam Long wishlistId) {
 		
+		// categoryImage überschreibt imagelink!!
 		// Fall mit categoryimage oder userimage mit aufnehmen!
 		if (userimage.equals("")) {
 			repository.editWish(articleId, articlename, description, categoryImage, productlink, wishlistId);

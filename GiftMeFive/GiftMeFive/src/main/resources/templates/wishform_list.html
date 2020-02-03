@@ -41,7 +41,7 @@
                         
 <!-- Achtung hier ist id geändert mit Main... damit Javascript auf die id des Modals schreibt! -->
                         <img src="/image/default.jpg" class="card-img" alt="..." id="mainCategory_wish_image">
-                        <input type="hidden" id="mainCategoryImage" name="categoryImage" value="/image/default.jpg">
+                        <input type="hidden" id="mainCategoryImage" name="mainCategoryImage" value="/image/default.jpg">
 
                     </div>
                 </div>
@@ -142,7 +142,7 @@
                                 <div class="card-body">
                                     <p class="card-title">Vorschau(nach Kategorie):</p>
                                     <img src="/image/default.jpg" class="card-img" alt="..." id="category_wish_image">
-                                    <input type="hidden" id="categoryImage" name="categoryImage" value="/image/default.jpg">
+                                    <input type="text" class="categoryImage" id="categoryImage" name="categoryImage" value="/image/default.jpg">
                                 </div>
                             </div>
                             <div class="col-md-8">
@@ -216,6 +216,7 @@
                 modal.find('.modal-header').text("Bearbeiten von " + button.data('articlename'))
                 modal.find('.articlename').val(button.data('articlename'))
                 modal.find('.description').val(button.data('description'))
+                modal.find('.categoryImage').val(button.data('imagelink'))
                 modal.find('.imagelink').val(button.data('imagelink'))
                 modal.find('.productlink').val(button.data('productlink'))
                 modal.find('.wishlistId').val(button.data('wishlistid'))
