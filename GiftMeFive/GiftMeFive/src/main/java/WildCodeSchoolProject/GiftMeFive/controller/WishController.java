@@ -41,13 +41,13 @@ public class WishController {
 	@GetMapping("/addWish")
 	public String wishform_list(RedirectAttributes redirect, Model model, @RequestParam String articlename,
 			@RequestParam String description, @RequestParam String userimage, @RequestParam Long wishlistId,
-			@RequestParam String titlename, @RequestParam String categoryImage) {
+			@RequestParam String titlename, @RequestParam String mainCategoryImage) {
 
 		// Funktion schreiben die aus dem eingegebenen Namen ein Amazonsuchlink macht
 		String productlink = "https://www.amazon.de/s?k=play+Station";
 
 		if (userimage.equals("")) {
-			repository.addWish(articlename, description, categoryImage, productlink, wishlistId);
+			repository.addWish(articlename, description, mainCategoryImage, productlink, wishlistId);
 		} else {
 			repository.addWish(articlename, description, userimage, productlink, wishlistId);
 		}
