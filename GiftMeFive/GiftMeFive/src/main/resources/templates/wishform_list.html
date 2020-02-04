@@ -93,7 +93,7 @@
                                 <input type="reset" onclick="imgResetFunction()" class="btn btn-danger mt-3 mb-0" value="Leeren">
                                 <input type="submit" class="btn btn-success mt-3 mb-0" value="Speichern">
                                 
-                        		<a th:href="@{/saveWishlist(wishlistId=${wishlistId}, titlename=${titlename})}" class="btn btn-danger float-right mt-3 mb-0">Wunschliste speichern</a>
+                        		<a th:href="@{/saveWishlist(wishlistId=${wishlistId}, titlename=${titlename})}" class="btn btn-dark float-right mt-3 mb-0">Wunschliste speichern</a>
 
                             </p>
                         </fieldset>
@@ -107,9 +107,10 @@
     <!--Eintrag 1-->
     <div class="card mb-4 mt-2" th:each="article : ${wishlist}">
         <div class="row no-gutters">
-            <div class="col-md-4">
-                <a id="listProductlink" th:href="@{${article.productlink}}" target="_blank">
-                    <img id="listImagelink" th:src="@{${article.imagelink}}" class="card-img" alt="...">
+
+            <div class="col-md-4 p-1">
+                <a th:href="@{${article.productlink}}" target="_blank">
+                    <img th:src="@{${article.imagelink}}" class="card-img" alt="...">
                 </a>
             </div>
             <div class="col-md-8">

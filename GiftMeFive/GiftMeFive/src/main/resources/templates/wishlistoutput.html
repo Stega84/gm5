@@ -9,6 +9,8 @@
     <title>Bootstrap-Basis-Vorlage</title>
     <script type="text/javascript" src="js/wishlistoutput.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Caveat&display=swap" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <!-- Bootstrap -->
     <link href="bootstrap-4.3.1-dist/css/bootstrap.min.css" rel="stylesheet">
@@ -20,7 +22,7 @@
       <![endif]-->
 </head>
 
-<body class="container">
+<body class="container" >
     <!--Navigation-->
     <div class="bg-1">
         <!-- Home -->
@@ -34,7 +36,7 @@
     <!--Eintrag 1-->
     <div class="card mb-4 mt-2" th:each="article : ${wishlist}">
         <div class="row no-gutters">
-            <div class="col-md-4">
+            <div class="col-md-4 p-1">
                 <a th:href="@{${article.productlink}}" target="_blank"> <img th:src="@{${article.imagelink}}" class="card-img" alt="...">
                 </a>
             </div>
@@ -62,9 +64,9 @@
     <!--Eingabefenster für Reservierung erstellen-->
     <div class="modal fade" id="reserve_wish" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
+            <div class="modal-content" style="background-color:#EBEBEB">
                 <div class="modal-header">
-                    <h5>Der Wunsch wird für dich reserviert</h5>
+                    <h5 class="modal-title googlef-indieflower">Deine Reservierung</h5>
                     <button type="button" class="close" data-dismiss="modal">
                     </button>
                 </div>
@@ -73,7 +75,7 @@
                     <div class="modal-body">
                         <input type="hidden" class="articleId" name="articleId" value="">
                         <input type="hidden" class="wishlistId" name="wishlistId" value="">
-                        <label>Bitte geben Sie den Namen ein, auf den die Reservierung erfolgt:</label>
+                        <label class="index-text">Bitte geben Sie den Namen ein, auf den die Reservierung erfolgt. Mit diesem finden Sie Ihre Reservierung wieder:</label>
                         <input name="reservationname" class="form-control" type="text" value="...">
                     </div>
                     <div class="modal-footer">

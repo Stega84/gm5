@@ -25,6 +25,11 @@ public class WishController {
 	public String list2() {
 		return "list2";
 	}
+	
+	@RequestMapping("/test")
+	public String test() {
+		return "test";
+	}
 
 	@RequestMapping("/home")
 	public String home() {
@@ -201,16 +206,14 @@ public class WishController {
 	public String saveWishlist(RedirectAttributes redirect, @RequestParam String titlename,
 			@RequestParam Long wishlistId) {
 
+		titlename = titlename.replaceAll("_", "");
 		String userId = titlename + "_" + wishlistId;
-		System.out.println(userId);
 		String friendsId = titlename + "_" + wishlistId + "_friends";
-		System.out.println(friendsId);
 		
 		redirect.addAttribute("userId", userId);
 		redirect.addAttribute("friendsId", friendsId);
 		redirect.addAttribute("titlename", titlename);
 		redirect.addAttribute("wishlistId", wishlistId);
-		// redirect auf eine gesonderte Seite
 		return "redirect:/wishlistSaved";
 	}
 }
