@@ -63,11 +63,8 @@ public class WishController {
 	@PostMapping("/addWish")
 	public String wishform_list(RedirectAttributes redirect, Model model, @RequestParam String articlename,
 			@RequestParam String description, @RequestParam String userimage, @RequestParam Long wishlistId,
-			@RequestParam String titlename, @RequestParam String CategoryImage, @RequestParam Long articleId) {
+			@RequestParam String titlename, @RequestParam String CategoryImage, @RequestParam Long articleId, @RequestParam String productlink) {
 
-		// Funktion schreiben die aus dem eingegebenen Namen ein Amazonsuchlink macht
-		String productlink = "https://www.amazon.de/s?k=play+Station";
-		
 		if (articleId != null ) {
 			if (userimage.equals("")) {
 				repository.editWish(articleId, articlename, description, CategoryImage, productlink, wishlistId);
@@ -76,6 +73,8 @@ public class WishController {
 			}	
 		}
 		else {
+			// Funktion schreiben die aus dem eingegebenen Namen ein Amazonsuchlink macht
+			productlink = "https://www.amazon.de/s?k=play+Station";
 			if (userimage.equals("")) {
 				repository.addWish(articlename, description, CategoryImage, productlink, wishlistId);
 			} else {
