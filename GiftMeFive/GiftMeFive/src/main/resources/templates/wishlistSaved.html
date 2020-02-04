@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Die 3 Meta-Tags oben *müssen* zuerst im head stehen; jeglicher sonstiger head-Inhalt muss *nach* diesen Tags kommen -->
-    <title>Bootstrap-Basis-Vorlage</title>
+    <title>Wunschliste gespeichert</title>
     <script type="text/javascript" src="js/wishlisSaved.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
@@ -65,7 +65,7 @@
                 <div class="modal-body">
                     <form action="/sendWishlist" method="get">
                         <label class="index-text">Bitte gebe die Emailadressen deiner Freunde mit leerzeichen getrennt ein.</label>
-                        <input name="userId" class="form-control" type="text" required pattern="^([a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4} ?)+$">
+                        <input name="userId" class="form-control" type="text" required pattern="^([a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4} ?)+$" autofocus>
                         <div class="card mt-3">
                             <div class="bg" id="send_Email_Card_Image">
 
@@ -128,6 +128,12 @@
             modal.find('.wishlistId').val(button.data('wishlistid'))
         })
     </script>
+    <!-- Fokus auf erstes Input-Feld im Modal, adaptiert von https://github.com/twbs/bootstrap/issues/12525 -->
+	 <script>
+	 $(document).on('shown.bs.modal', function (e) {
+	    $('[autofocus]', e.target).focus();
+	  });
+	 </script>
 </body>
 
 </html>

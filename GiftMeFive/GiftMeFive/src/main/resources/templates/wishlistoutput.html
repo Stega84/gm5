@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Die 3 Meta-Tags oben *müssen* zuerst im head stehen; jeglicher sonstiger head-Inhalt muss *nach* diesen Tags kommen -->
-    <title>Bootstrap-Basis-Vorlage</title>
+    <title>Wunschliste</title>
     <script type="text/javascript" src="js/wishlistoutput.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
@@ -100,6 +100,12 @@
             modal.find('.wishlistId').val(button.data('wishlistid'))
         })
     </script>
+        <!-- Fokus auf erstes Input-Feld im Modal, adaptiert von https://github.com/twbs/bootstrap/issues/12525 -->
+     <script>
+     $(document).on('shown.bs.modal', function (e) {
+        $('[autofocus]', e.target).focus();
+      });
+     </script>
 </body>
 
 </html>
