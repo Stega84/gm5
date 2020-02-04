@@ -144,7 +144,7 @@
             </div>
         </div>
     </div>
-        <!--Eingabefenster für Wunschliste -->
+        <!--Eingabefenster für Bearbeiten Wunschliste -->
     <div class="modal fade" id="edit_wishlist" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -154,8 +154,8 @@
                 </div>
                 <div class="modal-body">
                     <form action="/editWishlist" method="get">
-                        <label>Bitte geben Sie die ID Ihrer Wunschliste ein.</label>
-                        <input name="wishlistId" class="form-control" type="text">
+                       <label>Bitte geben Sie die ID Ihrer Wunschliste ein.</label>
+                        <input name="userId" class="form-control" type="text" required pattern="^\w+_\d+$">
                         <div class="modal-footer">
                             <input type="submit" class="btn btn-primary" value="Suchen">
                         </div>

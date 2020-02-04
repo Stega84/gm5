@@ -150,8 +150,11 @@ public class WishController {
 	}
 
 	@GetMapping("/editWishlist")
-	public String show(RedirectAttributes redirect, Model model, @RequestParam Long wishlistId) {
+	public String showEditableWishlist(RedirectAttributes redirect, Model model, @RequestParam String userId) {
 
+		Long wishlistId;
+		String[] viewId = userId.split("_");
+		wishlistId = Long.parseLong(viewId[1]);
 		redirect.addAttribute("wishlistId", wishlistId);
 		// Methode im repository erstellen um den Name der Liste abzufragen.
 		redirect.addAttribute("titlename", repository.getWishlistname(wishlistId));
