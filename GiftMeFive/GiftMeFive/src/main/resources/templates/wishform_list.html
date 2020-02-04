@@ -32,16 +32,15 @@
 
     <!-- Eingabefeld -->
     <div class="card mb-4 mt-2" style="background-color: #ddd">
-        <form action="/addWish" class="form-horizontal" method="post" onreset="myResetFunction()">
+        <form action="/addWish" id="input_wish" class="form-horizontal" method="post" onreset="myResetFunction()">
             <div class="row no-gutters">
                 <div class="col-md-4 file-field" style="background-color: #ccc">
                     <div class="card-body">
                         <p class="card-title">Vorschau(nach Kategorie):</p>
-                        
-                        
-<!-- Achtung hier ist id geändert mit Main... damit Javascript auf die id des Modals schreibt! -->
-                        <img src="/image/default.jpg" class="card-img" alt="..." id="mainCategory_wish_image">
-                        <input type="hidden" id="mainCategoryImage" name="mainCategoryImage" value="/image/default.jpg">
+                      
+                      
+                        <img src="/image/default.jpg" class="card-img" alt="..." th:src="${imagelink}" id="Category_wish_image">
+                        <input type="hidden" id="CategoryImage" name="CategoryImage" th:value="${imagelink}" value="/image/default.jpg">
 
                     </div>
                 </div>
@@ -51,13 +50,13 @@
                             <h5 class="card-title">Ihr Wunsch</h5>
                             <p class="card-text">
                                 <label class="control-label mt-2 mb-0">Was wünschen Sie sich:</label>
-                                <input class="form-control " name="articlename" type="text" placeholder="My wish">
+                                <input class="form-control " name="articlename" type="text" th:value="${articlename}" placeholder="Mein Wunsch">
 
                                 <label class="control-label mt-2 mb-0">Beschreibung:</label>
-                                <textarea class="form-control" name="description" placeholder="This is the greatest wish ever"></textarea>
+                                <textarea class="form-control" name="description" th:text="${description}" placeholder="etwas großartiges"></textarea>
 
                                 <label class="control-label mt-2 mb-0">Kategorie:</label>
-                                <select class="form-control" id="mainCategory" onchange="newMainImageFunction()">
+                                <select class="form-control" id="Category" name="Category" onchange="imageFunction()">
                                     <option>Baby</option>
                                     <option>Beauty</option>
                                     <option>Bekleidung</option>
@@ -84,10 +83,11 @@
                                 </select>
 
                                 <label class="control-label mt-4 mb-0">Eigenes Bild hochladen.</label>
-                                <input type="file" class="form-control-file" name="userimage" placeholder="">
+                                <input type="file" class="form-control-file" th:value="${imagelink}" name="userimage" placeholder="">
 
-                                <input type="hidden" name="wishlistId" value="" th:value="${wishlistId}">
-                                <input type="hidden" name="titlename" value="" th:value="${titlename}">
+                                <input type="hidden" id="articleId" name="articleId" value="" th:value="${articleId}">
+                                <input type="hidden" id="wishlistId" name="wishlistId" value="" th:value="${wishlistId}">
+                                <input type="hidden" id="titlename" name="titlename" value="" th:value="${titlename}">
 
                                 <input type="reset" onclick="imgResetFunction()" class="btn btn-danger mt-3 mb-0" value="Leeren">
                                 <input type="submit" class="btn btn-success mt-3 mb-0" value="Speichern">
@@ -107,21 +107,21 @@
     <div class="card mb-4 mt-2" th:each="article : ${wishlist}">
         <div class="row no-gutters">
             <div class="col-md-4">
-                <a th:href="@{${article.productlink}}" target="_blank">
-                    <img th:src="@{${article.imagelink}}" class="card-img" alt="...">
+                <a id="listProductlink" th:href="@{${article.productlink}}" target="_blank">
+                    <img id="listImagelink" th:src="@{${article.imagelink}}" class="card-img" alt="...">
                 </a>
             </div>
             <div class="col-md-8">
                 <div class="card-body">
-                    <h5 class="card-title" th:text="${article.name}"></h5>
-                    <p class="card-text" th:text="${article.description}"></p>
+                    <h5 class="card-title" id="listArticlename" th:text="${article.name}"></h5>
+                    <p class="card-text" id="listDescription" th:text="${article.description}"></p>
                     <p class="card-text">
                         <small class="text-muted" th:text="|Hinzugefügt am ${article.creationdate}|"></small>
-                        <small class="text-muted" th:text="| / Artikel-id ${article.id}|"></small>
-                        <small class="text-muted" th:text="| / Wunschliste-id ${wishlistId}|"></small>
+                        <small class="text-muted" id="listArticleId" th:text="| / Artikel-id ${article.id}|"></small>
+                        <small class="text-muted" id="listWishlistId" th:text="| / Wunschliste-id ${wishlistId}|"></small>
                     </p>
                     <div class="text-right">
-                        <a data-toggle="modal" data-target="#edit_wish" th:attr="data-articleid=${article.id},data-articlename=${article.name}, data-description=${article.description}, data-produktlink=${article.productlink}, data-imagelink=${article.imagelink}, data-wishlistid=${wishlistId}" class="btn btn-primary">Bearbeiten</a>
+                        <a th:href="@{/loadWish(articleId=${article.id}, wishlistId=${wishlistId}, articlename=${article.name}, description=${article.description}, imagelink=${article.imagelink}, productlink=${article.productlink})}" class="btn btn-primary">Bearbeiten</a>
                         <a th:href="@{/removeWish(articleId=${article.id}, wishlistId=${wishlistId}, titlename=${titlename})}" class="btn btn-danger">Löschen</a>
                     </div>
                 </div>
@@ -129,102 +129,12 @@
         </div>
     </div>
 
-    <!--Modal Bearbeiten Wunsch-->
-    <div class="modal fade" id="edit_wish" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5>Wunsch bearbeiten</h5>
-                    <button type="button" class="close" data-dismiss="modal">
-                    </button>
-                </div>
-                <div class="card mb-4 mt-2" style="background-color: #ddd">
-                    <form action="/editWish" class="form-horizontal" method="get">
-                        <div class="row no-gutters">
-                            <div class="col-md-4 file-field" style="background-color: #ccc">
-                                <div class="card-body">
-                                    <p class="card-title">Vorschau(nach Kategorie):</p>
-                                    <img src="/image/default.jpg" class="card-img" alt="..." id="category_wish_image">
-                                    <input type="text" class="categoryImage" id="categoryImage" name="categoryImage" value="/image/default.jpg">
-                                </div>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="modal-body">
-                                    <fieldset class="form-group">
-                                        <input type="hidden" class="articleId" name="articleId" value="">
-                                        <input type="hidden" class="wishlistId" name="wishlistId" value="">
-                                        <label class="control-label mt-2 mb-0">Name:</label>
-                                        <input type="text" class="articlename form-control" name="articlename" value="">
-                                        <br>
-                                        <label class="control-label mt-2 mb-0">Beschreibung:</label>
-                                        <input type="text" class="description form-control" name="description" value="">
-                                        <br>
-                                        <label class="control-label mt-2 mb-0">Kategorie:</label>
-                                        <select class="form-control" id="category" onchange="newImageFunction()">
-                                            <option>Baby</option>
-                                            <option>Beauty</option>
-                                            <option>Bekleidung</option>
-                                            <option>Bücher & Zeitschriften</option>
-                                            <option>Bürobedarf & Schreibwaren</option>
-                                            <option>Computer & Laptop & Zubehör</option>
-                                            <option>DVD & Blu-ray</option>
-                                            <option>Drogerie & Körperpflege</option>
-                                            <option>Elektronik & Foto</option>
-                                            <option>Games</option>
-                                            <option>Garten</option>
-                                            <option>Geschenkgutscheine</option>
-                                            <option>Haustier</option>
-                                            <option>Kamera & Foto</option>
-                                            <option>Küche, Haushalt & Wohnen</option>
-                                            <option>Musik-CDs & Vinyl</option>
-                                            <option>Schmuck</option>
-                                            <option>Schuhe & Handtaschen</option>
-                                            <option>Software</option>
-                                            <option>Spielzeug</option>
-                                            <option>Sport & Freizeit</option>
-                                            <option>Uhren</option>
-                                            <option>Sonstiges</option>
-                                        </select>
-                                        <label class="control-label mt-2 mb-0">Bild:</label>
-                                        <input type="text" class="imagelink form-control" name="imagelink" value="">
-                                        <br>
-                                        <label class="control-label mt-4 mb-0">Eigenes Bild hochladen</label>
-                                        <input type="file" class="form-control-file" name="userimage" placeholder="">
-                                        <label class="control-label mt-2 mb-0">Link:</label>
-                                        <input type="text" class="productlink form-control" name="productlink" value="">
-                                    </fieldset>
-                                </div>
-                                <div class="modal-footer">
-                                    <input type="submit" class="btn btn-primary" value="Speichern">
-                                </div>
-                    </form>
-                    </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-        <!-- jQuery für Dateneintrag ins Modal, Quelle: https://getbootstrap.com/docs/4.0/components/modal/#varying-modal-content -->
-        <script>
-            $('#edit_wish').on('show.bs.modal', function(event) {
-                var button = $(event.relatedTarget) // Button that triggered the modal
-                var modal = $(this)
 
-                modal.find('.articleId').val(button.data('articleid'))
-                modal.find('.modal-header').text("Bearbeiten von " + button.data('articlename'))
-                modal.find('.articlename').val(button.data('articlename'))
-                modal.find('.description').val(button.data('description'))
-                modal.find('.categoryImage').val(button.data('imagelink'))
-                modal.find('.imagelink').val(button.data('imagelink'))
-                modal.find('.productlink').val(button.data('productlink'))
-                modal.find('.wishlistId').val(button.data('wishlistid'))
-            })
-        </script>
 </body>
 
 </html>

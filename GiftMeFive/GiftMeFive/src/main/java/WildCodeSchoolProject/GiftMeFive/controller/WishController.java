@@ -63,15 +63,24 @@ public class WishController {
 	@PostMapping("/addWish")
 	public String wishform_list(RedirectAttributes redirect, Model model, @RequestParam String articlename,
 			@RequestParam String description, @RequestParam String userimage, @RequestParam Long wishlistId,
-			@RequestParam String titlename, @RequestParam String mainCategoryImage) {
+			@RequestParam String titlename, @RequestParam String CategoryImage, @RequestParam Long articleId) {
 
 		// Funktion schreiben die aus dem eingegebenen Namen ein Amazonsuchlink macht
 		String productlink = "https://www.amazon.de/s?k=play+Station";
-
-		if (userimage.equals("")) {
-			repository.addWish(articlename, description, mainCategoryImage, productlink, wishlistId);
-		} else {
-			repository.addWish(articlename, description, userimage, productlink, wishlistId);
+		
+		if (articleId != null ) {
+			if (userimage.equals("")) {
+				repository.editWish(articleId, articlename, description, CategoryImage, productlink, wishlistId);
+			} else {
+				repository.editWish(articleId, articlename, description, userimage, productlink, wishlistId);
+			}	
+		}
+		else {
+			if (userimage.equals("")) {
+				repository.addWish(articlename, description, CategoryImage, productlink, wishlistId);
+			} else {
+				repository.addWish(articlename, description, userimage, productlink, wishlistId);
+			}
 		}
 
 		redirect.addAttribute("titlename", titlename);
@@ -156,7 +165,6 @@ public class WishController {
 		String[] viewId = userId.split("_");
 		wishlistId = Long.parseLong(viewId[1]);
 		redirect.addAttribute("wishlistId", wishlistId);
-		// Methode im repository erstellen um den Name der Liste abzufragen.
 		redirect.addAttribute("titlename", repository.getWishlistname(wishlistId));
 		return "redirect:/wishform_list";
 	}
@@ -166,8 +174,6 @@ public class WishController {
 			@RequestParam String description, @RequestParam String imagelink, @RequestParam String productlink,  @RequestParam String userimage, 
 			@RequestParam String categoryImage, @RequestParam Long wishlistId) {
 		
-		// categoryImage überschreibt imagelink!!
-		// Fall mit categoryimage oder userimage mit aufnehmen!
 		if (userimage.equals("")) {
 			repository.editWish(articleId, articlename, description, categoryImage, productlink, wishlistId);
 		} else {
@@ -177,6 +183,19 @@ public class WishController {
 		redirect.addAttribute("titlename", repository.getWishlistname(wishlistId));
 		redirect.addAttribute("wishlistId", wishlistId);
 		return "redirect:/wishform_list";
+	}
+
+	@GetMapping("/loadWish")
+	public String loadwish_intoform(RedirectAttributes redirect, Model model, @RequestParam Long articleId, @RequestParam Long wishlistId, @RequestParam String articlename, @RequestParam String description, @RequestParam String imagelink, @RequestParam String productlink) {
+		model.addAttribute("articleId", articleId);
+		model.addAttribute("wishlistId", wishlistId);
+		model.addAttribute("articlename", articlename);
+		model.addAttribute("description", description);
+		model.addAttribute("imagelink", imagelink);
+		model.addAttribute("productlink", productlink);
+		model.addAttribute("titlename", repository.getWishlistname(wishlistId));
+		model.addAttribute("wishlist", repository.showWishlist(wishlistId));
+		return "wishform_list";
 	}
 
 	@GetMapping("/saveWishlist")
