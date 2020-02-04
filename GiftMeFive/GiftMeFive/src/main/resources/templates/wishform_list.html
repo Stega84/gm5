@@ -32,7 +32,7 @@
 
     <!-- Eingabefeld -->
     <div class="card mb-4 mt-2" style="background-color: #ddd">
-        <form action="/addWish" class="form-horizontal" method="get" onreset="myResetFunction()">
+        <form action="/addWish" class="form-horizontal" method="post" onreset="myResetFunction()">
             <div class="row no-gutters">
                 <div class="col-md-4 file-field" style="background-color: #ccc">
                     <div class="card-body">
@@ -91,6 +91,9 @@
 
                                 <input type="reset" onclick="imgResetFunction()" class="btn btn-danger mt-3 mb-0" value="Leeren">
                                 <input type="submit" class="btn btn-success mt-3 mb-0" value="Speichern">
+                                
+                        		<a th:href="@{/saveWishlist(wishlistId=${wishlistId}, titlename=${titlename})}" class="btn btn-danger float-right mt-3 mb-0">Wunschliste speichern</a>
+
                             </p>
                         </fieldset>
                     </div>
