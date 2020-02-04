@@ -8,6 +8,8 @@
     <!-- Die 3 Meta-Tags oben *müssen* zuerst im head stehen; jeglicher sonstiger head-Inhalt muss *nach* diesen Tags kommen -->
     <title>Bootstrap-Basis-Vorlage</title>
     <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Caveat&display=swap" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <!-- Bootstrap -->
     <link href="bootstrap-4.3.1-dist/css/bootstrap.min.css" rel="stylesheet">
@@ -19,9 +21,9 @@
       <![endif]-->
 </head>
 
-<body class="container-fluid p-0">
+<body class="container-fluid p-0" style="background-color:#F2F2F2">
     <!--Hintergrundbild-->
-    <div class="bg">
+    <div class="bg" >
         <!--Navigation-->
         <div class="row ml-0 mr-0">
             <nav class="navbar navbar-expand-lg navbar-dark pl-5">
@@ -46,52 +48,76 @@
         </div>
         <!--Titeltext GiftMeFive-->
         <div class="row ml-0 mr-0 text-center title">GiftMeFive</div>
-    </div>
+    </div> 
     <!-- Auswahl-->
-    <div class="row ml-0 mr-0 text-center mt-3 mr-0 ml-0">
-        <!-- leer Spalte-->
-        <div class="col"></div>
+    <div class="row ml-0 mr-0 text-center mt-4  mr-0 ml-0 ">
+
         <!-- Karte 1-->
-        <div class="card-deck m-0 col-10">
-            <div class="card text-center border-0">
+        <div class="card-deck m-0 col-12" >
+            <div class="card text-center index-card" style="border:0;background-color:#EBEBEB;border-radius: 20px">
                 <div class="card-body">
-                    <h5 class="card-title">Wunschliste</h5>
-                    <p class="card-text cardForm">Anschauen und Wünsche reservieren.</p>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#find_wishlist">Wunschliste</button>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#find_reservation">Reservierungen</button>
+                    <h5 class="card-title googlef-indieflower" >Wunschliste suchen</h5>
+                    <p class="card-text index-text">Suche deine Wunschliste oder die deines Freundes. Zum Bearbeiten oder um Wünsche zu reservieren.</p>
+                    <button class="text-center button  mt-3" data-toggle="modal" data-target="#find_wishlist">
+						Wunschlisten
+						<div class="button__horizontal"></div>
+						<div class="button__vertical"></div>
+					</button>
                 </div>
             </div>
-            <!-- Karte 2-->
-            <div class="card text-center border-0">
+            <!-- Karte 2 -->
+            <div class="card text-center border-0" style="border:0;background-color:#EBEBEB;border-radius: 20px">
                 <div class="card-body">
-                    <h5 class="card-title">Schnelleinstieg</h5>
-                    <p class="card-text cardForm">Eine neue Wunschliste erstellen.</p>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create_wishlist">Schnelleinstieg</button>
+                    <h5 class="card-title googlef-indieflower" >Reservierung suchen</h5>
+                    <p class="card-text index-text">Suche und Bearbeite deine Reservierungen. Kontrolliere mit dem du etwas zusammen schenkst.</p>
+                    <button class="text-center button  mt-3" data-toggle="modal" data-target="#find_reservation">
+						Reservierungen
+						<div class="button__horizontal"></div>
+						<div class="button__vertical"></div>
+					</button>
                 </div>
             </div>
             <!-- Karte 3-->
-            <div class="card text-center border-0">
+            <div class="card text-center border-0" style="border:0;background-color:#EBEBEB;border-radius: 20px">
                 <div class="card-body">
-                    <h5 class="card-title">Beispiel</h5>
-                    <p class="card-text cardForm">So könnten Ihre Wunschlisten ausschauen.</p>
-                    <a href="/list" class="btn btn-primary">Beispiel 1</a> <a href="/list2" class="btn btn-primary">Beispiel 2</a>
+                    <h5 class="card-title googlef-indieflower">1-Klick Wunschliste</h5>
+                    <p class="card-text index-text">Erstelle dir mit einem Klick eine Wunschliste und erhalte deine persönliche ID. Ohne Registrierung oder Anmeldung.</p>
+                    <button class="text-center button  mt-3" data-toggle="modal" data-target="#create_wishlist">
+						1-Klick
+						<div class="button__horizontal"></div>
+						<div class="button__vertical"></div>
+					</button>
+                </div>
+            </div>
+            <!-- Karte 4-->
+            <div class="card text-center border-0" style="border:0;background-color:#EBEBEB;border-radius: 20px">
+                <div class="card-body">
+                    <h5 class="card-title googlef-indieflower">Beispiel</h5>
+                    <p class="card-text index-text">Schaue dir an wie deine Wunschliste aussehen könnte. Nach der Registrierung sind mehr Designs auswählbar.</p>
+                    <a href="/list2">
+                    <button class="text-center button  mt-3" data-toggle="modal" data-target="#create_wishlist">
+						Beispiele
+						<div class="button__horizontal"></div>
+						<div class="button__vertical"></div>
+					</button>
+                    </a>
+
                 </div>
             </div>
         </div>
-        <!-- leer Spalte-->
-        <div class="col"></div>
     </div>
+   
     <!--Eingabefenster für Wunschliste -->
-    <div class="modal fade" id="find_wishlist" tabindex="-1" role="dialog">
+    <div class="modal fade" id="find_wishlist" tabindex="-1" role="dialog" >
         <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
+            <div class="modal-content" style="background-color:#EBEBEB">
                 <div class="modal-header">
-                    <h5 class="modal-title">Wunschliste Auswahl</h5>
+                    <h5 class="modal-title googlef-indieflower">Wunschliste Auswahl</h5>
                     <button type="button" class="close" data-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <form action="/findWishlist" method="get">
-                        <label>Bitte geben Sie die ID Ihrer Wunschliste ein.</label>
+                        <label class="index-text">Bitte geben Sie die ID Ihrer Wunschliste ein.</label>
                         <input name="userId" class="form-control" type="text" required pattern="^\w+_\d+(_friends)?$">
                         <div class="modal-footer">
                             <input type="submit" class="btn btn-primary" value="Suchen">
@@ -104,14 +130,14 @@
     <!--Eingabefenster für Reservierungen -->
     <div class="modal fade" id="find_reservation" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
+            <div class="modal-content" style="background-color:#EBEBEB">
                 <div class="modal-header">
-                    <h5 class="modal-title">Reservierungen Auswahl</h5>
+                    <h5 class="modal-title googlef-indieflower">Reservierungen Auswahl</h5>
                     <button type="button" class="close" data-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <form action="/reservationoutput" method="get">
-                        <label>Bitte geben Sie den Namen Ihrer Reservierungen ein.</label>
+                        <label class="index-text">Bitte geben Sie den Namen Ihrer Reservierungen ein.</label>
                         <input name="reservationname" class="form-control" type="text">
                         <div class="modal-footer">
                             <input type="submit" class="btn btn-primary" value="Suchen">
@@ -124,16 +150,16 @@
     <!--Eingabefenster für Wunschliste erstellen-->
     <div class="modal fade" id="create_wishlist" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
+            <div class="modal-content" style="background-color:#EBEBEB">
                 <div class="modal-header">
-                    <h5 class="modal-title">Eine neue Wunschliste</h5>
+                    <h5 class="modal-title googlef-indieflower">Eine neue Wunschliste</h5>
                     <button type="button" class="close" data-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <form action="/createWishlist" method="get">
-                        <label>Bitte geben Sie einen Namen ohne Leerzeichen ein.</label>
+                        <label class="index-text">Bitte geben Sie einen Namen ohne Leerzeichen ein.</label>
                         <input name="titlename" class="form-control" type="text" pattern="\w+">
-                        <label>Bitte wählen Sie ein Datum.</label>
+                        <label class="index-text">Bitte wählen Sie ein Datum.</label>
                         <input name="enddate" class="form-control" type="date">
                         <div class="modal-footer">
                             <input type="submit" class="btn btn-primary" value="Erstellen">

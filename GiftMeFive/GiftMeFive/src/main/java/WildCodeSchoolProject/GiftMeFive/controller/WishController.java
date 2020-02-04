@@ -25,6 +25,11 @@ public class WishController {
 	public String list2() {
 		return "list2";
 	}
+	
+	@RequestMapping("/test")
+	public String test() {
+		return "test";
+	}
 
 	@RequestMapping("/home")
 	public String home() {

@@ -102,7 +102,7 @@
     <!--Eintrag 1-->
     <div class="card mb-4 mt-2" th:each="article : ${wishlist}">
         <div class="row no-gutters">
-            <div class="col-md-4">
+            <div class="col-md-4 p-1">
                 <a th:href="@{${article.productlink}}" target="_blank">
                     <img th:src="@{${article.imagelink}}" class="card-img" alt="...">
                 </a>

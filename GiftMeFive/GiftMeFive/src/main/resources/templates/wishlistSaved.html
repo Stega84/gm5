@@ -9,6 +9,8 @@
     <title>Bootstrap-Basis-Vorlage</title>
     <script type="text/javascript" src="js/wishlisSaved.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Caveat&display=swap" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <!-- Bootstrap -->
     <link href="bootstrap-4.3.1-dist/css/bootstrap.min.css" rel="stylesheet">
@@ -55,14 +57,14 @@
     <!--Eingabefenster für Versenden der Wunschliste -->
     <div class="modal fade" id="send_wishlist" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
+            <div class="modal-content" style="background-color:#EBEBEB">
                 <div class="modal-header">
-                    <h5 class="modal-title">Versenden an Freunde</h5>
+                    <h5 class="modal-title googlef-indieflower">Versenden an Freunde</h5>
                     <button type="button" class="close" data-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <form action="/sendWishlist" method="get">
-                        <label>Bitte gebe die Emailadressen deiner Freunde mit leerzeichen getrennt ein.</label>
+                        <label class="index-text">Bitte gebe die Emailadressen deiner Freunde mit leerzeichen getrennt ein.</label>
                         <input name="userId" class="form-control" type="text" required pattern="^([a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4} ?)+$">
                         <div class="card mt-3">
                             <div class="bg" id="send_Email_Card_Image">
@@ -70,8 +72,8 @@
                                 <div class="row ml-0 mr-0 text-center title-email-card-image"><a th:href="@{/wishlistoutput(wishlistId=${wishlistId}, titlename=${titlename})}" class="text-light">GiftMeFive</a></div>
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title">Meine Wunschliste!!</h5>
-                                <p class="card-text" th:text="|Dein Freund ${titlename} hat eine Wunschliste bei uns erstellt. Mit dieser ID (${friendsId}) hast du Zugriff auf die Wunschliste und kannst einzelne Wünsche für dich Reservierern. Oder navigiere direkt zur der Wunschliste in dem du auf den Text im Bild klickst.|"> </p>
+                                <h5 class="card-title googlef-indieflower">Meine Wunschliste!!</h5>
+                                <p class="card-text index-text" th:text="|Dein Freund ${titlename} hat eine Wunschliste bei uns erstellt. Mit dieser ID (${friendsId}) hast du Zugriff auf die Wunschliste und kannst einzelne Wünsche für dich Reservierern. Oder navigiere direkt zur der Wunschliste in dem du auf den Text im Bild klickst.|"> </p>
                             </div>
                         </div>
                         <div class="modal-footer">
