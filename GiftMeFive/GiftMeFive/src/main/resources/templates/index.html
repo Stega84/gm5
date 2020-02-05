@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Die 3 Meta-Tags oben *müssen* zuerst im head stehen; jeglicher sonstiger head-Inhalt muss *nach* diesen Tags kommen -->
-    <title>Bootstrap-Basis-Vorlage</title>
+    <title>Gift Me Five</title>
     <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Caveat&display=swap" rel="stylesheet">
@@ -119,7 +119,7 @@
                 <div class="modal-body">
                     <form action="/findWishlist" method="get">
                         <label class="index-text">Bitte geben Sie die ID Ihrer Wunschliste ein.</label>
-                        <input name="userId" class="form-control" type="text" required pattern="^\w+_\d+(_friends)?$">
+                        <input name="userId" class="form-control" type="text" required pattern="^[\wäöüß]+_\d+(_friends)?$" autofocus>
                         <div class="modal-footer">
                             <input type="submit" class="btn btn-primary" value="Suchen">
                         </div>
@@ -139,7 +139,7 @@
                 <div class="modal-body">
                     <form action="/reservationoutput" method="get">
                         <label class="index-text">Bitte geben Sie den Namen Ihrer Reservierungen ein.</label>
-                        <input name="reservationname" class="form-control" type="text">
+                        <input name="reservationname" class="form-control" type="text" autofocus>
                         <div class="modal-footer">
                             <input type="submit" class="btn btn-primary" value="Suchen">
                         </div>
@@ -159,7 +159,7 @@
                 <div class="modal-body">
                     <form action="/createWishlist" method="get">
                         <label class="index-text">Bitte geben Sie einen Namen ohne Leerzeichen ein.</label>
-                        <input name="titlename" class="form-control" type="text" pattern="\w+">
+                        <input name="titlename" class="form-control" type="text" pattern="[\wäöüß]+" autofocus>
                         <label class="index-text">Bitte wählen Sie ein Datum.</label>
                         <input name="enddate" class="form-control" type="date">
                         <div class="modal-footer">
@@ -170,10 +170,36 @@
             </div>
         </div>
     </div>
+        <!--Eingabefenster für Bearbeiten Wunschliste -->
+    <div class="modal fade" id="edit_wishlist" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Wunschliste Auswahl</h5>
+                    <button type="button" class="close" data-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/editWishlist" method="get">
+                       <label>Bitte geben Sie die ID Ihrer Wunschliste ein.</label>
+                        <input name="userId" class="form-control" type="text" required pattern="^[\wäöüß]+_\d+$" autofocus>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary" value="Suchen">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- jQuery (wird für Bootstrap JavaScript-Plugins benötigt) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Binde alle kompilierten Plugins zusammen ein (wie hier unten) oder such dir einzelne Dateien nach Bedarf aus -->
     <script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+        <!-- Fokus auf erstes Input-Feld im Modal, adaptiert von https://github.com/twbs/bootstrap/issues/12525 -->
+     <script>
+     $(document).on('shown.bs.modal', function (e) {
+        $('[autofocus]', e.target).focus();
+      });
+     </script>
 </body>
 
 </html>

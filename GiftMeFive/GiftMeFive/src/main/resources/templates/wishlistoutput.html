@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Die 3 Meta-Tags oben *müssen* zuerst im head stehen; jeglicher sonstiger head-Inhalt muss *nach* diesen Tags kommen -->
-    <title>Bootstrap-Basis-Vorlage</title>
+    <title>Wunschliste für Freunde</title>
     <script type="text/javascript" src="js/wishlistoutput.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
@@ -76,7 +76,7 @@
                         <input type="hidden" class="articleId" name="articleId" value="">
                         <input type="hidden" class="wishlistId" name="wishlistId" value="">
                         <label class="index-text">Bitte geben Sie den Namen ein, auf den die Reservierung erfolgt. Mit diesem finden Sie Ihre Reservierung wieder:</label>
-                        <input name="reservationname" class="form-control" type="text" value="...">
+                        <input name="reservationname" class="form-control" type="text" placeholder="..." autofocus>
                     </div>
                     <div class="modal-footer">
                         <input type="submit" class="btn btn-primary" value="Reservieren">
@@ -100,6 +100,12 @@
             modal.find('.wishlistId').val(button.data('wishlistid'))
         })
     </script>
+        <!-- Fokus auf erstes Input-Feld im Modal, adaptiert von https://github.com/twbs/bootstrap/issues/12525 -->
+     <script>
+     $(document).on('shown.bs.modal', function (e) {
+        $('[autofocus]', e.target).focus();
+      });
+     </script>
 </body>
 
 </html>
