@@ -49,7 +49,7 @@ public class WishController {
 	public String wishform_list(Model model, @RequestParam String titlename, @RequestParam Long wishlistId) {
 		model.addAttribute("titlename", titlename);
 		model.addAttribute("wishlistId", wishlistId);
-
+		model.addAttribute("imagelink","/image/default.jpg");
 		model.addAttribute("wishlist", repository.showWishlistForm(wishlistId));
 		return "wishform_list";
 	}
@@ -66,7 +66,7 @@ public class WishController {
 	}
 
 	@PostMapping("/addWish")
-	public String wishform_list(RedirectAttributes redirect, Model model, @RequestParam String articlename,
+	public String addWish(RedirectAttributes redirect, Model model, @RequestParam String articlename,
 			@RequestParam String description, @RequestParam String userimage, @RequestParam Long wishlistId,
 			@RequestParam String titlename, @RequestParam String CategoryImage, @RequestParam Long articleId, @RequestParam String productlink) {
 
@@ -93,7 +93,7 @@ public class WishController {
 	}
 
 	@GetMapping("/removeWish")
-	public String removewish_fromform(RedirectAttributes redirect, Model model, @RequestParam Long articleId,
+	public String removeWish(RedirectAttributes redirect, Model model, @RequestParam Long articleId,
 			@RequestParam Long wishlistId, @RequestParam String titlename) {
 
 		repository.removeWish(articleId);
@@ -103,7 +103,7 @@ public class WishController {
 	}
 
 	@GetMapping("/reserveWish")
-	public String reservewishDo(RedirectAttributes redirect, Model model, @RequestParam Long articleId,
+	public String reserveWish(RedirectAttributes redirect, Model model, @RequestParam Long articleId,
 			@RequestParam Long wishlistId, @RequestParam String reservationname) {
 
 		repository.reserveWish(articleId, reservationname);
@@ -115,7 +115,7 @@ public class WishController {
 	}
 
 	@GetMapping("/unreserveWish")
-	public String unreservewishDo(RedirectAttributes redirect, Model model, @RequestParam Long articleId,
+	public String unreservWish(RedirectAttributes redirect, Model model, @RequestParam Long articleId,
 			@RequestParam String articlename, @RequestParam String reservationname) {
 
 		repository.unreserveWish(articleId);
@@ -125,7 +125,7 @@ public class WishController {
 	}
 
 	@GetMapping("/findWishlist")
-	public String show(RedirectAttributes redirect, Model model, @RequestParam String userId) {
+	public String findWishlist(RedirectAttributes redirect, Model model, @RequestParam String userId) {
 
 		Long wishlistId;
 		String[] viewId = userId.split("_");
@@ -145,7 +145,7 @@ public class WishController {
 	}
 
 	@GetMapping("/reservationoutput")
-	public String show(Model model, @RequestParam String reservationname) {
+	public String resevationoutput(Model model, @RequestParam String reservationname) {
 
 		model.addAttribute("wishlist", repository.showReservations(reservationname));
 		model.addAttribute("reservationname", reservationname);
@@ -153,7 +153,7 @@ public class WishController {
 	}
 
 	@GetMapping("/createWishlist")
-	public String create(Model model, @RequestParam String titlename, @RequestParam String enddate,
+	public String createWishlist(Model model, @RequestParam String titlename, @RequestParam String enddate,
 			RedirectAttributes redirectAttributes) {
 		System.out.println(enddate);
 		Long wishlistId = repository.createWishlist(titlename, enddate);
@@ -163,7 +163,7 @@ public class WishController {
 	}
 
 	@GetMapping("/editWishlist")
-	public String showEditableWishlist(RedirectAttributes redirect, Model model, @RequestParam String userId) {
+	public String editWishlist(RedirectAttributes redirect, Model model, @RequestParam String userId) {
 
 		Long wishlistId;
 		String[] viewId = userId.split("_");
@@ -174,7 +174,7 @@ public class WishController {
 	}
 	
 	@GetMapping("/editWish")
-	public String wishform_list(RedirectAttributes redirect, Model model, @RequestParam Long articleId, @RequestParam String articlename,
+	public String editWish(RedirectAttributes redirect, Model model, @RequestParam Long articleId, @RequestParam String articlename,
 			@RequestParam String description, @RequestParam String imagelink, @RequestParam String productlink,  @RequestParam String userimage, 
 			@RequestParam String categoryImage, @RequestParam Long wishlistId) {
 		
@@ -190,7 +190,7 @@ public class WishController {
 	}
 
 	@GetMapping("/loadWish")
-	public String loadwish_intoform(RedirectAttributes redirect, Model model, @RequestParam Long articleId, @RequestParam Long wishlistId, @RequestParam String articlename, @RequestParam String description, @RequestParam String imagelink, @RequestParam String productlink) {
+	public String loadWish(RedirectAttributes redirect, Model model, @RequestParam Long articleId, @RequestParam Long wishlistId, @RequestParam String articlename, @RequestParam String description, @RequestParam String imagelink, @RequestParam String productlink) {
 		model.addAttribute("articleId", articleId);
 		model.addAttribute("wishlistId", wishlistId);
 		model.addAttribute("articlename", articlename);
