@@ -30,6 +30,12 @@ CREATE TABLE reservation(
   FOREIGN KEY(id) REFERENCES article(id) ON DELETE CASCADE
 );
 
+CREATE TABLE categoryimage(
+  id INT NOT NULL,
+  category MEDIUMBLOB NOT NULL,
+  PRIMARY KEY(id)
+);
+
 CREATE TRIGGER trg_Artikel
 AFTER INSERT ON article FOR EACH ROW
 INSERT INTO reservation (id) VALUES (new.id);
@@ -39,6 +45,7 @@ SELECT *
 FROM article
 WHERE wishlistId = 1;
 
+INSERT INTO categoryimage(id, category) VALUES(1, LOAD_FILE('/var/lib/mysql-files/default.jpg'));
 
 INSERT INTO wishlist (name, enddate) VALUES ('Stefan','2020-01-30');
 INSERT INTO wishlist (name, enddate) VALUES ('Christoph','2020-02-28');
