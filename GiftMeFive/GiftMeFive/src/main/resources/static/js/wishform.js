@@ -1,6 +1,6 @@
 function imageFunction() {
 
-	var imageCategory = [ "/imageCategory/default.jpg" ,"/imageCategory/baby.webp",
+	var imageCategory = [ "/imageCategory/default.jpg" ,"/image/5",
 			"/imageCategory/beauty.webp", "/imageCategory/bekleidung.webp",
 			"/imageCategory/buecherZeitschriften.webp",
 			"/imageCategory/buero.webp", "/imageCategory/computer.webp",
