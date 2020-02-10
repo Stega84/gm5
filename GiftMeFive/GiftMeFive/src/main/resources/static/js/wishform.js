@@ -1,17 +1,11 @@
 function imageFunction() {
 
-	var imageCategory = [ "/imageCategory/default.jpg" ,"/image/5",
-			"/imageCategory/beauty.webp", "/imageCategory/bekleidung.webp",
-			"/imageCategory/buecherZeitschriften.webp",
-			"/imageCategory/buero.webp", "/imageCategory/computer.webp",
-			"/imageCategory/dvd.webp", "/imageCategory/drogerie.webp",
-			"/imageCategory/foto.webp", "/imageCategory/games.webp",
-			"/imageCategory/garten.jpg", "/imageCategory/gutschein.webp",
-			"/imageCategory/haustier.webp", "/imageCategory/foto.webp",
-			"/imageCategory/haushalt.webp", "/imageCategory/cd.webp",
-			"/imageCategory/schmuck.webp", "/imageCategory/schuhe.webp",
-			"/imageCategory/software.webp", "/imageCategory/spielzeug.webp",
-			"/imageCategory/sport.webp", "/imageCategory/uhr.webp"];
+	var imageCategory = [ "/getimage/1", "/getimage/2", "/getimage/3",
+			"/getimage/4", "/getimage/5", "/getimage/6", "/getimage/7",
+			"/getimage/8", "/getimage/9", "/getimage/10", "/getimage/11",
+			"/getimage/12", "/getimage/13", "/getimage/14", "/getimage/15",
+			"/getimage/16", "/getimage/17", "/getimage/18", "/getimage/19",
+			"/getimage/20", "/getimage/21", "/getimage/22", "/getimage/23" ];
 
 	var x = document.getElementById("Category").selectedIndex;
 	var y = document.getElementById("Category").options;

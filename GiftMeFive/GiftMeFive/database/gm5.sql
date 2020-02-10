@@ -31,7 +31,7 @@ CREATE TABLE reservation(
 );
 
 CREATE TABLE categoryimage(
-  id INT NOT NULL,
+  id INT NOT NULL AUTO_INCREMENT,
   category MEDIUMBLOB NOT NULL,
   PRIMARY KEY(id)
 );

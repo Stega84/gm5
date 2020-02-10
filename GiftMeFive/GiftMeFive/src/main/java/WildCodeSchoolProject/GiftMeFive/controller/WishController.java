@@ -1,5 +1,9 @@
 package WildCodeSchoolProject.GiftMeFive.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import WildCodeSchoolProject.GiftMeFive.repository.WishRepository;
@@ -33,10 +38,10 @@ public class WishController {
 	public String test2() {
 		return "test";
 	}
-	
-	@RequestMapping("/image/{id}")
-	public ResponseEntity<byte[]> test(@PathVariable int id) {
-		
+
+	@RequestMapping("/getimage/{id}")
+	public ResponseEntity<byte[]> getimage(@PathVariable int id) {
+
 		byte[] image = repository.getImage(1, id);
 		System.out.println(id);
 //		System.out.println(image);
@@ -65,7 +70,7 @@ public class WishController {
 	public String wishform_list(Model model, @RequestParam String titlename, @RequestParam Long wishlistId) {
 		model.addAttribute("titlename", titlename);
 		model.addAttribute("wishlistId", wishlistId);
-		model.addAttribute("imagelink", "/image/default.jpg");
+		model.addAttribute("imagelink", "/getimage/1");
 		model.addAttribute("wishlist", repository.showWishlistForm(wishlistId));
 		return "wishform_list";
 	}
@@ -84,24 +89,17 @@ public class WishController {
 
 	@PostMapping("/addWish")
 	public String addWish(RedirectAttributes redirect, Model model, @RequestParam String articlename,
-			@RequestParam String description, @RequestParam String userimage, @RequestParam Long wishlistId,
-			@RequestParam String titlename, @RequestParam String CategoryImage, @RequestParam Long articleId,
-			@RequestParam String productlink) {
-
+			@RequestParam String description, @RequestParam Long wishlistId, @RequestParam String titlename,
+			@RequestParam String CategoryImage, @RequestParam Long articleId, @RequestParam String productlink) {
+//userimage.equals("")
 		if (articleId != null) {
-			if (userimage.equals("")) {
-				repository.editWish(articleId, articlename, description, CategoryImage, productlink, wishlistId);
-			} else {
-				repository.editWish(articleId, articlename, description, userimage, productlink, wishlistId);
-			}
+
+			repository.editWish(articleId, articlename, description, CategoryImage, productlink, wishlistId);
+
 		} else {
 			// Funktion schreiben die aus dem eingegebenen Namen ein Amazonsuchlink macht
 			productlink = "https://www.amazon.de/s?k=play+Station";
-			if (userimage.equals("")) {
-				repository.addWish(articlename, description, CategoryImage, productlink, wishlistId);
-			} else {
-				repository.addWish(articlename, description, userimage, productlink, wishlistId);
-			}
+			repository.addWish(articlename, description, CategoryImage, productlink, wishlistId);
 		}
 
 		redirect.addAttribute("titlename", titlename);
@@ -237,4 +235,26 @@ public class WishController {
 		return "redirect:/wishlistSaved";
 	}
 
+	@PostMapping("/saveimage")
+	public String saveImage(@RequestParam("userimage") MultipartFile file, Model model,
+			@RequestParam String titlename, @RequestParam Long wishlistId) {
+		long imageid = 0;
+		
+		try {
+			byte[] tmp = file.getBytes();
+			imageid = repository.addImage(tmp);
+		
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		model.addAttribute("titlename", titlename);
+		model.addAttribute("wishlistId", wishlistId);
+		
+		model.addAttribute("imagelink", "/getimage/"+imageid);
+		model.addAttribute("wishlist", repository.showWishlistForm(wishlistId));
+
+		return "wishform_list";
+	}
 }
