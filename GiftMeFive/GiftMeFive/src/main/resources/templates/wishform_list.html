@@ -43,8 +43,8 @@
                         	<input type="file" class="form-control-file"  name="userimage" placeholder="" onchange="this.form.submit()">
                         	<input type="hidden" id="wishlistId" name="wishlistId" value="" th:value="${wishlistId}">
                             <input type="hidden" id="titlename" name="titlename" value="" th:value="${titlename}">
-                            <input type="hidden" id="articlenameFormOne" name="articlename" value="">
-							<input type="hidden" id="descriptionFormOne" name="description" value="">
+                            <input type="hidden" id="articlenameFormOne" name="articlename" th:value="${articlename}">
+							<input type="hidden" id="descriptionFormOne" name="description" th:value="${description}">
                         </form>
                     </div>
                 </div>

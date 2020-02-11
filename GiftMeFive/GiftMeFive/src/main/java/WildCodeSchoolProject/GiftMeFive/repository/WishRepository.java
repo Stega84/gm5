@@ -151,6 +151,8 @@ public class WishRepository {
 
 			List<Article> Article = new ArrayList<>();
 
+			wishlistId = en.encode(wishlistId);
+			
 			while (resultSet.next()) {
 				Long id = resultSet.getLong("id");
 				String name = resultSet.getString("name");
@@ -161,10 +163,7 @@ public class WishRepository {
 				String wishlistname = resultSet.getString("wishlistname");
 				Boolean reserved = resultSet.getBoolean("reserved");
 				String reservationname = resultSet.getString("reservationname");
-
-	
-				wishlistId = en.encode(wishlistId);
-				
+			
 				Article.add(new Article(id, name, description, creationdate, imagelink, productlink, wishlistId,
 						wishlistname, reserved, reservationname));
 			}
