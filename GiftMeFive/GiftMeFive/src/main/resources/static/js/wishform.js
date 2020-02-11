@@ -20,3 +20,8 @@ function imgResetFunction() {
 	document.getElementById("bildlink").label.addClass("selected").html(
 			'default-title');
 }
+
+function dataFunction(){
+	document.getElementById("articlenameFormOne").value = document.getElementById("articlenameFormTwo").value;
+	document.getElementById("descriptionFormOne").value = document.getElementById("descriptionFormTwo").value;
+}

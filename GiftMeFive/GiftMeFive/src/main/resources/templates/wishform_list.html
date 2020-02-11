@@ -43,6 +43,8 @@
                         	<input type="file" class="form-control-file"  name="userimage" placeholder="" onchange="this.form.submit()">
                         	<input type="hidden" id="wishlistId" name="wishlistId" value="" th:value="${wishlistId}">
                             <input type="hidden" id="titlename" name="titlename" value="" th:value="${titlename}">
+                            <input type="hidden" id="articlenameFormOne" name="articlename" value="">
+							<input type="hidden" id="descriptionFormOne" name="description" value="">
                         </form>
                     </div>
                 </div>
@@ -53,10 +55,10 @@
                             <h5 class="card-title">Ihr Wunsch</h5>
                             <p class="card-text">
                                 <label class="control-label mt-2 mb-0">Was wünschen Sie sich:</label>
-                                <input class="form-control " name="articlename" type="text" th:value="${articlename}" placeholder="Mein Wunsch">
+                                <input class="form-control" id="articlenameFormTwo" name="articlename" type="text" th:value="${articlename}" placeholder="Mein Wunsch" onfocusout="dataFunction()">
 
                                 <label class="control-label mt-2 mb-0">Beschreibung:</label>
-                                <textarea class="form-control" name="description" th:text="${description}" placeholder="etwas großartiges"></textarea>
+                                <textarea class="form-control" id="descriptionFormTwo" name="description" th:text="${description}" placeholder="etwas großartiges" onfocusout="dataFunction()"></textarea>
 
                                 <label class="control-label mt-2 mb-0">Kategorie:</label>
                                 <select class="form-control" id="Category" name="Category" onchange="imageFunction()">

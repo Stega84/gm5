@@ -1,8 +1,6 @@
 package WildCodeSchoolProject.GiftMeFive.controller;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -43,12 +41,6 @@ public class WishController {
 	public ResponseEntity<byte[]> getimage(@PathVariable int id) {
 
 		byte[] image = repository.getImage(1, id);
-		System.out.println(id);
-//		System.out.println(image);
-//		
-//		for(int i = 0; i<image.length;i++) {
-//			System.out.println(image[i]);
-//		}
 		return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.IMAGE_JPEG).body(image);
 	}
 
@@ -170,7 +162,7 @@ public class WishController {
 	@GetMapping("/createWishlist")
 	public String createWishlist(Model model, @RequestParam String titlename, @RequestParam String enddate,
 			RedirectAttributes redirectAttributes) {
-		System.out.println(enddate);
+
 		Long wishlistId = repository.createWishlist(titlename, enddate);
 		redirectAttributes.addAttribute("titlename", titlename);
 		redirectAttributes.addAttribute("wishlistId", wishlistId);
@@ -237,7 +229,7 @@ public class WishController {
 
 	@PostMapping("/saveimage")
 	public String saveImage(@RequestParam("userimage") MultipartFile file, Model model,
-			@RequestParam String titlename, @RequestParam Long wishlistId) {
+			@RequestParam String titlename, @RequestParam Long wishlistId, @RequestParam String articlename, @RequestParam String description) {
 		long imageid = 0;
 		
 		try {
@@ -251,7 +243,8 @@ public class WishController {
 		
 		model.addAttribute("titlename", titlename);
 		model.addAttribute("wishlistId", wishlistId);
-		
+		model.addAttribute("articlename", articlename);
+		model.addAttribute("description", description);
 		model.addAttribute("imagelink", "/getimage/"+imageid);
 		model.addAttribute("wishlist", repository.showWishlistForm(wishlistId));
 
