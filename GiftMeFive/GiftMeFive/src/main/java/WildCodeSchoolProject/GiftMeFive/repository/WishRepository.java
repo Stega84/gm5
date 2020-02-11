@@ -363,4 +363,70 @@ public class WishRepository {
 		return resultWishlistId;
 	}
 
+	public byte[] getImage(int userOrCategory, int id) {
+		
+		byte[] image = null;
+		
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+
+		try {
+			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			statement = connection.prepareStatement("SELECT category FROM categoryimage WHERE id = ?;");
+
+			statement.setInt(1, id);
+			resultSet = statement.executeQuery();
+
+			while (resultSet.next()) {
+				image = resultSet.getBytes("category");
+				;
+			}
+			return image;
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		} finally {
+			JdbcUtils.closeResultSet(resultSet);
+			JdbcUtils.closeStatement(statement);
+			JdbcUtils.closeConnection(connection);
+		}
+		
+		return null;
+	}
+
+	public Long addImage(byte[] image) {
+
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet generatedSet = null;
+		Long imageid = null;
+
+		try {
+			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			statement = connection.prepareStatement("INSERT INTO categoryimage (category) VALUES (?)",
+					Statement.RETURN_GENERATED_KEYS);
+			statement.setBytes(1, image);
+
+			if (statement.executeUpdate() != 1) {
+				throw new SQLException("failed to insert data");
+			}
+			generatedSet = statement.getGeneratedKeys();
+
+			if (generatedSet.next()) {
+				imageid = generatedSet.getLong(1);
+			} else {
+				throw new SQLException("failed to get inserted id");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtils.closeResultSet(generatedSet);
+			JdbcUtils.closeStatement(statement);
+			JdbcUtils.closeConnection(connection);
+		}
+		return imageid;
+	}
+
+
 }
