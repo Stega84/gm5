@@ -22,13 +22,52 @@
 
 <body class="container">
     <!--Navigation-->
-    <div class="bg-1">
-        <!-- Home -->
+<!--     <div class="bg-1">
+        Home
         <a class="home pl-4" th:href="@{home}">Home<span class="sr-only">(current)</span></a>
-        <!--Titeltext-->
+        Titeltext
         <div class="row text-center title-1">GiftMeFive</div>
         <div class="title-1-text" th:text="|${titlename} Wunschliste!|"></div>
-    </div>
+    </div> -->
+
+
+	<div id="carousel" class="carousel slide carousel-fade" data-ride="carousel" data-interval="false">
+		<ol class="carousel-indicators">
+			<li data-target="#carousel" data-slide-to="0" class="active" onclick="slideOne(24)"></li>
+			<li data-target="#carousel" data-slide-to="1" onclick="slideOne(25)"></li>
+			<li data-target="#carousel" data-slide-to="2" onclick="slideOne(27)"></li>
+		</ol>
+		<div class="carousel-inner" role="listbox">
+			<!-- Slide One - Set the background image for this slide in the line below -->
+			<div class="carousel-item active"
+				th:style="'background:url('+ @{/getimage/24} +');'">
+				<div class="carousel-caption d-none d-md-block">
+					<a class="home pl-4" th:href="@{home}">Home</a>
+					<div class="row text-center title-1">GiftMeFive</div>
+					<div class="title-1-text" th:text="|${titlename} Wunschliste!|"></div>
+				</div>
+			</div>
+			<!-- Slide Two - Set the background image for this slide in the line below -->
+			<div class="carousel-item"
+				th:style="'background:url('+ @{/getimage/25} +');'">
+				<div class="carousel-caption d-none d-md-block">
+					<a class="home pl-4" th:href="@{home}">Home</a>
+					<div class="row text-center title-1">GiftMeFive</div>
+					<div class="title-1-text" th:text="|${titlename} Wunschliste!|"></div>
+				</div>
+			</div>
+			<!-- Slide Three - Set the background image for this slide in the line below -->
+		<div class="carousel-item"
+				th:style="'background:url('+ @{/getimage/27} +');'">
+				<div class="carousel-caption d-none d-md-block">
+					<a class="home pl-4" th:href="@{home}">Home</a>
+					<div class="row text-center title-1">GiftMeFive</div>
+					<div class="title-1-text" th:text="|${titlename} Wunschliste!|"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 
     <!-- Eingabefeld -->
     <div class="card mb-4 mt-2" style="background-color: #ddd">
@@ -91,12 +130,13 @@
                                 <input type="hidden" id="wishlistId" name="wishlistId" value="" th:value="${wishlistId}">
                                 <input type="hidden" id="titlename" name="titlename" value="" th:value="${titlename}">
                                 <input type="hidden" id="productlink" name="productlink" value="" th:value="${productlink}">
-								<input type="hidden" id="CategoryImage" name="CategoryImage"  th:value="${imagelink}">	
+								<input type="hidden" id="CategoryImage" name="CategoryImage"  th:value="${imagelink}">
+								
 
                                 <input type="reset" onclick="imgResetFunction()" class="btn btn-danger mt-3 mb-0" value="Leeren">
                                 <input type="submit" class="btn btn-success mt-3 mb-0" value="Speichern">
                                 
-                        		<a th:href="@{/saveWishlist(wishlistId=${wishlistId}, titlename=${titlename})}" class="btn btn-dark float-right mt-3 mb-0">Wunschliste speichern</a>
+                        		<a id="saveWishList" th:href="@{/saveWishlist(wishlistId=${wishlistId}, titlename=${titlename}, topimage=24)}" class="btn btn-dark float-right mt-3 mb-0">Wunschliste speichern</a>
 
                             </p>
                         </fieldset>

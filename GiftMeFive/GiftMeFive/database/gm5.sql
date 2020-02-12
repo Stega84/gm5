@@ -7,6 +7,7 @@ CREATE TABLE wishlist(
   name VARCHAR(80) NOT NULL,
   enddate DATE NOT NULL,
   saved BOOLEAN NOT NULL DEFAULT 0,
+  imagelink VARCHAR(80) NOT NULL DEFAULT 'getimage/24',
   PRIMARY KEY (id)
 );
 
@@ -68,6 +69,10 @@ INSERT INTO categoryimage(id, category) VALUES(20, LOAD_FILE('/var/lib/mysql-fil
 INSERT INTO categoryimage(id, category) VALUES(21, LOAD_FILE('/var/lib/mysql-files/spielzeug.webp'));
 INSERT INTO categoryimage(id, category) VALUES(22, LOAD_FILE('/var/lib/mysql-files/sport.webp'));
 INSERT INTO categoryimage(id, category) VALUES(23, LOAD_FILE('/var/lib/mysql-files/uhr.webp'));
+INSERT INTO categoryimage(id, category) VALUES(24, LOAD_FILE('/var/lib/mysql-files/list_2.jpg'));
+INSERT INTO categoryimage(id, category) VALUES(25, LOAD_FILE('/var/lib/mysql-files/main.jpg'));
+INSERT INTO categoryimage(id, category) VALUES(26, LOAD_FILE('/var/lib/mysql-files/present.jpg'));
+INSERT INTO categoryimage(id, category) VALUES(27, LOAD_FILE('/var/lib/mysql-files/presentgrafik.png'));
 
 INSERT INTO wishlist (name, enddate) VALUES ('Stefan','2020-01-30');
 INSERT INTO wishlist (name, enddate) VALUES ('Christoph','2020-02-28');
