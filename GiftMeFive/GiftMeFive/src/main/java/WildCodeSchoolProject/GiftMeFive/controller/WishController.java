@@ -2,6 +2,7 @@ package WildCodeSchoolProject.GiftMeFive.controller;
 
 import java.io.IOException;
 
+import org.jdom.JDOMException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.itextpdf.text.DocumentException;
+
 import WildCodeSchoolProject.GiftMeFive.repository.WishRepository;
+import WildCodeSchoolProject.GiftMeFive.util.WebPageToPdf;
 
 @Controller
 public class WishController {
@@ -250,4 +254,15 @@ public class WishController {
 
 		return "wishform_list";
 	}
+	@RequestMapping("/toPDF")
+	public String toPDF (Model model, @RequestParam String titlename, @RequestParam Long wishlistId) throws Exception, DocumentException {
+			model.addAttribute("titlename", titlename);
+			model.addAttribute("wishlistId", wishlistId);
+
+			model.addAttribute("wishlist", repository.showWishlist(wishlistId));
+			WebPageToPdf.genPDFFromHTML("http://localhost:8080//wishform_list?wishlistId="+10185112+"&titlename="+"ChristophsTollste");
+			return "wishlistoutput";
+	
+	}
+	
 }
