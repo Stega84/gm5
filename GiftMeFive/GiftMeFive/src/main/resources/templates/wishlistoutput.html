@@ -2,9 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="de">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <!-- Die 3 Meta-Tags oben *müssen* zuerst im head stehen; jeglicher sonstiger head-Inhalt muss *nach* diesen Tags kommen -->
     <title>Wunschliste für Freunde</title>
     <script type="text/javascript" src="js/wishlistoutput.js"></script>
@@ -27,7 +27,7 @@
     <div class="bg-1">
         <!-- Home -->
         <a class="home pl-4" th:href="@{home}">Home<span class="sr-only">(current)</span></a>
-        <a class="Print to PDF pl-4" th:href="@{/toPDF(titlename=${titlename},wishlistId=${wishlistId})}">Print to PDF</a>
+        <a class="home pl-4" th:href="@{/toPDF(titlename=${titlename},wishlistId=${wishlistId})}">Print to PDF</a>
         <!--Titeltext-->
         <div class="row text-center title-1">GiftMeFive</div>
         <div class="title-1-text" th:text="|${titlename} Wunschliste!|"></div>

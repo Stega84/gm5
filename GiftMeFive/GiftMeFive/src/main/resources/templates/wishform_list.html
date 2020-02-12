@@ -2,9 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="de">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <!-- Die 3 Meta-Tags oben *müssen* zuerst im head stehen; jeglicher sonstiger head-Inhalt muss *nach* diesen Tags kommen -->
     <title>Gift Me Five Extrawunsch</title>
     <script type="text/javascript" src="js/wishform.js"></script>
@@ -25,7 +25,7 @@
     <div class="bg-1">
         <!-- Home -->
         <a class="home pl-4" th:href="@{home}">Home<span class="sr-only">(current)</span></a>
-        <a class="Print to PDF pl-4" th:href="@{/toPDF(titlename=${titlename},wishlistId=${wishlistId})}">Print to PDF</a>
+        <a class="home pl-4" th:href="@{/toPDF(titlename=${titlename},wishlistId=${wishlistId})}">Print to PDF</a>
         <!--Titeltext-->
         <div class="row text-center title-1">GiftMeFive</div>
         <div class="title-1-text" th:text="|${titlename} Wunschliste!|"></div>
@@ -59,7 +59,7 @@
                                 <input class="form-control" id="articlenameFormTwo" name="articlename" type="text" th:value="${articlename}" placeholder="Mein Wunsch" onfocusout="dataFunction()">
 
                                 <label class="control-label mt-2 mb-0">Beschreibung:</label>
-                                <textarea class="form-control" id="descriptionFormTwo" name="description" th:text="${description}" placeholder="etwas großartiges" onfocusout="dataFunction()"></textarea>
+                                <textarea class="form-control" id="descriptionFormTwo" name="description" th:text="${description}" placeholder="..." onfocusout="dataFunction()"></textarea>
 
                                 <label class="control-label mt-2 mb-0">Kategorie:</label>
                                 <select class="form-control" id="Category" name="Category" onchange="imageFunction()">
@@ -138,10 +138,10 @@
 
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+ <!--   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
+-->
 </body>
 
 </html>

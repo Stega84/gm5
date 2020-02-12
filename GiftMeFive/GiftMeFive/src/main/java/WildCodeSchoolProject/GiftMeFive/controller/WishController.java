@@ -260,7 +260,7 @@ public class WishController {
 			model.addAttribute("wishlistId", wishlistId);
 
 			model.addAttribute("wishlist", repository.showWishlist(wishlistId));
-			WebPageToPdf.genPDFFromHTML("http://localhost:8080//wishform_list?wishlistId="+10185112+"&titlename="+"ChristophsTollste");
+			WebPageToPdf.genPDFFromHTML("http://localhost:8080//wishform_list?wishlistId="+wishlistId+"&titlename="+titlename);
 			return "wishlistoutput";
 	
 	}
