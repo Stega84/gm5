@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import WildCodeSchoolProject.GiftMeFive.util.Encode;
 import WildCodeSchoolProject.GiftMeFive.util.JdbcUtils;
 import WildCodeSchoolProject.GiftMeFive.entity.*;
 
@@ -20,6 +21,9 @@ public class WishRepository {
 
 	public List<Article> showWishlistForm(Long wishlistId) {
 
+		Encode en = new Encode();		
+		wishlistId = en.decode(wishlistId);
+		
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -31,7 +35,8 @@ public class WishRepository {
 			resultSet = statement.executeQuery();
 
 			List<Article> article = new ArrayList<>();
-
+				
+			wishlistId = en.encode(wishlistId);	
 			while (resultSet.next()) {
 				Long id = resultSet.getLong("id");
 				String name = resultSet.getString("name");
@@ -39,7 +44,7 @@ public class WishRepository {
 				String creationdate = resultSet.getString("creationdate");
 				String imagelink = resultSet.getString("imagelink");
 				String productlink = resultSet.getString("productlink");
-
+				
 				article.add(new Article(id, name, description, creationdate, imagelink, productlink, wishlistId));
 			}
 			return article;
@@ -55,7 +60,10 @@ public class WishRepository {
 	}
 
 	public String getWishlistname(Long wishlistId) {
-
+		
+		Encode en = new Encode();		
+		wishlistId = en.decode(wishlistId);
+				
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -127,6 +135,9 @@ public class WishRepository {
 
 	public List<Article> showWishlist(Long wishlistId) {
 
+		Encode en = new Encode();		
+		wishlistId = en.decode(wishlistId);
+		
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -140,6 +151,8 @@ public class WishRepository {
 
 			List<Article> Article = new ArrayList<>();
 
+			wishlistId = en.encode(wishlistId);
+			
 			while (resultSet.next()) {
 				Long id = resultSet.getLong("id");
 				String name = resultSet.getString("name");
@@ -150,7 +163,7 @@ public class WishRepository {
 				String wishlistname = resultSet.getString("wishlistname");
 				Boolean reserved = resultSet.getBoolean("reserved");
 				String reservationname = resultSet.getString("reservationname");
-
+			
 				Article.add(new Article(id, name, description, creationdate, imagelink, productlink, wishlistId,
 						wishlistname, reserved, reservationname));
 			}
@@ -169,6 +182,9 @@ public class WishRepository {
 	public Article addWish(String articlename, String description, String userimage, String productlink,
 			Long wishlistId) {
 
+		Encode en = new Encode();		
+		wishlistId = en.decode(wishlistId);
+		
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet generatedKeys = null;
@@ -253,7 +269,7 @@ public class WishRepository {
 
 	public Long editWish(Long articleId, String articlename, String description, String imagelink, String productlink,
 			Long wishlistId) {
-
+	
 		Connection connection = null;
 		PreparedStatement statement = null;
 
@@ -310,6 +326,8 @@ public class WishRepository {
 
 	public Long createWishlist(String titlename, String enddate) {
 
+		Encode en = new Encode();
+		
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet generatedSet = null;
@@ -339,7 +357,9 @@ public class WishRepository {
 			JdbcUtils.closeStatement(statement);
 			JdbcUtils.closeConnection(connection);
 		}
-		return wishlistId;
+		long resultWishlistId = en.encode(wishlistId);
+		
+		return resultWishlistId;
 	}
 
 	public byte[] getImage(int userOrCategory, int id) {
