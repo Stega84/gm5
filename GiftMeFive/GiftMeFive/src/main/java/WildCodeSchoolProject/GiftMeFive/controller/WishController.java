@@ -52,32 +52,54 @@ public class WishController {
 	}
 
 	@RequestMapping("/wishlistoutput")
-	public String wishlistoutput(Model model, @RequestParam String titlename, @RequestParam Long wishlistId) {
+	public String wishlistoutput(Model model, RedirectAttributes redirect, @RequestParam String titlename, @RequestParam Long wishlistId) {
 		model.addAttribute("titlename", titlename);
 		model.addAttribute("wishlistId", wishlistId);
-
 		model.addAttribute("wishlist", repository.showWishlist(wishlistId));
+
+		//TODO create endpoint to display "no items selected"
+		List<Article> returnedwishlist = (List<Article>) model.getAttribute("wishlist");
+		if (returnedwishlist == null || returnedwishlist.isEmpty()) {
+			redirect.addAttribute("titlename", "Leere ");
+			redirect.addAttribute("wishlistId", wishlistId);
+			return "redirect:/no_result";
+		}
 		return "wishlistoutput";
 	}
 
 	@GetMapping("/wishform_list")
-	public String wishform_list(Model model, @RequestParam String titlename, @RequestParam Long wishlistId) {
+	public String wishform_list(Model model, RedirectAttributes redirect, @RequestParam String titlename, @RequestParam Long wishlistId) {
 		model.addAttribute("titlename", titlename);
 		model.addAttribute("wishlistId", wishlistId);
 		model.addAttribute("imagelink", "/getimage/1");
 		model.addAttribute("wishlist", repository.showWishlistForm(wishlistId));
+		
+		//TODO create endpoint to display "no items selected"
+		List<Article> returnedwishlist = (List<Article>) model.getAttribute("wishlist");
+		if (returnedwishlist == null || returnedwishlist.isEmpty()) {
+			redirect.addAttribute("titlename", "Leere ");
+			redirect.addAttribute("wishlistId", wishlistId);
+			return "redirect:/no_result";
+		}
 		return "wishform_list";
 	}
 
 	@GetMapping("/wishlistSaved")
-	public String wishformSaved(Model model, @RequestParam String titlename, @RequestParam Long wishlistId,
+	public String wishformSaved(Model model, RedirectAttributes redirect, @RequestParam String titlename, @RequestParam Long wishlistId,
 			@RequestParam String userId, @RequestParam String friendsId) {
 		model.addAttribute("titlename", titlename);
 		model.addAttribute("wishlistId", wishlistId);
 		model.addAttribute("userId", userId);
 		model.addAttribute("friendsId", friendsId);
-
 		model.addAttribute("wishlist", repository.showWishlistForm(wishlistId));
+		
+		//TODO create endpoint to display "no items selected"
+		List<Article> returnedwishlist = (List<Article>) model.getAttribute("wishlist");
+		if (returnedwishlist == null || returnedwishlist.isEmpty()) {
+			redirect.addAttribute("titlename", "Leere ");
+			redirect.addAttribute("wishlistId", wishlistId);
+			return "redirect:/no_result";
+		}
 		return "wishlistSaved";
 	}
 
@@ -85,7 +107,7 @@ public class WishController {
 	public String addWish(RedirectAttributes redirect, Model model, @RequestParam String articlename,
 			@RequestParam String description, @RequestParam Long wishlistId, @RequestParam String titlename,
 			@RequestParam String CategoryImage, @RequestParam Long articleId, @RequestParam String productlink) {
-//userimage.equals("")
+
 		if (articleId != null) {
 
 			repository.editWish(articleId, articlename, description, CategoryImage, productlink, wishlistId);
@@ -154,10 +176,18 @@ public class WishController {
 	}
 
 	@GetMapping("/reservationoutput")
-	public String resevationoutput(Model model, @RequestParam String reservationname) {
+	public String resevationoutput(Model model, RedirectAttributes redirect, @RequestParam String reservationname) {
 
 		model.addAttribute("wishlist", repository.showReservations(reservationname));
 		model.addAttribute("reservationname", reservationname);
+		
+		//TODO create endpoint to display "no items selected"
+		List<Article> returnedwishlist = (List<Article>) model.getAttribute("wishlist");
+		if (returnedwishlist == null || returnedwishlist.isEmpty()) {
+			redirect.addAttribute("titlename", "Leere ");
+			redirect.addAttribute("wishlistId", 0);
+			return "redirect:/no_result";
+		}	
 		return "reservationoutput";
 	}
 
