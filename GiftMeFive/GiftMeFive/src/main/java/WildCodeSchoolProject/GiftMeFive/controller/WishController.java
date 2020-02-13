@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import WildCodeSchoolProject.GiftMeFive.entity.Article;
 import WildCodeSchoolProject.GiftMeFive.repository.WishRepository;
+import WildCodeSchoolProject.GiftMeFive.util.Encode;
 
 @Controller
 public class WishController {
@@ -137,7 +138,7 @@ public class WishController {
 		repository.unreserveWish(articleId);
 
 		redirect.addAttribute("reservationname", reservationname);
-		redirect.addAttribute("wishlistId", wishlistId);
+
 		
 		return "redirect:/reservationoutput";
 	}
@@ -168,7 +169,10 @@ public class WishController {
 		List<Article> article = repository.showReservations(reservationname);
 		System.out.println("size " + article.size());
 		if(!(article.size()==0)) {
-			model.addAttribute("topimagelink", repository.getWishlistImage(article.get(0).getWishlistId()));
+			Encode en = new Encode();		
+			String topimagelink= repository.getWishlistImage(en.encode(article.get(0).getWishlistId()));	
+
+			model.addAttribute("topimagelink", topimagelink);
 		}else {
 			System.out.println("return home");
 			return "/index";
