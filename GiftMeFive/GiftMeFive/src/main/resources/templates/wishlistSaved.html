@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="de">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Die 3 Meta-Tags oben *müssen* zuerst im head stehen; jeglicher sonstiger head-Inhalt muss *nach* diesen Tags kommen -->
+    <title>Gift Me Five - Wunschliste gespeichert</title>
+    <script type="text/javascript" src="js/wishlisSaved.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Caveat&display=swap" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="bootstrap-4.3.1-dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Unterstützung für Media Queries und HTML5-Elemente in IE8 über HTML5 shim und Respond.js -->
+    <!-- ACHTUNG: Respond.js funktioniert nicht, wenn du die Seite über file:// aufrufst -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <![endif]-->
+</head>
+
+<body class="container">
+    <!--Navigation-->
+    <div class="bg-1 mb-2">
+        <!-- Home -->
+        <a class="home pl-4" th:href="@{home}">Home<span class="sr-only">(current)</span></a>
+        <!--Titeltext-->
+        <div class="row text-center title-1">GiftMeFive</div>
+        <div class="title-1-text" th:text="|${titlename} Wunschliste!|"></div>
+    </div>
+
+    <!-- Anzeige der IDs für User und für die Freunde. Button zum versenden oder Bearbeiten werden direkt angzeigt. -->
+    <div class="row">
+        <div class="col-sm-6 pl-3">
+            <div class="card">
+                <div class="card-body bg-light">
+                    <h5 class="card-title" th:text="|ID: ${userId}|"></h5>
+                    <p class="card-text">Mit dieser ID kannst du über die Startseite deine Wunschliste aufrufen und beliebig oft bearbeiten oder an deine Freund senden. </p>
+                    <a th:href="@{/wishform_list(wishlistId=${wishlistId}, titlename=${titlename})}" class="btn btn-success">Wunschliste bearbeiten</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 pl-3">
+            <div class="card">
+                <div class="card-body bg-light">
+                    <h5 class="card-title" th:text="|ID: ${friendsId}|"></h5>
+                    <p class="card-text">Schicke diese ID an deine Freunde oder verwende unser Formular um eine Nachricht an alle deine Freunde zu schicken.</p>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#send_wishlist">An Freunde versenden</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Eingabefenster für Versenden der Wunschliste -->
+    <div class="modal fade" id="send_wishlist" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="background-color:#EBEBEB">
+                <div class="modal-header">
+                    <h5 class="modal-title googlef-indieflower">Versenden an Freunde</h5>
+                    <button type="button" class="close" data-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/sendWishlist" method="get">
+                        <label class="index-text">Bitte gebe die Emailadressen deiner Freunde mit leerzeichen getrennt ein.</label>
+                        <input name="userId" class="form-control" type="text" required pattern="^([a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4} ?)+$" autofocus>
+                        <div class="card mt-3">
+                            <div class="bg" id="send_Email_Card_Image">
+
+                                <div class="row ml-0 mr-0 text-center title-email-card-image"><a th:href="@{/wishlistoutput(wishlistId=${wishlistId}, titlename=${titlename})}" class="text-light">GiftMeFive</a></div>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title googlef-indieflower">Meine Wunschliste!!</h5>
+                                <p class="card-text index-text" th:text="|Dein Freund ${titlename} hat eine Wunschliste bei uns erstellt. Mit dieser ID (${friendsId}) hast du Zugriff auf die Wunschliste und kannst einzelne Wünsche für dich Reservierern. Oder navigiere direkt zur der Wunschliste in dem du auf den Text im Bild klickst.|"> </p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#" class="btn btn-primary">Senden</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Liste -->
+    <!--Eintrag 1-->
+    <div class="card mb-4 mt-2" th:each="article : ${wishlist}">
+        <div class="row no-gutters">
+            <div class="col-md-4 p-1">
+                <a th:href="@{${article.productlink}}" target="_blank"> <img th:src="@{${article.imagelink}}" class="card-img" alt="...">
+                </a>
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${article.name}"></h5>
+                    <p class="card-text" th:text="${article.description}"></p>
+                    <p class="card-text">
+                        <small class="text-muted" th:text=" |Hinzugefügt am ${article.creationdate}|"></small>
+                        <small class="text-muted" th:text=" | Wunsch-id ${article.id}|"></small>
+                        <small class="text-muted" th:text=" | in Liste ${article.wishlistId}|"></small>
+                        <small class="text-muted" th:text=" | Reserviert=${article.reserved} für ${article.reservationname}|"></small>
+                    </p>
+					<div class="text-right">
+                        <a th:href="@{/loadWish(articleId=${article.id}, wishlistId=${wishlistId}, articlename=${article.name}, description=${article.description}, imagelink=${article.imagelink}, productlink=${article.productlink})}" class="btn btn-primary">Bearbeiten</a>
+                        <a th:href="@{/removeWish(articleId=${article.id}, wishlistId=${wishlistId}, titlename=${titlename})}" class="btn btn-danger">Löschen</a>
+                        
+                 	</div>
+   
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery (wird für Bootstrap JavaScript-Plugins benötigt) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Binde alle kompilierten Plugins zusammen ein (wie hier unten) oder such dir einzelne Dateien nach Bedarf aus -->
+    <script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+    <!-- jQuery für Dateneintrag ins Modal, Quelle: https://getbootstrap.com/docs/4.0/components/modal/#varying-modal-content -->
+    <script>
+        $('#reserve_wish').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var modal = $(this)
+
+            modal.find('.articleId').val(button.data('articleid'))
+            modal.find('.wishlistId').val(button.data('wishlistid'))
+        })
+    </script>
+    <!-- Fokus auf erstes Input-Feld im Modal, adaptiert von https://github.com/twbs/bootstrap/issues/12525 -->
+	 <script>
+	 $(document).on('shown.bs.modal', function (e) {
+	    $('[autofocus]', e.target).focus();
+	  });
+	 </script>
+</body>
+
+</html>

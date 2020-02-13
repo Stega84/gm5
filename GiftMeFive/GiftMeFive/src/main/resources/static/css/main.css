@@ -1,0 +1,221 @@
+body, html {
+  height: 100%;
+  width: 100%;
+}
+
+hr.top {
+  border: 1px solid Gainsboro;
+}
+
+p.cardForm {
+  font-size:0.8em;
+}
+
+p.card-title{
+	text-align: center;	
+}
+
+.bg {
+  /* The image used */
+  background-image: url(../image/main.jpg);
+  /* 70% height */
+  height: 70%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.bg-1 {
+  /* The image used */
+  background-image: url(../image/list_2.jpg);
+  /* Full height */
+  height: 30%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.cardDescription{
+  height: 120px;
+}
+
+.home{
+	color:lightgrey;
+	font-size: 1.3em;
+}
+
+.googlef-indieflower{
+	font-family: 'Indie Flower', cursive;
+	font-size: 2em;
+	font-color: #99ffff;
+}
+
+.index-text{
+	font-size: 1.4em;
+	font-family: 'Caveat', cursive;
+}
+
+.index-card{
+	background-color:#EBEBEB;
+	border:0;
+	border-radius: 20px;
+}
+
+@media only screen and (max-width: 767px ) {
+  .title{
+    /*Google Font*/
+    font-family: 'Satisfy', cursive;
+    color: white;
+    font-size: 5em;
+    height: 55%;
+    /*Ausrichtung Text*/
+    display: flex;
+    align-items: flex-end; /* Vertikale Zentrierung*/
+    justify-content: center; /* Horizontale Zentrierung*/
+  }
+
+  .title-1{
+    font-family: 'Satisfy', cursive;
+    color: white;
+    font-size: 4.5em;
+    height: 65%;
+    display: flex;
+    align-items: flex-end; /* Vertikale Zentrierung */
+    justify-content: center; /* Horizontale Zentrierung */
+  }
+
+  .title-1-text{
+    font-family: 'Satisfy', cursive;
+    color: white;
+    font-size: 1.1em;
+    display: flex;
+    align-items: flex-end; /* Vertikale Zentrierung */
+    justify-content: center; /* Horizontale Zentrierung */
+  }
+}
+
+#send_Email_Card_Image{
+	height:12em;
+}
+
+.title-email-card-image{
+	font-family: 'Satisfy', cursive;
+    color: white;
+    font-size: 2em;
+    height: 65%;
+    display: flex;
+    align-items: flex-end; /* Vertikale Zentrierung*/
+    justify-content: center; /* Horizontale Zentrierung*/
+}
+
+@media only screen and (min-width: 768px ) {
+  .title{
+    font-family: 'Satisfy', cursive;
+    color: white;
+    font-size: 8em;
+    height: 55%;
+    display: flex;
+    align-items: flex-end; /* Vertikale Zentrierung*/
+    justify-content: center; /* Horizontale Zentrierung*/
+  }
+
+  .title-1{
+    font-family: 'Satisfy', cursive;
+    color: white;
+    font-size: 8em;
+    height: 65%;
+    display: flex;
+    align-items: flex-end; /* Vertikale Zentrierung */
+    justify-content: center; /* Horizontale Zentrierung */
+  }
+
+  .title-1-text{
+    font-family: 'Satisfy', cursive;
+    color: white;
+    font-size: 1.4em;
+    display: flex;
+    align-items: flex-end; /* Vertikale Zentrierung */
+    justify-content: center; /* Horizontale Zentrierung */
+  }
+}
+
+/* Fancy Button CSS von https://codepen.io/electerious/pen/qPjbGm*/
+
+.button {
+  --offset: 5px;
+  --border-size: 2px;
+  display: inline-block;
+  position: relative;
+  padding: .75em 1.5em;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  border: 0;
+  background: transparent;
+  color: #ac7339;
+  text-transform: uppercase;
+  letter-spacing: .25em;
+  outline: none;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 0;
+  box-shadow: inset 0 0 0 var(--border-size) currentcolor;
+  -webkit-transition: background .8s ease;
+  transition: background .8s ease;
+}
+.button:hover {
+  background: rgba(100, 0, 0, 0.03);
+}
+.button__horizontal, .button__vertical {
+  position: absolute;
+  top: var(--horizontal-offset, 0);
+  right: var(--vertical-offset, 0);
+  bottom: var(--horizontal-offset, 0);
+  left: var(--vertical-offset, 0);
+  -webkit-transition: -webkit-transform .8s ease;
+  transition: -webkit-transform .8s ease;
+  transition: transform .8s ease;
+  transition: transform .8s ease, -webkit-transform .8s ease;
+  will-change: transform;
+}
+.button__horizontal::before, .button__vertical::before {
+  content: '';
+  position: absolute;
+  border: inherit;
+}
+.button__horizontal {
+  --vertical-offset: calc(var(--offset) * -1);
+  border-top: var(--border-size) solid currentcolor;
+  border-bottom: var(--border-size) solid currentcolor;
+}
+.button__horizontal::before {
+  top: calc(var(--vertical-offset) - var(--border-size));
+  bottom: calc(var(--vertical-offset) - var(--border-size));
+  left: calc(var(--vertical-offset) * -1);
+  right: calc(var(--vertical-offset) * -1);
+}
+.button:hover .button__horizontal {
+  -webkit-transform: scaleX(0);
+          transform: scaleX(0);
+}
+.button__vertical {
+  --horizontal-offset: calc(var(--offset) * -1);
+  border-left: var(--border-size) solid currentcolor;
+  border-right: var(--border-size) solid currentcolor;
+}
+.button__vertical::before {
+  top: calc(var(--horizontal-offset) * -1);
+  bottom: calc(var(--horizontal-offset) * -1);
+  left: calc(var(--horizontal-offset) - var(--border-size));
+  right: calc(var(--horizontal-offset) - var(--border-size));
+}
+.button:hover .button__vertical {
+  -webkit-transform: scaleY(0);
+          transform: scaleY(0);
+}
+/*----Ende vom kopierten Css------*/
+
