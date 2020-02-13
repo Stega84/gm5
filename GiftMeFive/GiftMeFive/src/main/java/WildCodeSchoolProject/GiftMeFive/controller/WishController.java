@@ -1,6 +1,7 @@
 package WildCodeSchoolProject.GiftMeFive.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import WildCodeSchoolProject.GiftMeFive.repository.WishRepository;
+import WildCodeSchoolProject.GiftMeFive.entity.Article;
 
 @Controller
 public class WishController {
@@ -249,5 +251,30 @@ public class WishController {
 		model.addAttribute("wishlist", repository.showWishlistForm(wishlistId));
 
 		return "wishform_list";
+	}
+	
+	@GetMapping("/recycle")
+	public String recycleWishlist(Model model, @RequestParam String titlename, @RequestParam String enddate, @RequestParam Long oldwishlistId,
+			RedirectAttributes redirectAttributes) {
+System.out.println("Con: Start");
+//		String reservationname = "nicht reserviert";
+//		model.addAttribute("wishlist", repository.showReservations(reservationname));
+		model.addAttribute("wishlist", repository.showUnreserved(oldwishlistId));
+System.out.println("Con: Nicht reservierte selektiert");
+		if (model.getAttribute("wishlist") == null) {
+			redirectAttributes.addAttribute("titlename", titlename);
+			redirectAttributes.addAttribute("wishlistId", oldwishlistId);
+			//TODO create endpoint to display "no unreserved items selected, redirected to previous wishlist"
+			return "redirect:/wishform_List";
+		}
+		Long wishlistId = repository.createWishlist(titlename, enddate);
+System.out.println("Con: Neue Liste erzeugt, id: " + wishlistId);
+		//TODO move to new wishlistId for all unreserved articles
+		List<Article> movingwishlist = (List<Article>) model.getAttribute("wishlist");
+		repository.moveToWishlist(movingwishlist, wishlistId);
+System.out.println("Con: Wünsche auf neue Liste verschoben! " + wishlistId);		
+		redirectAttributes.addAttribute("titlename", titlename);
+		redirectAttributes.addAttribute("wishlistId", wishlistId);
+		return "redirect:/wishform_list";
 	}
 }

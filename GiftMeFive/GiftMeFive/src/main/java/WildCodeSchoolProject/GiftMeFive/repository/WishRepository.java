@@ -132,6 +132,61 @@ public class WishRepository {
 		}
 		return null;
 	}
+	
+	public List<Article> showUnreserved(Long oldwishlistId) {
+
+//		String reservationname = "nicht reserviert";
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		
+System.out.println("Repo: Starte Suche in Liste " + oldwishlistId);
+		Encode en = new Encode();		
+		oldwishlistId = en.decode(oldwishlistId);
+
+
+		try {
+			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			statement = connection.prepareStatement(
+					"SELECT *, wishlist.name AS wishlistname, reservation.reserved, reservation.name AS reservationname "
+					+ "FROM article JOIN wishlist ON wishlistId = wishlist.id JOIN reservation ON article.id = reservation.id "
+					+ "WHERE reservation.reserved = 0 AND wishlistId = ?;");
+			statement.setLong(1, oldwishlistId);
+//		"SELECT *, wishlist.name AS wishlistname, reservation.reserved, reservation.name AS reservationname "
+//		+ "FROM article JOIN wishlist ON wishlistId = wishlist.id JOIN reservation ON article.id = reservation.id "
+//		+ "WHERE reservation.name = ? AND wishlistId = ?;");
+//			statement.setString(1, "nicht reserviert");
+//			statement.setLong(2, oldwishlistId);
+			resultSet = statement.executeQuery();
+
+			List<Article> Article = new ArrayList<>();
+
+			while (resultSet.next()) {
+				Long id = resultSet.getLong("id");
+				String name = resultSet.getString("name");
+				String description = resultSet.getString("description");
+				String creationdate = resultSet.getString("creationdate");
+				String imagelink = resultSet.getString("imagelink");
+				String productlink = resultSet.getString("productlink");
+				String wishlistname = resultSet.getString("wishlistname");
+				Boolean reserved = resultSet.getBoolean("reserved");
+				String reservationname = resultSet.getString("reservationname");
+
+				Article.add(new Article(id, name, description, creationdate, imagelink, productlink, oldwishlistId,
+						wishlistname, reserved, reservationname));
+System.out.println("Repo: Unreserviert "+ id+ name + " auf Liste " + oldwishlistId);
+			}
+			return Article;
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		} finally {
+			JdbcUtils.closeResultSet(resultSet);
+			JdbcUtils.closeStatement(statement);
+			JdbcUtils.closeConnection(connection);
+		}
+		return null;
+	}
 
 	public List<Article> showWishlist(Long wishlistId) {
 
@@ -145,7 +200,9 @@ public class WishRepository {
 		try {
 			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 			statement = connection.prepareStatement(
-					"SELECT *, wishlist.name AS wishlistname, reservation.reserved, reservation.name AS reservationname FROM article JOIN wishlist ON wishlistId = wishlist.id JOIN reservation ON article.id = reservation.id WHERE wishlistId = ? ;");
+					"SELECT *, wishlist.name AS wishlistname, reservation.reserved, reservation.name AS reservationname "
+					+ "FROM article JOIN wishlist ON wishlistId = wishlist.id JOIN reservation ON article.id = reservation.id "
+					+ "WHERE wishlistId = ? ;");
 			statement.setLong(1, wishlistId);
 			resultSet = statement.executeQuery();
 
@@ -299,6 +356,51 @@ public class WishRepository {
 
 		return wishlistId;
 	}
+	
+	public void moveToWishlist(List<Article> wishlist,
+			Long wishlistId) {
+	
+		Encode en = new Encode();		
+		wishlistId = en.decode(wishlistId);
+		
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet generatedKeys = null;
+
+		try {
+			
+			for (Article a : wishlist) {
+				connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+				statement = connection.prepareStatement(
+						"INSERT INTO article (name, description, imagelink, productlink, wishlistId) VALUES (?, ?, ?, ?, ?);",
+						Statement.RETURN_GENERATED_KEYS);
+	
+				statement.setString(1, a.getName());
+				statement.setString(2, a.getDescription());
+				statement.setString(3, a.getImagelink());
+				statement.setString(4, a.getProductlink());
+				statement.setLong(5, wishlistId);
+	
+				if (statement.executeUpdate() != 1) {
+					throw new SQLException("failed to insert data");
+				}
+				generatedKeys = statement.getGeneratedKeys();
+				if (!generatedKeys.next()) {
+					throw new SQLException("failed to get inserted id");
+				}
+System.out.println("Repo: Kopiere "+ a.getName() + " auf Liste " + wishlistId);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtils.closeResultSet(generatedKeys);
+			JdbcUtils.closeStatement(statement);
+			JdbcUtils.closeConnection(connection);
+		}
+
+		//return null;
+	}
 
 	public void unreserveWish(Long articleId) {
 
@@ -323,6 +425,8 @@ public class WishRepository {
 			JdbcUtils.closeConnection(connection);
 		}
 	}
+	
+	
 
 	public Long createWishlist(String titlename, String enddate) {
 
