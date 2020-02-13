@@ -98,9 +98,7 @@
                                 <input type="reset" onclick="imgResetFunction()" class="btn btn-danger mt-3 mb-0" value="Leeren">
                                 <input type="submit" class="btn btn-success mt-3 mb-0" value="Speichern">
                                 
-                                <!-- <a th:href="@{/spawnWishlist(wishlistId=${wishlistId}, titlename=${titlename})}" 
-								class="btn btn-primary float-right mt-3 mb-0" data-toggle="modal" data-target="#recycle_wishlist" th:attr="data-oldwishlistId=${wishlistId}">Recycle</a>-->
-								<a class="btn btn-primary float-right mt-3 mb-0" data-toggle="modal" data-target="#recycle_wishlist" 
+								<a class="btn btn-light float-right mt-3 mb-0 ml-1" data-toggle="modal" data-target="#recycle_wishlist" 
 								 th:attr="data-oldwishlistId=${wishlistId}">Recycle</a>
 								<a th:href="@{/saveWishlist(wishlistId=${wishlistId}, titlename=${titlename})}" 
 								class="btn btn-dark float-right mt-3 mb-0">Wunschliste speichern</a>
@@ -156,7 +154,7 @@
                         <input name="titlename" class="form-control" type="text" pattern="[\wäöüß]+" autofocus>
                         <label class="index-text">Bitte wählen Sie ein Datum.</label>
                         <input name="enddate" class="form-control" type="date">
-                        <input name="oldwishlistId" type="text" th:value="${wishlistId}">
+                        <input name="oldwishlistId" type="hidden" th:value="${wishlistId}">
                         <div class="modal-footer">
                             <input type="submit" class="btn btn-primary" value="Ausführen">
                         </div>

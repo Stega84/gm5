@@ -256,9 +256,8 @@ public class WishController {
 	@GetMapping("/recycle")
 	public String recycleWishlist(Model model, @RequestParam String titlename, @RequestParam String enddate, @RequestParam Long oldwishlistId,
 			RedirectAttributes redirectAttributes) {
+		
 System.out.println("Con: Start");
-//		String reservationname = "nicht reserviert";
-//		model.addAttribute("wishlist", repository.showReservations(reservationname));
 		model.addAttribute("wishlist", repository.showUnreserved(oldwishlistId));
 System.out.println("Con: Nicht reservierte selektiert");
 		if (model.getAttribute("wishlist") == null) {
@@ -275,6 +274,6 @@ System.out.println("Con: Neue Liste erzeugt, id: " + wishlistId);
 System.out.println("Con: Wünsche auf neue Liste verschoben! " + wishlistId);		
 		redirectAttributes.addAttribute("titlename", titlename);
 		redirectAttributes.addAttribute("wishlistId", wishlistId);
-		return "redirect:/wishform_list";
+		return "redirect:/saveWishlist";
 	}
 }
