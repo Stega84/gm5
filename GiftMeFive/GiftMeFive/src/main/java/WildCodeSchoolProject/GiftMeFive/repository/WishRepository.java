@@ -135,12 +135,10 @@ public class WishRepository {
 	
 	public List<Article> showUnreserved(Long oldwishlistId) {
 
-//		String reservationname = "nicht reserviert";
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
 		
-System.out.println("Repo: Starte Suche in Liste " + oldwishlistId);
 		Encode en = new Encode();		
 		oldwishlistId = en.decode(oldwishlistId);
 
@@ -152,11 +150,7 @@ System.out.println("Repo: Starte Suche in Liste " + oldwishlistId);
 					+ "FROM article JOIN wishlist ON wishlistId = wishlist.id JOIN reservation ON article.id = reservation.id "
 					+ "WHERE reservation.reserved = 0 AND wishlistId = ?;");
 			statement.setLong(1, oldwishlistId);
-//		"SELECT *, wishlist.name AS wishlistname, reservation.reserved, reservation.name AS reservationname "
-//		+ "FROM article JOIN wishlist ON wishlistId = wishlist.id JOIN reservation ON article.id = reservation.id "
-//		+ "WHERE reservation.name = ? AND wishlistId = ?;");
-//			statement.setString(1, "nicht reserviert");
-//			statement.setLong(2, oldwishlistId);
+
 			resultSet = statement.executeQuery();
 
 			List<Article> Article = new ArrayList<>();
@@ -174,7 +168,6 @@ System.out.println("Repo: Starte Suche in Liste " + oldwishlistId);
 
 				Article.add(new Article(id, name, description, creationdate, imagelink, productlink, oldwishlistId,
 						wishlistname, reserved, reservationname));
-System.out.println("Repo: Unreserviert "+ id+ name + " auf Liste " + oldwishlistId);
 			}
 			return Article;
 		} catch (SQLException e) {
@@ -388,7 +381,6 @@ System.out.println("Repo: Unreserviert "+ id+ name + " auf Liste " + oldwishlist
 				if (!generatedKeys.next()) {
 					throw new SQLException("failed to get inserted id");
 				}
-System.out.println("Repo: Kopiere "+ a.getName() + " auf Liste " + wishlistId);
 			}
 
 		} catch (SQLException e) {
@@ -398,8 +390,6 @@ System.out.println("Repo: Kopiere "+ a.getName() + " auf Liste " + wishlistId);
 			JdbcUtils.closeStatement(statement);
 			JdbcUtils.closeConnection(connection);
 		}
-
-		//return null;
 	}
 
 	public void unreserveWish(Long articleId) {
@@ -426,8 +416,6 @@ System.out.println("Repo: Kopiere "+ a.getName() + " auf Liste " + wishlistId);
 		}
 	}
 	
-	
-
 	public Long createWishlist(String titlename, String enddate) {
 
 		Encode en = new Encode();
