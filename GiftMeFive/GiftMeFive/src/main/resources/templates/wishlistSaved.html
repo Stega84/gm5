@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Die 3 Meta-Tags oben *müssen* zuerst im head stehen; jeglicher sonstiger head-Inhalt muss *nach* diesen Tags kommen -->
     <title>Gift Me Five - Wunschliste gespeichert</title>
-    <script type="text/javascript" src="js/wishlisSaved.js"></script>
+    <script type="text/javascript" src="js/wishform.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Caveat&display=swap" rel="stylesheet">
@@ -30,12 +30,11 @@
         <!--Titeltext-->
         <div class="row text-center title-1">GiftMeFive</div>
         <div class="title-1-text" th:text="|${titlename} Wunschliste!|"></div>
-                <!-- Export-Optionen -->
+        <!-- Export-Optionen -->
         <div class="home pt-2">
-        <a style="font-size: 1em" class="home pl-4" th:href="@{/toPDF(titlename=${titlename},wishlistId=${wishlistId})}">Speichern HTML</a>
-        <button class="btn btn-lg btn-link pl-4" style="color: #ebebeb" data-toggle="modal" data-target="#save_csv"
-         th:attr="data-titlename=${titlename}, data-wishlistid=${wishlistId}">Speichern CSV</button>
-         </div>
+            <a style="font-size: 1em" class="home pl-4" th:href="@{/toPDF(titlename=${titlename},wishlistId=${wishlistId})}">Speichern HTML</a>
+            <button class="btn btn-lg btn-link pl-4" style="color: #ebebeb" data-toggle="modal" data-target="#save_csv" th:attr="data-titlename=${titlename}, data-wishlistid=${wishlistId}">Speichern CSV</button>
+        </div>
     </div>
 
     <!-- Anzeige der IDs für User und für die Freunde. Button zum versenden oder Bearbeiten werden direkt angzeigt. -->
@@ -109,17 +108,17 @@
                         <small class="text-muted" th:text=" | in Liste ${article.wishlistId}|"></small>
                         <small class="text-muted" th:text=" | Reserviert=${article.reserved} für ${article.reservationname}|"></small>
                     </p>
-					<div class="text-right">
+                    <div class="text-right">
                         <a th:href="@{/loadWish(articleId=${article.id}, wishlistId=${wishlistId}, articlename=${article.name}, description=${article.description}, imagelink=${article.imagelink}, productlink=${article.productlink})}" class="btn btn-primary">Bearbeiten</a>
                         <a th:href="@{/removeWish(articleId=${article.id}, wishlistId=${wishlistId}, titlename=${titlename})}" class="btn btn-danger">Löschen</a>
-                        
-                 	</div>
-   
+
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
-            <!--Eingabefenster für Save As CSV-->
+    <!--Eingabefenster für Save As CSV-->
     <div class="modal fade" id="save_csv" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content" style="background-color:#EBEBEB">
@@ -134,8 +133,8 @@
                         <input type="hidden" class="titlename" id="titlename" name="titlename" value="">
                         <input type="hidden" class="wishlistId" id="wishlistId" name="wishlistId" value="">
                         <textarea name="text_area" id="text_area" cols="40" th:text="${wishlistCsv}"></textarea>
-                   
-					  	<label class="index-text">Bitte geben Sie den Dateinamen ohne Endung ein:</label>
+
+                        <label class="index-text">Bitte geben Sie den Dateinamen ohne Endung ein:</label>
                         <input name="filename" id="filename" class="form-control" type="text" placeholder="..." autofocus>
                     </div>
                     <div class="modal-footer">
@@ -160,7 +159,7 @@
             modal.find('.wishlistId').val(button.data('wishlistid'))
         })
     </script>
-        <script>
+    <script>
         $('#save_csv').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
             var modal = $(this)
@@ -169,40 +168,12 @@
             modal.find('.wishlistId').val(button.data('wishlistid'))
         })
     </script>
-		<script>
-	    function save() {
-		  var t1 = document.getElementById('wishlistId');
-	      var t2 = document.getElementById('titlename');
-	      var t3 = document.getElementById('text_area');
-	      var fname = document.getElementById('filename');
-
-	        /* var data = '[wishlistId ' + 1.value + ' wishlistName ' + t2.value + '] csvData>> ' + t3.value; */
-	        var data = t3.value;
-	        var filename = fname.value
-	        var textToBLOB = new Blob([data], { type: 'text/plain' });
-
-			var sFileName = filename +'.csv';   // The file name.                 	
-	 
-	        var newLink = document.createElement("a");
-	        newLink.download = sFileName;
-	 
-	        if (window.webkitURL != null) {
-	            newLink.href = window.webkitURL.createObjectURL(textToBLOB);
-	        }
-	        else {
-	            newLink.href = window.URL.createObjectURL(textToBLOB);
-	            newLink.style.display = "none";
-	            document.body.appendChild(newLink);
-	        }
-	        newLink.click();
-	    }
-		</script>
     <!-- Fokus auf erstes Input-Feld im Modal, adaptiert von https://github.com/twbs/bootstrap/issues/12525 -->
-	 <script>
-	 $(document).on('shown.bs.modal', function (e) {
-	    $('[autofocus]', e.target).focus();
-	  });
-	 </script>
+    <script>
+        $(document).on('shown.bs.modal', function(e) {
+            $('[autofocus]', e.target).focus();
+        });
+    </script>
 </body>
 
 </html>
