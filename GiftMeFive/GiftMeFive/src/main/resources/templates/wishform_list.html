@@ -31,8 +31,9 @@
                 <!-- Export-Optionen -->
         <div class="home pt-2">
         <a style="font-size: 1em" class="home pl-4" th:href="@{/toPDF(titlename=${titlename},wishlistId=${wishlistId})}">Speichern HTML</a>
-        <button class="btn btn-lg btn-link pl-4" data-toggle="modal" data-target="#save_csv"
-         th:attr="data-titlename=${titlename}, data-wishlistid=${wishlistId}">Speichern CSV</button>
+        <button class="btn btn-lg btn-link pl-4" style="color: #ebebeb" data-toggle="modal" data-target="#save_csv"
+         th:attr="data-titlename=${titlename}, data-wishlistid=${wishlistId}, data-wishlistCsv=${wishlistCsv}">Speichern CSV
+         </button>
          </div>
     </div>
 
@@ -146,7 +147,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content" style="background-color:#EBEBEB">
                 <div class="modal-header">
-                    <h5 class="modal-title googlef-indieflower">Liste lokal speichern im CSV Format (in Ordner 'Downloads')</h5>
+                    <h5 class="modal-title googlef-indieflower">Liste lokal speichern im CSV-Format (in Ordner 'Downloads')</h5>
                     <button type="button" class="close" data-dismiss="modal">
                     </button>
                 </div>
@@ -155,7 +156,7 @@
                     <div class="modal-body">
                         <input type="hidden" class="titlename" id="titlename" name="titlename" value="">
                         <input type="hidden" class="wishlistId" id="wishlistId" name="wishlistId" value="">
-                        <textarea name="text_area" id="text_area" cols="40" th:text="${wishlistCsv}"></textarea>
+                        <textarea name="text_area" class="wishlistCsv" id="text_area" cols="40" th:text="${wishlistCsv}"></textarea>
                    
 					  	<label class="index-text">Bitte geben Sie den Dateinamen ohne Endung ein:</label>
                         <input name="filename" id="filename" class="form-control" type="text" placeholder="..." autofocus>
@@ -181,9 +182,10 @@
 
             modal.find('.titlename').val(button.data('titlename'))
             modal.find('.wishlistId').val(button.data('wishlistid'))
+            modal.find('.wishlistId').val(button.data('wishlistCsv'))
         })
     </script>
-		<script>
+	<script>
 	    function save() {
 		  var t1 = document.getElementById('wishlistId');
 	      var t2 = document.getElementById('titlename');

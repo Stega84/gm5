@@ -33,8 +33,9 @@
         <!-- Export-Optionen -->
         <div class="home pt-2">
         <a style="font-size: 1em" class="home pl-4" th:href="@{/toPDF(titlename=${titlename},wishlistId=${wishlistId})}">Speichern HTML</a>
-        <button class="btn btn-lg btn-link pl-4" data-toggle="modal" data-target="#save_csv"
-         th:attr="data-titlename=${titlename}, data-wishlistid=${wishlistId}">Speichern CSV</button>
+        <button class="btn btn-lg btn-link pl-4" style="color: #ebebeb" data-toggle="modal" data-target="#save_csv"
+         th:attr="data-titlename=${titlename}, data-wishlistid=${wishlistId}">
+         Speichern CSV</button>
          </div>
     </div>
 
@@ -97,7 +98,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content" style="background-color:#EBEBEB">
                 <div class="modal-header">
-                    <h5 class="modal-title googlef-indieflower">Liste lokal speichern im CSV Format (in Ordner 'Downloads')</h5>
+                    <h5 class="modal-title googlef-indieflower">Liste lokal speichern im CSV-Format (in Ordner 'Downloads')</h5>
                     <button type="button" class="close" data-dismiss="modal">
                     </button>
                 </div>

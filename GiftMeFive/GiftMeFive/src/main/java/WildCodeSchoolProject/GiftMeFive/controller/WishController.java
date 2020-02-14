@@ -70,6 +70,8 @@ public class WishController {
 		model.addAttribute("wishlistId", wishlistId);
 		model.addAttribute("imagelink", "/getimage/1");
 		model.addAttribute("wishlist", repository.showWishlistForm(wishlistId));
+		String wishlistCsv = repository.makeCsv (model.getAttribute("wishlist"));
+		model.addAttribute("wishlistCsv", wishlistCsv);
 		return "wishform_list";
 	}
 
@@ -82,6 +84,8 @@ public class WishController {
 		model.addAttribute("friendsId", friendsId);
 
 		model.addAttribute("wishlist", repository.showWishlistForm(wishlistId));
+		String wishlistCsv = repository.makeCsv (model.getAttribute("wishlist"));
+		model.addAttribute("wishlistCsv", wishlistCsv);		
 		return "wishlistSaved";
 	}
 
@@ -162,6 +166,8 @@ public class WishController {
 
 		model.addAttribute("wishlist", repository.showReservations(reservationname));
 		model.addAttribute("reservationname", reservationname);
+		String wishlistCsv = repository.makeCsv (model.getAttribute("wishlist"));
+		model.addAttribute("wishlistCsv", wishlistCsv);		
 		return "reservationoutput";
 	}
 
