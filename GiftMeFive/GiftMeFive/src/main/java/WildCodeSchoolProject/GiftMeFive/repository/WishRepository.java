@@ -426,6 +426,23 @@ public class WishRepository {
 		}
 		return imageid;
 	}
-
+	
+	public String makeCsv (Object wishlist) {
+		//TODO convert wishlist to CSV
+		String wishlistCsv = "";
+System.out.println("Repo: Start wishlistCsv");
+		@SuppressWarnings("unchecked")
+		List<Article> articles = (List<Article>) wishlist;
+		for (Article article : articles) {
+			wishlistCsv = wishlistCsv.concat(article.getId() + ",");
+			wishlistCsv = wishlistCsv.concat(article.getName() + ",");
+			wishlistCsv = wishlistCsv.concat(article.getDescription() + ",");
+			wishlistCsv = wishlistCsv.concat(article.getImagelink() + ",");
+			wishlistCsv = wishlistCsv.concat(article.getCreationdate() + ",");
+			wishlistCsv = wishlistCsv.concat(article.getWishlistId() + "\n");
+System.out.println("Repo: Now added " + wishlistCsv);
+		}
+		return (wishlistCsv);
+	}
 
 }

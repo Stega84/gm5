@@ -59,6 +59,8 @@ public class WishController {
 		model.addAttribute("wishlistId", wishlistId);
 
 		model.addAttribute("wishlist", repository.showWishlist(wishlistId));
+		String wishlistCsv = repository.makeCsv (model.getAttribute("wishlist"));
+		model.addAttribute("wishlistCsv", wishlistCsv);
 		return "wishlistoutput";
 	}
 
@@ -263,6 +265,10 @@ public class WishController {
 			WebPageToPdf.genPDFFromHTML("http://localhost:8080//wishform_list?wishlistId="+wishlistId+"&titlename="+titlename);
 			return "wishlistoutput";
 	
+	}
+	@RequestMapping("/toCsv")
+	public String toCsv () {
+			return "Hallo CSV";
 	}
 	
 }

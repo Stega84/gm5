@@ -27,10 +27,15 @@
     <div class="bg-1 mb-2">
         <!-- Home -->
         <a class="home pl-4" th:href="@{home}">Home<span class="sr-only">(current)</span></a>
-        <a class="home pl-4" th:href="@{/toPDF(titlename=${titlename},wishlistId=${wishlistId})}">Print to PDF</a>
         <!--Titeltext-->
         <div class="row text-center title-1">GiftMeFive</div>
         <div class="title-1-text" th:text="|${titlename} Wunschliste!|"></div>
+                <!-- Export-Optionen -->
+        <div class="home pt-2">
+        <a style="font-size: 1em" class="home pl-4" th:href="@{/toPDF(titlename=${titlename},wishlistId=${wishlistId})}">Speichern HTML</a>
+        <button class="btn btn-lg btn-link pl-4" data-toggle="modal" data-target="#save_csv"
+         th:attr="data-titlename=${titlename}, data-wishlistid=${wishlistId}">Speichern CSV</button>
+         </div>
     </div>
 
     <!-- Anzeige der IDs für User und für die Freunde. Button zum versenden oder Bearbeiten werden direkt angzeigt. -->
@@ -114,6 +119,32 @@
             </div>
         </div>
     </div>
+            <!--Eingabefenster für Save As CSV-->
+    <div class="modal fade" id="save_csv" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="background-color:#EBEBEB">
+                <div class="modal-header">
+                    <h5 class="modal-title googlef-indieflower">Liste lokal speichern im CSV Format (in Ordner 'Downloads')</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                    </button>
+                </div>
+
+                <form name="saveform">
+                    <div class="modal-body">
+                        <input type="hidden" class="titlename" id="titlename" name="titlename" value="">
+                        <input type="hidden" class="wishlistId" id="wishlistId" name="wishlistId" value="">
+                        <textarea name="text_area" id="text_area" cols="40" th:text="${wishlistCsv}"></textarea>
+                   
+					  	<label class="index-text">Bitte geben Sie den Dateinamen ohne Endung ein:</label>
+                        <input name="filename" id="filename" class="form-control" type="text" placeholder="..." autofocus>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-primary" onClick="save();" value="Speichern">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!-- jQuery (wird für Bootstrap JavaScript-Plugins benötigt) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -129,6 +160,43 @@
             modal.find('.wishlistId').val(button.data('wishlistid'))
         })
     </script>
+        <script>
+        $('#save_csv').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var modal = $(this)
+
+            modal.find('.titlename').val(button.data('titlename'))
+            modal.find('.wishlistId').val(button.data('wishlistid'))
+        })
+    </script>
+		<script>
+	    function save() {
+		  var t1 = document.getElementById('wishlistId');
+	      var t2 = document.getElementById('titlename');
+	      var t3 = document.getElementById('text_area');
+	      var fname = document.getElementById('filename');
+
+	        /* var data = '[wishlistId ' + 1.value + ' wishlistName ' + t2.value + '] csvData>> ' + t3.value; */
+	        var data = t3.value;
+	        var filename = fname.value
+	        var textToBLOB = new Blob([data], { type: 'text/plain' });
+
+			var sFileName = filename +'.csv';   // The file name.                 	
+	 
+	        var newLink = document.createElement("a");
+	        newLink.download = sFileName;
+	 
+	        if (window.webkitURL != null) {
+	            newLink.href = window.webkitURL.createObjectURL(textToBLOB);
+	        }
+	        else {
+	            newLink.href = window.URL.createObjectURL(textToBLOB);
+	            newLink.style.display = "none";
+	            document.body.appendChild(newLink);
+	        }
+	        newLink.click();
+	    }
+		</script>
     <!-- Fokus auf erstes Input-Feld im Modal, adaptiert von https://github.com/twbs/bootstrap/issues/12525 -->
 	 <script>
 	 $(document).on('shown.bs.modal', function (e) {

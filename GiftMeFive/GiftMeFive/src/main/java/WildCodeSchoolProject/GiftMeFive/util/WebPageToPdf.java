@@ -61,15 +61,17 @@ package WildCodeSchoolProject.GiftMeFive.util;
 			   e.printStackTrace();
 			  }
 		   //----------------------- HTML CREATION ------------------------
-		    
-			String filename = "temp_html.html";
-			Document document = new Document();
-		    PdfWriter writer = PdfWriter.getInstance(document,
-		      new FileOutputStream("html.pdf"));
-		    document.open();
-		    XMLWorkerHelper.getInstance().parseXHtml(writer, document,
-		      new FileInputStream(filename));
-		    document.close();
+		  
+// Skip transformation to PDF because errors are caused by nested HTML tags in Page
+//		    
+//			String filename = "temp_html.html";
+//			Document document = new Document();
+//		    PdfWriter writer = PdfWriter.getInstance(document,
+//		      new FileOutputStream("html.pdf"));
+//		    document.open();
+//		    XMLWorkerHelper.getInstance().parseXHtml(writer, document,
+//		      new FileInputStream(filename));
+//		    document.close();
 	}
 
 	public static void toPdf (String weblink) throws JDOMException, DocumentException {
