@@ -93,7 +93,9 @@ public class WishRepository {
 	}
 
 	public List<Article> showReservations(String reservationname) {
-
+		
+		Encode en = new Encode();
+		
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -114,7 +116,7 @@ public class WishRepository {
 				String creationdate = resultSet.getString("creationdate");
 				String imagelink = resultSet.getString("imagelink");
 				String productlink = resultSet.getString("productlink");
-				Long wishlistId = resultSet.getLong("wishlistId");
+				Long wishlistId = en.encode(resultSet.getLong("wishlistId"));
 				String wishlistname = resultSet.getString("wishlistname");
 				Boolean reserved = resultSet.getBoolean("reserved");
 
