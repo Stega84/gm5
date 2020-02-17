@@ -262,14 +262,26 @@ public class WishController {
 
 		return "wishform_list";
 	}
-	@RequestMapping("/toPDF")
-	public String toPDF (Model model, @RequestParam String titlename, @RequestParam Long wishlistId) throws Exception, DocumentException {
+	@RequestMapping("/toHTML")
+	public String toPDF (Model model, @RequestParam String titlename, @RequestParam Long wishlistId, @RequestParam String sourceName) throws Exception, DocumentException {
+			String pageName = null;
+			String userId = titlename + "_" + "wishlistId";
+			String friendsId = titlename + "_" + wishlistId + "_friends";
 			model.addAttribute("titlename", titlename);
 			model.addAttribute("wishlistId", wishlistId);
-
+			
 			model.addAttribute("wishlist", repository.showWishlist(wishlistId));
-			WebPageToPdf.genPDFFromHTML("http://localhost:8080//wishform_list?wishlistId="+wishlistId+"&titlename="+titlename);
-			return "wishlistoutput";
+			model.addAttribute("userId", userId);
+			model.addAttribute("friendsId", friendsId);
+			if (sourceName.equals("wishlistSaved")) {
+			pageName = "http://localhost:8080/" + "wishlistSaved?userId=" + userId + "&friendsId=" + friendsId + "&wishlistId=" + wishlistId + "&titlename=" + titlename;
+			} else {
+			pageName = 	"http://localhost:8080/"+ sourceName + "?wishlistId=" + wishlistId + "&titlename=" + titlename;
+			}
+			String fileName = sourceName + "_saved.html";
+			WebPageToPdf.saveHTML(pageName, fileName);
+			
+			return sourceName;
 	
 	}
 	@RequestMapping("/toCsv")

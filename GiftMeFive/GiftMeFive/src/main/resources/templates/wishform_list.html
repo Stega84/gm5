@@ -32,7 +32,7 @@
         <div class="title-1-text" th:text="|${titlename} Wunschliste!|"></div>
                 <!-- Export-Optionen -->
         <div class="home pt-2">
-        <a style="font-size: 1em" class="home pl-4" th:href="@{/toPDF(titlename=${titlename},wishlistId=${wishlistId})}">Speichern HTML</a>
+        <a style="font-size: 1em" class="home pl-4" th:href="@{/toHTML(titlename=${titlename},wishlistId=${wishlistId}, sourceName='wishform_list')}">Speichern HTML</a>
         <button class="btn btn-lg btn-link pl-4" style="color: #ebebeb" data-toggle="modal" data-target="#save_csv"
          th:attr="data-titlename=${titlename}, data-wishlistid=${wishlistId}">Speichern CSV</button>
          </div>

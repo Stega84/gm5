@@ -91,7 +91,7 @@ p.card-title{
   .title-1-text{
     font-family: 'Satisfy', cursive;
     color: white;
-    font-size: 1.1em;
+    font-size: 1.4em;
     display: flex;
     align-items: flex-end; /* Vertikale Zentrierung */
     justify-content: center; /* Horizontale Zentrierung */
@@ -136,7 +136,7 @@ p.card-title{
   .title-1-text{
     font-family: 'Satisfy', cursive;
     color: white;
-    font-size: 1.4em;
+    font-size: 1.9em;
     display: flex;
     align-items: flex-end; /* Vertikale Zentrierung */
     justify-content: center; /* Horizontale Zentrierung */

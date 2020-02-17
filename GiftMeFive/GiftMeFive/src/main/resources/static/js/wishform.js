@@ -27,12 +27,12 @@ function dataFunction(){
 }
 
 function save() {
-	var t1 = document.getElementById('wishlistId');
-    var t2 = document.getElementById('titlename');
+//	var t1 = document.getElementById('wishlistId');
+//    var t2 = document.getElementById('titlename');
     var t3 = document.getElementById('text_area');
     var fname = document.getElementById('filename');
 
-      /* var data = '[wishlistId ' + 1.value + ' wishlistName ' + t2.value + '] csvData>> ' + t3.value; */
+//      var data = '[wishlistId ' + 1.value + ' wishlistName ' + t2.value + '] csvData>> ' + t3.value;
       var data = t3.value;
       var filename = fname.value
       var textToBLOB = new Blob([data], { type: 'text/plain' });
