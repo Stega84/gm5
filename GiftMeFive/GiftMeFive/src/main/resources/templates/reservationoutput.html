@@ -33,7 +33,7 @@
         <!-- Export-Optionen -->
         <div class="home pt-2">
             <!--TODO: wishlistId not present, create separate route  <a style="font-size: 1em" class="home pl-4" th:href="@{/toPDF(titlename=${titelname},wishlistId=${wishlistId}">Speichern HTML</a> -->
-            <button class="btn btn-lg btn-link pl-4" style="color: #ebebeb" data-toggle="modal" data-target="#save_csv" th:attr="data-titlename=${reservationname}, data-wishlistid='0'">Speichern CSV</button>
+            <button class="btn btn-lg btn-link pl-4" style="color: #ebebeb" data-toggle="modal" data-target="#save_csv" th:attr="data-reservationname=${reservationname}, data-wishlistid='0'">Speichern CSV</button>
         </div>
     </div>
 
@@ -75,15 +75,15 @@
 
                 <form name="saveform">
                     <div class="modal-body">
-                        <input type="hidden" class="titlename" id="titlename" name="titlename" value="">
-                        <input type="hidden" class="wishlistId" id="wishlistId" name="wishlistId" value="">
+                        <input type="hidden" class="reservationname" id="reservationname" name="reservationname" th:value="${reservationname}">
+                        <input type="hidden" class="wishlistId" id="wishlistId" name="wishlistId" th:value="${wishlistId}">
                         <textarea name="text_area" id="text_area" cols="40" th:text="${wishlistCsv}"></textarea>
 
                         <label class="index-text">Bitte geben Sie den Dateinamen ohne Endung ein:</label>
                         <input name="filename" id="filename" class="form-control" type="text" placeholder="..." autofocus>
                     </div>
                     <div class="modal-footer">
-                        <input type="submit" class="btn btn-primary" onClick="save();" value="Speichern">
+                        <input type="submit" class="btn btn-primary" onClick="saveRes();" value="Speichern">
                     </div>
                 </form>
             </div>
@@ -99,7 +99,7 @@
             var button = $(event.relatedTarget) // Button that triggered the modal
             var modal = $(this)
 
-            modal.find('.titlename').val(button.data('titlename'))
+            modal.find('.reservationname').val(button.data('reservationname'))
             modal.find('.wishlistId').val(button.data('wishlistid'))
         })
     </script>

@@ -9,6 +9,8 @@
     <title>Gift Me Five Extrawunsch</title>
     <script type="text/javascript" src="js/wishform.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Caveat&display=swap" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <!-- Bootstrap -->
     <link href="bootstrap-4.3.1-dist/css/bootstrap.min.css" rel="stylesheet">
@@ -32,8 +34,7 @@
         <div class="home pt-2">
         <a style="font-size: 1em" class="home pl-4" th:href="@{/toPDF(titlename=${titlename},wishlistId=${wishlistId})}">Speichern HTML</a>
         <button class="btn btn-lg btn-link pl-4" style="color: #ebebeb" data-toggle="modal" data-target="#save_csv"
-         th:attr="data-titlename=${titlename}, data-wishlistid=${wishlistId}, data-wishlistCsv=${wishlistCsv}">Speichern CSV
-         </button>
+         th:attr="data-titlename=${titlename}, data-wishlistid=${wishlistId}">Speichern CSV</button>
          </div>
     </div>
 
@@ -79,7 +80,12 @@
                                     <option>DVD & Blu-ray</option>
                                     <option>Drogerie & Körperpflege</option>
                                     <option>Elektronik & Foto</option>
-                                    <option>Games</option>
+                                    <option>Games</option>    <!-- Fokus auf erstes Input-Feld im Modal, adaptiert von https://github.com/twbs/bootstrap/issues/12525 -->
+    <script>
+        $(document).on('shown.bs.modal', function(e) {
+            $('[autofocus]', e.target).focus();
+        });
+    </script>
                                     <option>Garten</option>
                                     <option>Geschenkgutscheine</option>
                                     <option>Haustier</option>
@@ -169,12 +175,10 @@
         </div>
     </div>
 
-        <!-- Optional JavaScript -->
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
- <!--   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
--->
+    <!-- jQuery (wird für Bootstrap JavaScript-Plugins benötigt) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Binde alle kompilierten Plugins zusammen ein (wie hier unten) oder such dir einzelne Dateien nach Bedarf aus -->
+    <script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
     <script>
         $('#save_csv').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
@@ -182,8 +186,13 @@
 
             modal.find('.titlename').val(button.data('titlename'))
             modal.find('.wishlistId').val(button.data('wishlistid'))
-            modal.find('.wishlistId').val(button.data('wishlistCsv'))
         })
+    </script>
+        <!-- Fokus auf erstes Input-Feld im Modal, adaptiert von https://github.com/twbs/bootstrap/issues/12525 -->
+    <script>
+        $(document).on('shown.bs.modal', function(e) {
+            $('[autofocus]', e.target).focus();
+        });
     </script>
 </body>
 
