@@ -109,7 +109,7 @@
                         <textarea name="text_area" id="text_area" cols="40" th:text="${wishlistCsv}"></textarea>
 
                         <label class="index-text">Bitte geben Sie den Dateinamen ohne Endung ein:</label>
-                        <input name="filename" id="filename" class="form-control" type="text" placeholder="..." autofocus>
+                        <input name="filename" id="filename" class="form-control" type="text" th:value="${titlename}+'_'+${wishlistId}+'_out'" autofocus>
                     </div>
                     <div class="modal-footer">
                         <input type="submit" class="btn btn-primary" onClick="save();" value="Speichern">
