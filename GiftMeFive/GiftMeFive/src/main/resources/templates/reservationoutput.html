@@ -22,7 +22,7 @@
 
 <body class="container">
     <!--Navigation-->
-    <div class="bg-1">
+    <div class="bg-1" th:style="'background:url('+ @{${topimagelink}} +');'">
         <!-- Home -->
         <a class="home pl-4" th:href="@{home}">Home<span class="sr-only">(current)</span></a>
         <!--Titeltext-->
@@ -50,7 +50,7 @@
                     </p>
 
                     <div class="text-right">
-                    	<a th:href="@{/unreserveWish(articleId=${article.id}, articlename=${article.name}, reservationname=${article.reservationname})}" class="btn btn-primary">Aufheben Reservierung</a>
+                    	<a th:href="@{/unreserveWish(articleId=${article.id}, articlename=${article.name}, reservationname=${article.reservationname}, wishlistId=${article.wishlistId})}" class="btn btn-primary">Aufheben Reservierung</a>
                     </div>
                 </div>
             </div>

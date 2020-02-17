@@ -25,33 +25,43 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
       <![endif]-->
 
-
-
 </head>
 
-<body class="container-fluid p-0">
+<body class="container p-0">
 
-
-	
-
-	<table style="width: 100%">
-		<tr>
-			<th>Firstname</th>
-			<th>Lastname</th>
-			<th>Age</th>
-		</tr>
-		<tr>
-			<td>Jill</td>
-			<td>Smith</td>
-			<td><img th:src="@{'/image/'+*{5}}" style="height: 50px"></td>
-		</tr>
-		<tr>
-			<td>Eve</td>
-			<td>Jackson</td>
-			<td>94</td>
-		</tr>
-	</table>
-
+	<div id="carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+		<ol class="carousel-indicators">
+			<li data-target="#carousel" data-slide-to="0" class="active"></li>
+			<li data-target="#carousel" data-slide-to="1"></li>
+			<li data-target="#carousel" data-slide-to="2"></li>
+		</ol>
+		<div class="carousel-inner" role="listbox">
+			<!-- Slide One - Set the background image for this slide in the line below -->
+			<div class="carousel-item active"
+				th:style="'background:url('+ @{/getimage/24} +');'">
+				<div class="carousel-caption d-none d-md-block">
+					<div class="row text-center title-1">GiftMeFive</div>
+					<div class="title-1-text" th:text="|${titlename} Wunschliste!|"></div>
+				</div>
+			</div>
+			<!-- Slide Two - Set the background image for this slide in the line below -->
+			<div class="carousel-item"
+				th:style="'background:url('+ @{/getimage/25} +');'">
+				<div class="carousel-caption d-none d-md-block">
+					<div class="row text-center title-1">GiftMeFive</div>
+					<div class="title-1-text" th:text="|${titlename} Wunschliste!|"></div>
+				</div>
+			</div>
+			<!-- Slide Three - Set the background image for this slide in the line below -->
+			<div class="carousel-item"
+				th:style="'background:url('+ @{/getimage/27} +');'">
+				<div class="carousel-caption d-none d-md-block">
+					<div class="row text-center title-1">GiftMeFive</div>
+					<div class="title-1-text" th:text="|${titlename} Wunschliste!|"></div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- jQuery (wird für Bootstrap JavaScript-Plugins benötigt) -->
 	<script

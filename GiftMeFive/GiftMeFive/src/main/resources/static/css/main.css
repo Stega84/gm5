@@ -29,9 +29,9 @@ p.card-title{
 
 .bg-1 {
   /* The image used */
-  background-image: url(../image/list_2.jpg);
+  
   /* Full height */
-  height: 30%;
+  min-height: 300px;
 
   /* Center and scale the image nicely */
   background-position: center;
@@ -141,6 +141,16 @@ p.card-title{
     align-items: flex-end; /* Vertikale Zentrierung */
     justify-content: center; /* Horizontale Zentrierung */
   }
+}
+
+.carousel-item {
+  
+  min-height: 300px;
+ 
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 /* Fancy Button CSS von https://codepen.io/electerious/pen/qPjbGm*/
