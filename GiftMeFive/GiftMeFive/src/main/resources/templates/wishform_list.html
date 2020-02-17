@@ -24,13 +24,66 @@
 
 <body class="container">
     <!--Navigation-->
-    <div class="bg-1">
-        <!-- Home -->
+<!--     <div class="bg-1">
+        Home
         <a class="home pl-4" th:href="@{home}">Home<span class="sr-only">(current)</span></a>
-        <!--Titeltext-->
+        Titeltext
         <div class="row text-center title-1">GiftMeFive</div>
         <div class="title-1-text" th:text="|${titlename} Wunschliste!|"></div>
-    </div>
+    </div> -->
+
+
+	<div id="carousel" class="carousel slide carousel-fade" data-ride="carousel" data-interval="false">
+		<ol class="carousel-indicators">
+			<li data-target="#carousel" data-slide-to="0" class="active" onclick="slideOne(24)"></li>
+			<li data-target="#carousel" data-slide-to="1" onclick="slideOne(25)"></li>
+			<li data-target="#carousel" data-slide-to="2" onclick="slideOne(26)"></li>
+			<li data-target="#carousel" data-slide-to="3" onclick="slideOne(27)"></li>
+		</ol>
+		<div class="carousel-inner" role="listbox">
+			<!-- Slide One - Set the background image for this slide in the line below -->
+			<div class="carousel-item active"
+				th:style="'background:url('+ @{/getimage/24} +');'">
+				<a class="home pl-4" th:href="@{home}">Home</a>
+				<div class="carousel-caption d-none d-md-block">
+					
+					<div class="row text-center title-1">GiftMeFive</div>
+					<div class="title-1-text" th:text="|${titlename} Wunschliste!|"></div>
+				</div>
+			</div>
+			<!-- Slide Two - Set the background image for this slide in the line below -->
+			<div class="carousel-item"
+				th:style="'background:url('+ @{/getimage/25} +');'">
+				<a class="home pl-4" th:href="@{home}">Home</a>
+				<div class="carousel-caption d-none d-md-block">
+					
+					<div class="row text-center title-1">GiftMeFive</div>
+					<div class="title-1-text" th:text="|${titlename} Wunschliste!|"></div>
+				</div>
+			</div>
+			<!-- Slide Three - Set the background image for this slide in the line below -->
+		<div class="carousel-item"
+				th:style="'background:url('+ @{/getimage/26} +');'">
+				<a class="home pl-4" th:href="@{home}">Home</a>
+				<div class="carousel-caption d-none d-md-block">
+					
+					<div class="row text-center title-1">GiftMeFive</div>
+					<div class="title-1-text" th:text="|${titlename} Wunschliste!|"></div>
+				</div>
+			</div>
+		<!-- Slide Four - Set the background image for this slide in the line below -->
+		<div class="carousel-item"
+				th:style="'background:url('+ @{/getimage/27} +');'">
+				<a class="home pl-4" th:href="@{home}">Home</a>
+				<div class="carousel-caption d-none d-md-block">
+					
+					<div class="row text-center title-1">GiftMeFive</div>
+					<div class="title-1-text" th:text="|${titlename} Wunschliste!|"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 
     <!-- Eingabefeld -->
     <div class="card mb-4 mt-2" style="background-color: #ddd">
@@ -93,15 +146,16 @@
                                 <input type="hidden" id="wishlistId" name="wishlistId" value="" th:value="${wishlistId}">
                                 <input type="hidden" id="titlename" name="titlename" value="" th:value="${titlename}">
                                 <input type="hidden" id="productlink" name="productlink" value="" th:value="${productlink}">
-								<input type="hidden" id="CategoryImage" name="CategoryImage"  th:value="${imagelink}">	
+								<input type="hidden" id="CategoryImage" name="CategoryImage"  th:value="${imagelink}">
+								
 
                                 <input type="reset" onclick="imgResetFunction()" class="btn btn-danger mt-3 mb-0" value="Leeren">
                                 <input type="submit" class="btn btn-success mt-3 mb-0" value="Speichern">
                                 
 								<a class="btn btn-light float-right mt-3 mb-0 ml-1" data-toggle="modal" data-target="#recycle_wishlist" 
 								 th:attr="data-oldwishlistId=${wishlistId}">Recycle</a>
-								<a th:href="@{/saveWishlist(wishlistId=${wishlistId}, titlename=${titlename})}" 
-								class="btn btn-dark float-right mt-3 mb-0">Wunschliste speichern</a>
+
+                        		<a id="saveWishList" th:href="@{/saveWishlist(wishlistId=${wishlistId}, titlename=${titlename}, topimage=24)}" class="btn btn-dark float-right mt-3 mb-0">Wunschliste speichern</a>
 
                             </p>
                         </fieldset>
@@ -155,6 +209,7 @@
                         <label class="index-text">Bitte wählen Sie ein Datum.</label>
                         <input name="enddate" class="form-control" type="date" required>
                         <input name="oldwishlistId" type="hidden" th:value="${wishlistId}">
+                        <input name="topimage" type="hidden" value="24">
                         <div class="modal-footer">
                             <input type="submit" class="btn btn-primary" value="Ausführen">
                         </div>
@@ -169,15 +224,28 @@
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
     <!-- jQuery für Dateneintrag ins Modal, Quelle: https://getbootstrap.com/docs/4.0/components/modal/#varying-modal-content -->
 	    <script>
 	        $('#recycle_wishlist').on('show.bs.modal', function(event) {
 	            var button = $(event.relatedTarget) // Button that triggered the modal
 	            var modal = $(this)
-
 	            modal.find('.oldwishlistId').val(button.data('oldwishlistId'))
 	        })
 	    </script>
+	
+	<!-- beibehalten von dem Titelbild nach einem Refresh -->
+	 <script type="text/javascript">
+	 $('#carousel').on('slid.bs.carousel', function () {
+		 var currentSlide = $('#carousel div.active').index();
+		 sessionStorage.setItem('lastSlide', currentSlide);
+		 slideOne(currentSlide+24);
+		 });
+		 if(sessionStorage.lastSlide){
+		   $("#carousel").carousel(sessionStorage.lastSlide*1);
+		 }
+	 </script>
+
         <!-- Fokus auf erstes Input-Feld im Modal, adaptiert von https://github.com/twbs/bootstrap/issues/12525 -->
 	     <script>
 	     $(document).on('shown.bs.modal', function (e) {

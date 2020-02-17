@@ -16,8 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import WildCodeSchoolProject.GiftMeFive.repository.WishRepository;
 import WildCodeSchoolProject.GiftMeFive.entity.Article;
+import WildCodeSchoolProject.GiftMeFive.repository.WishRepository;
+import WildCodeSchoolProject.GiftMeFive.util.Encode;
 
 @Controller
 public class WishController {
@@ -52,17 +53,20 @@ public class WishController {
 	}
 
 	@RequestMapping("/wishlistoutput")
-	public String wishlistoutput(Model model, RedirectAttributes redirect, @RequestParam String titlename, @RequestParam Long wishlistId) {
+	public String wishlistoutput(Model model, @RequestParam String titlename, @RequestParam Long wishlistId) {
+
 		model.addAttribute("titlename", titlename);
 		model.addAttribute("wishlistId", wishlistId);
+		model.addAttribute("topimagelink", repository.getWishlistImage(wishlistId));
+		
 		model.addAttribute("wishlist", repository.showWishlist(wishlistId));
 
 		//TODO create endpoint to display "no items selected"
 		@SuppressWarnings("unchecked")
 		List<Article> returnedwishlist = (List<Article>) model.getAttribute("wishlist");
 		if (returnedwishlist == null || returnedwishlist.isEmpty()) {
-			redirect.addAttribute("titlename", "Leere ");
-			redirect.addAttribute("wishlistId", wishlistId);
+			model.addAttribute("titlename", "Leere ");
+			model.addAttribute("wishlistId", wishlistId);
 			return "redirect:/no_result";
 		}
 		return "wishlistoutput";
@@ -73,6 +77,8 @@ public class WishController {
 		model.addAttribute("titlename", titlename);
 		model.addAttribute("wishlistId", wishlistId);
 		model.addAttribute("imagelink", "/getimage/1");
+		model.addAttribute("topimagelink", "/getimage/24");
+
 		model.addAttribute("wishlist", repository.showWishlistForm(wishlistId));
 		
 		//TODO create endpoint to display "no items selected"
@@ -93,6 +99,7 @@ public class WishController {
 		model.addAttribute("wishlistId", wishlistId);
 		model.addAttribute("userId", userId);
 		model.addAttribute("friendsId", friendsId);
+		model.addAttribute("topimagelink", repository.getWishlistImage(wishlistId));
 		model.addAttribute("wishlist", repository.showWishlistForm(wishlistId));
 		
 		//TODO create endpoint to display "no items selected"
@@ -112,12 +119,23 @@ public class WishController {
 			@RequestParam String CategoryImage, @RequestParam Long articleId, @RequestParam String productlink) {
 
 		if (articleId != null) {
-
+			
+			String  splitArticleName[] = articlename.split(" ");
+			productlink = "https://www.amazon.de/s?k=";
+			for(int i=0;i<splitArticleName.length;i++) {
+				productlink = productlink+"+"+splitArticleName[i];
+			}
+			
 			repository.editWish(articleId, articlename, description, CategoryImage, productlink, wishlistId);
 
 		} else {
-			// Funktion schreiben die aus dem eingegebenen Namen ein Amazonsuchlink macht
-			productlink = "https://www.amazon.de/s?k=play+Station";
+			// Funktion die aus dem eingegebenen Namen ein Amazonsuchlink macht		
+			String  splitArticleName[] = articlename.split(" ");
+			productlink = "https://www.amazon.de/s?k=";
+			for(int i=0;i<splitArticleName.length;i++) {
+				productlink = productlink+"+"+splitArticleName[i];
+			}
+			
 			repository.addWish(articlename, description, CategoryImage, productlink, wishlistId);
 		}
 
@@ -145,16 +163,20 @@ public class WishController {
 		String titlename = repository.getWishlistname(wishlistId);
 		redirect.addAttribute("titlename", titlename);
 		redirect.addAttribute("wishlistId", wishlistId);
+		model.addAttribute("topimagelink", repository.getWishlistImage(wishlistId));
+		
 		return "redirect:/wishlistoutput";
 	}
 
 	@GetMapping("/unreserveWish")
 	public String unreservWish(RedirectAttributes redirect, Model model, @RequestParam Long articleId,
-			@RequestParam String articlename, @RequestParam String reservationname) {
+			@RequestParam String articlename, @RequestParam String reservationname, @RequestParam Long wishlistId) {
 
 		repository.unreserveWish(articleId);
 
 		redirect.addAttribute("reservationname", reservationname);
+
+		
 		return "redirect:/reservationoutput";
 	}
 
@@ -181,9 +203,19 @@ public class WishController {
 	@GetMapping("/reservationoutput")
 	public String resevationoutput(Model model, RedirectAttributes redirect, @RequestParam String reservationname) {
 
-		model.addAttribute("wishlist", repository.showReservations(reservationname));
-		model.addAttribute("reservationname", reservationname);
+		List<Article> article = repository.showReservations(reservationname);
+		if(!(article.size()==0)) {
+			Encode en = new Encode();		
+			String topimagelink= repository.getWishlistImage(en.encode(article.get(0).getWishlistId()));	
+
+			model.addAttribute("topimagelink", topimagelink);
+		}else {
+			return "/index";
+		}
 		
+		
+		model.addAttribute("wishlist", article);
+		model.addAttribute("reservationname", reservationname);
 		//TODO create endpoint to display "no items selected"
 		@SuppressWarnings("unchecked")
 		List<Article> returnedwishlist = (List<Article>) model.getAttribute("wishlist");
@@ -250,8 +282,10 @@ public class WishController {
 
 	@GetMapping("/saveWishlist")
 	public String saveWishlist(RedirectAttributes redirect, @RequestParam String titlename,
-			@RequestParam Long wishlistId) {
+			@RequestParam Long wishlistId, @RequestParam int topimage) {
 
+		repository.saveWishListImage(topimage, wishlistId);
+		
 		titlename = titlename.replaceAll("_", "");
 		String userId = titlename + "_" + wishlistId;
 		String friendsId = titlename + "_" + wishlistId + "_friends";
@@ -264,24 +298,24 @@ public class WishController {
 	}
 
 	@PostMapping("/saveimage")
-	public String saveImage(@RequestParam("userimage") MultipartFile file, Model model,
-			@RequestParam String titlename, @RequestParam Long wishlistId, @RequestParam String articlename, @RequestParam String description) {
+	public String saveImage(@RequestParam("userimage") MultipartFile file, Model model, @RequestParam String titlename,
+			@RequestParam Long wishlistId, @RequestParam String articlename, @RequestParam String description) {
 		long imageid = 0;
-		
+
 		try {
 			byte[] tmp = file.getBytes();
 			imageid = repository.addImage(tmp);
-		
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		model.addAttribute("titlename", titlename);
 		model.addAttribute("wishlistId", wishlistId);
 		model.addAttribute("articlename", articlename);
 		model.addAttribute("description", description);
-		model.addAttribute("imagelink", "/getimage/"+imageid);
+		model.addAttribute("imagelink", "/getimage/" + imageid);
 		model.addAttribute("wishlist", repository.showWishlistForm(wishlistId));
 
 		return "wishform_list";
@@ -289,7 +323,7 @@ public class WishController {
 	
 	@GetMapping("/recycle")
 	public String recycleWishlist(Model model, @RequestParam String titlename, @RequestParam String enddate, @RequestParam Long oldwishlistId,
-			RedirectAttributes redirectAttributes) {
+			@RequestParam int topimage, RedirectAttributes redirectAttributes) {
 		
 		model.addAttribute("wishlist", repository.showUnreserved(oldwishlistId));
 		@SuppressWarnings("unchecked")
@@ -306,6 +340,7 @@ public class WishController {
 	
 		redirectAttributes.addAttribute("titlename", titlename);
 		redirectAttributes.addAttribute("wishlistId", wishlistId);
+		redirectAttributes.addAttribute("topimage", topimage);
 		return "redirect:/saveWishlist";
 	}
 	
@@ -315,4 +350,5 @@ public class WishController {
 		model.addAttribute("wishlistId", wishlistId);
 		return "no_result";
 	}
+
 }

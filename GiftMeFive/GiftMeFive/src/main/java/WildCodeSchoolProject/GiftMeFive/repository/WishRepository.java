@@ -519,5 +519,69 @@ public class WishRepository {
 		return imageid;
 	}
 
+	public void saveWishListImage(int topimage, long wishlistId) {
+		
+		Encode en = new Encode();		
+		wishlistId = en.decode(wishlistId);
+		
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet generatedSet = null;
+
+		try {
+			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			
+			statement = connection.prepareStatement("UPDATE wishlist SET imagelink=? WHERE id = ?;",
+					Statement.RETURN_GENERATED_KEYS);
+			statement.setString(1, "getimage/"+topimage);
+			statement.setLong(2, wishlistId);
+
+			if (statement.executeUpdate() != 1) {
+				throw new SQLException("failed to insert data");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtils.closeResultSet(generatedSet);
+			JdbcUtils.closeStatement(statement);
+			JdbcUtils.closeConnection(connection);
+		}
+	}
+
+	public String getWishlistImage(Long wishlistId) {
+		
+		
+		Encode en = new Encode();		
+		wishlistId = en.decode(wishlistId);
+		
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		
+		
+		try {
+			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			statement = connection.prepareStatement("SELECT imagelink FROM wishlist WHERE id = ? ;");
+
+			statement.setLong(1, wishlistId);
+			resultSet = statement.executeQuery();
+
+			String topimage = "";
+			while (resultSet.next()) {
+				topimage = resultSet.getString("imagelink");
+				
+			}
+			return topimage;
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		} finally {
+			JdbcUtils.closeResultSet(resultSet);
+			JdbcUtils.closeStatement(statement);
+			JdbcUtils.closeConnection(connection);
+		}
+		return "";
+	}
 
 }
