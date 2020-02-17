@@ -205,7 +205,7 @@
                 <span class="index-text">Nicht reservierte Wünsche werden in eine neue Wunschliste übertragen</span>
                     <form action="/recycle" method="get">
                         <label class="index-text">Bitte geben Sie einen Namen ohne Leerzeichen ein.</label>
-                        <input name="titlename" class="form-control" type="text" pattern="[\wäöüß]+" autofocus>
+                        <input name="titlename" class="form-control" type="text" pattern="[\wäöüß]+" th:value="|${titlename}_recycelt|" autofocus>
                         <label class="index-text">Bitte wählen Sie ein Datum.</label>
                         <input name="enddate" class="form-control" type="date" required>
                         <input name="oldwishlistId" type="hidden" th:value="${wishlistId}">

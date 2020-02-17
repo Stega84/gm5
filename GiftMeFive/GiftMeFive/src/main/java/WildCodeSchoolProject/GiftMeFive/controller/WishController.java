@@ -82,13 +82,13 @@ public class WishController {
 		model.addAttribute("wishlist", repository.showWishlistForm(wishlistId));
 		
 		//TODO create endpoint to display "no items selected"
-		@SuppressWarnings("unchecked")
-		List<Article> returnedwishlist = (List<Article>) model.getAttribute("wishlist");
-		if (returnedwishlist == null || returnedwishlist.isEmpty()) {
-			redirect.addAttribute("titlename", "Leere ");
-			redirect.addAttribute("wishlistId", wishlistId);
-			return "redirect:/no_result";
-		}
+//		@SuppressWarnings("unchecked")
+//		List<Article> returnedwishlist = (List<Article>) model.getAttribute("wishlist");
+//		if (returnedwishlist == null || returnedwishlist.isEmpty()) {
+//			redirect.addAttribute("titlename", "Leere ");
+//			redirect.addAttribute("wishlistId", wishlistId);
+//			return "redirect:/no_result";
+//		}
 		return "wishform_list";
 	}
 
