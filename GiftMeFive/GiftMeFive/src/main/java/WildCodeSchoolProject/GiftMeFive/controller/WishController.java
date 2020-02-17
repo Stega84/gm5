@@ -58,6 +58,7 @@ public class WishController {
 		model.addAttribute("wishlist", repository.showWishlist(wishlistId));
 
 		//TODO create endpoint to display "no items selected"
+		@SuppressWarnings("unchecked")
 		List<Article> returnedwishlist = (List<Article>) model.getAttribute("wishlist");
 		if (returnedwishlist == null || returnedwishlist.isEmpty()) {
 			redirect.addAttribute("titlename", "Leere ");
@@ -75,6 +76,7 @@ public class WishController {
 		model.addAttribute("wishlist", repository.showWishlistForm(wishlistId));
 		
 		//TODO create endpoint to display "no items selected"
+		@SuppressWarnings("unchecked")
 		List<Article> returnedwishlist = (List<Article>) model.getAttribute("wishlist");
 		if (returnedwishlist == null || returnedwishlist.isEmpty()) {
 			redirect.addAttribute("titlename", "Leere ");
@@ -94,6 +96,7 @@ public class WishController {
 		model.addAttribute("wishlist", repository.showWishlistForm(wishlistId));
 		
 		//TODO create endpoint to display "no items selected"
+		@SuppressWarnings("unchecked")
 		List<Article> returnedwishlist = (List<Article>) model.getAttribute("wishlist");
 		if (returnedwishlist == null || returnedwishlist.isEmpty()) {
 			redirect.addAttribute("titlename", "Leere ");
@@ -182,6 +185,7 @@ public class WishController {
 		model.addAttribute("reservationname", reservationname);
 		
 		//TODO create endpoint to display "no items selected"
+		@SuppressWarnings("unchecked")
 		List<Article> returnedwishlist = (List<Article>) model.getAttribute("wishlist");
 		if (returnedwishlist == null || returnedwishlist.isEmpty()) {
 			redirect.addAttribute("titlename", "Leere ");
@@ -288,6 +292,7 @@ public class WishController {
 			RedirectAttributes redirectAttributes) {
 		
 		model.addAttribute("wishlist", repository.showUnreserved(oldwishlistId));
+		@SuppressWarnings("unchecked")
 		List<Article> movingwishlist = (List<Article>) model.getAttribute("wishlist");
 		if (movingwishlist == null || movingwishlist.isEmpty()) {
 			titlename = repository.getWishlistname(oldwishlistId);
