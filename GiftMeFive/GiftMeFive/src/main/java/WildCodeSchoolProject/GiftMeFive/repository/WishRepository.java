@@ -459,7 +459,6 @@ public class WishRepository {
 
 	public String getWishlistImage(Long wishlistId) {
 		
-		System.out.println(wishlistId);
 		
 		Encode en = new Encode();		
 		wishlistId = en.decode(wishlistId);
@@ -468,7 +467,6 @@ public class WishRepository {
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
 		
-		System.out.println("encode id wihsliost in get wish list image" + wishlistId);
 		
 		try {
 			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
@@ -493,6 +491,5 @@ public class WishRepository {
 		}
 		return "";
 	}
-
 
 }

@@ -93,12 +93,23 @@ public class WishController {
 			@RequestParam String CategoryImage, @RequestParam Long articleId, @RequestParam String productlink) {
 //userimage.equals("")
 		if (articleId != null) {
-
+			
+			String  splitArticleName[] = articlename.split(" ");
+			productlink = "https://www.amazon.de/s?k=";
+			for(int i=0;i<splitArticleName.length;i++) {
+				productlink = productlink+"+"+splitArticleName[i];
+			}
+			
 			repository.editWish(articleId, articlename, description, CategoryImage, productlink, wishlistId);
 
 		} else {
-			// Funktion schreiben die aus dem eingegebenen Namen ein Amazonsuchlink macht
-			productlink = "https://www.amazon.de/s?k=play+Station";
+			// Funktion die aus dem eingegebenen Namen ein Amazonsuchlink macht		
+			String  splitArticleName[] = articlename.split(" ");
+			productlink = "https://www.amazon.de/s?k=";
+			for(int i=0;i<splitArticleName.length;i++) {
+				productlink = productlink+"+"+splitArticleName[i];
+			}
+			
 			repository.addWish(articlename, description, CategoryImage, productlink, wishlistId);
 		}
 
@@ -167,14 +178,12 @@ public class WishController {
 	public String resevationoutput(Model model, @RequestParam String reservationname) {
 
 		List<Article> article = repository.showReservations(reservationname);
-		System.out.println("size " + article.size());
 		if(!(article.size()==0)) {
 			Encode en = new Encode();		
 			String topimagelink= repository.getWishlistImage(en.encode(article.get(0).getWishlistId()));	
 
 			model.addAttribute("topimagelink", topimagelink);
 		}else {
-			System.out.println("return home");
 			return "/index";
 		}
 		
@@ -244,8 +253,6 @@ public class WishController {
 	public String saveWishlist(RedirectAttributes redirect, @RequestParam String titlename,
 			@RequestParam Long wishlistId, @RequestParam int topimage) {
 
-		// Imagelink der gespeichert wird für top ist hier bekannt /getimage/25
-		System.out.println("topimage " + topimage);
 		repository.saveWishListImage(topimage, wishlistId);
 		
 		titlename = titlename.replaceAll("_", "");

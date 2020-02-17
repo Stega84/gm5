@@ -16,7 +16,7 @@ CREATE TABLE article(
   name VARCHAR(80) NOT NULL,
   description TEXT NOT NULL,
   creationdate DATETIME NOT NULL DEFAULT NOW(),
-  imagelink VARCHAR(80) NOT NULL DEFAULT 'image/default.webp',
+  imagelink VARCHAR(80) NOT NULL DEFAULT 'getimage/1',
   productlink TEXT,
   wishlistId INT NOT NULL,
   PRIMARY KEY(id),
@@ -69,6 +69,7 @@ INSERT INTO categoryimage(id, category) VALUES(20, LOAD_FILE('/var/lib/mysql-fil
 INSERT INTO categoryimage(id, category) VALUES(21, LOAD_FILE('/var/lib/mysql-files/spielzeug.webp'));
 INSERT INTO categoryimage(id, category) VALUES(22, LOAD_FILE('/var/lib/mysql-files/sport.webp'));
 INSERT INTO categoryimage(id, category) VALUES(23, LOAD_FILE('/var/lib/mysql-files/uhr.webp'));
+
 INSERT INTO categoryimage(id, category) VALUES(24, LOAD_FILE('/var/lib/mysql-files/list_2.jpg'));
 INSERT INTO categoryimage(id, category) VALUES(25, LOAD_FILE('/var/lib/mysql-files/main.jpg'));
 INSERT INTO categoryimage(id, category) VALUES(26, LOAD_FILE('/var/lib/mysql-files/present.jpg'));

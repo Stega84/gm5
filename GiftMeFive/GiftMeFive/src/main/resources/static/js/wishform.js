@@ -31,6 +31,6 @@ function slideOne(x){
 	var titlename = document.getElementById("titlename").value;
 	var wishlistId = document.getElementById("wishlistId").value;
 	document.getElementById("saveWishList").href = "/saveWishlist?wishlistId="+wishlistId+"&titlename="+titlename+"&topimage="+x;
-	alert(document.getElementById("saveWishList").href);
+
 }
 
