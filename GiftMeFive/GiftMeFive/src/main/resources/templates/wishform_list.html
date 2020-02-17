@@ -2,9 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="de">
 
 <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Die 3 Meta-Tags oben *müssen* zuerst im head stehen; jeglicher sonstiger head-Inhalt muss *nach* diesen Tags kommen -->
     <title>Gift Me Five Extrawunsch</title>
     <script type="text/javascript" src="js/wishform.js"></script>
@@ -24,40 +24,87 @@
 
 <body class="container">
     <!--Navigation-->
-    <div class="bg-1">
-        <!-- Home -->
+    <!-- <div class="bg-1">
+        Home
         <a class="home pl-4" th:href="@{home}">Home<span class="sr-only">(current)</span></a>
-        <!--Titeltext-->
+        Titeltext
         <div class="row text-center title-1">GiftMeFive</div>
         <div class="title-1-text" th:text="|${titlename} Wunschliste!|"></div>
-                <!-- Export-Optionen -->
-        <div class="home pt-2">
-        <a style="font-size: 1em" class="home pl-4" th:href="@{/toHTML(titlename=${titlename},wishlistId=${wishlistId}, sourceName='wishform_list')}">Speichern HTML</a>
-        <button class="btn btn-lg btn-link pl-4" style="color: #ebebeb" data-toggle="modal" data-target="#save_csv"
-         th:attr="data-titlename=${titlename}, data-wishlistid=${wishlistId}">Speichern CSV</button>
-         </div>
+
+    </div> -->
+
+    <div id="carousel" class="carousel slide carousel-fade" data-ride="carousel" data-interval="false">
+        <ol class="carousel-indicators">
+            <li data-target="#carousel" data-slide-to="0" class="active" onclick="slideOne(24)"></li>
+            <li data-target="#carousel" data-slide-to="1" onclick="slideOne(25)"></li>
+            <li data-target="#carousel" data-slide-to="2" onclick="slideOne(26)"></li>
+            <li data-target="#carousel" data-slide-to="3" onclick="slideOne(27)"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+            <!-- Slide One - Set the background image for this slide in the line below -->
+            <div class="carousel-item active" th:style="'background:url('+ @{/getimage/24} +');'">
+                <a class="home pl-4" th:href="@{home}">Home</a>
+                <div class="carousel-caption d-none d-md-block">
+
+                    <div class="row text-center title-1">GiftMeFive</div>
+                    <div class="title-1-text" th:text="|${titlename} Wunschliste!|"></div>
+                </div>
+            </div>
+            <!-- Slide Two - Set the background image for this slide in the line below -->
+            <div class="carousel-item" th:style="'background:url('+ @{/getimage/25} +');'">
+                <a class="home pl-4" th:href="@{home}">Home</a>
+                <div class="carousel-caption d-none d-md-block">
+
+                    <div class="row text-center title-1">GiftMeFive</div>
+                    <div class="title-1-text" th:text="|${titlename} Wunschliste!|"></div>
+                </div>
+            </div>
+            <!-- Slide Three - Set the background image for this slide in the line below -->
+            <div class="carousel-item" th:style="'background:url('+ @{/getimage/26} +');'">
+                <a class="home pl-4" th:href="@{home}">Home</a>
+                <div class="carousel-caption d-none d-md-block">
+
+                    <div class="row text-center title-1">GiftMeFive</div>
+                    <div class="title-1-text" th:text="|${titlename} Wunschliste!|"></div>
+                </div>
+            </div>
+            <!-- Slide Four - Set the background image for this slide in the line below -->
+            <div class="carousel-item" th:style="'background:url('+ @{/getimage/27} +');'">
+                <a class="home pl-4" th:href="@{home}">Home</a>
+               <!-- Export-Optionen -->
+                <a style="font-size: 1em" class="home pl-4" th:href="@{/toHTML(titlename=${titlename},wishlistId=${wishlistId}, sourceName='wishform_list')}">Speichern HTML</a>
+                <button class="btn btn-link pl-4" style="color: #ebebeb" data-toggle="modal" data-target="#save_csv"
+                 th:attr="data-titlename=${titlename}, data-wishlistid=${wishlistId}">Speichern CSV</button>
+                 
+                <div class="carousel-caption d-none d-md-block">
+
+                    <div class="row text-center title-1">GiftMeFive</div>
+                    <div class="title-1-text" th:text="|${titlename} Wunschliste!|"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Eingabefeld -->
     <div class="card mb-4 mt-2" style="background-color: #ddd">
-        
-            <div class="row no-gutters">
-                <div class="col-md-4 file-field" style="background-color: #ccc">
-                    <div class="card-body">
-                        <p class="card-title">Vorschau(nach Kategorie):</p>
-						<img th:src="@{${imagelink}}" class="card-img" alt="..." id="Category_wish_image" >                      
-                        <form action="/saveimage" method="post" enctype="multipart/form-data">
-                        	<label class="control-label mt-4 mb-0">Eigenes Bild hochladen.</label>
-                        	<input type="file" class="form-control-file"  name="userimage" placeholder="" onchange="this.form.submit()">
-                        	<input type="hidden" id="wishlistId" name="wishlistId" value="" th:value="${wishlistId}">
-                            <input type="hidden" id="titlename" name="titlename" value="" th:value="${titlename}">
-                            <input type="hidden" id="articlenameFormOne" name="articlename" th:value="${articlename}">
-							<input type="hidden" id="descriptionFormOne" name="description" th:value="${description}">
-                        </form>
-                    </div>
+
+        <div class="row no-gutters">
+            <div class="col-md-4 file-field" style="background-color: #ccc">
+                <div class="card-body">
+                    <p class="card-title">Vorschau(nach Kategorie):</p>
+                    <img th:src="@{${imagelink}}" class="card-img" alt="..." id="Category_wish_image">
+                    <form action="/saveimage" method="post" enctype="multipart/form-data">
+                        <label class="control-label mt-4 mb-0">Eigenes Bild hochladen.</label>
+                        <input type="file" class="form-control-file" name="userimage" placeholder="" onchange="this.form.submit()">
+                        <input type="hidden" id="wishlistId" name="wishlistId" value="" th:value="${wishlistId}">
+                        <input type="hidden" id="titlename" name="titlename" value="" th:value="${titlename}">
+                        <input type="hidden" id="articlenameFormOne" name="articlename" th:value="${articlename}">
+                        <input type="hidden" id="descriptionFormOne" name="description" th:value="${description}">
+                    </form>
                 </div>
-                <div class="col-md-8">
-                	<form action="/addWish" id="input_wish" class="form-horizontal" method="post" onreset="myResetFunction()">
+            </div>
+            <div class="col-md-8">
+                <form action="/addWish" id="input_wish" class="form-horizontal" method="post" onreset="myResetFunction()">
                     <div class="card-body">
                         <fieldset class="form-group">
                             <h5 class="card-title">Ihr Wunsch</h5>
@@ -80,12 +127,13 @@
                                     <option>DVD & Blu-ray</option>
                                     <option>Drogerie & Körperpflege</option>
                                     <option>Elektronik & Foto</option>
-                                    <option>Games</option>    <!-- Fokus auf erstes Input-Feld im Modal, adaptiert von https://github.com/twbs/bootstrap/issues/12525 -->
-    <script>
-        $(document).on('shown.bs.modal', function(e) {
-            $('[autofocus]', e.target).focus();
-        });
-    </script>
+                                    <option>Games</option>
+                                    <!-- Fokus auf erstes Input-Feld im Modal, adaptiert von https://github.com/twbs/bootstrap/issues/12525 -->
+                                    <script>
+                                        $(document).on('shown.bs.modal', function(e) {
+                                            $('[autofocus]', e.target).focus();
+                                        });
+                                    </script>
                                     <option>Garten</option>
                                     <option>Geschenkgutscheine</option>
                                     <option>Haustier</option>
@@ -99,25 +147,25 @@
                                     <option>Sport & Freizeit</option>
                                     <option>Uhren</option>
                                 </select>
-                             
+
                                 <input type="hidden" id="articleId" name="articleId" value="" th:value="${articleId}">
                                 <input type="hidden" id="wishlistId" name="wishlistId" value="" th:value="${wishlistId}">
                                 <input type="hidden" id="titlename" name="titlename" value="" th:value="${titlename}">
                                 <input type="hidden" id="productlink" name="productlink" value="" th:value="${productlink}">
-								<input type="hidden" id="CategoryImage" name="CategoryImage"  th:value="${imagelink}">	
+                                <input type="hidden" id="CategoryImage" name="CategoryImage" th:value="${imagelink}">
 
                                 <input type="reset" onclick="imgResetFunction()" class="btn btn-danger mt-3 mb-0" value="Leeren">
                                 <input type="submit" class="btn btn-success mt-3 mb-0" value="Speichern">
-                                
-                        		<a th:href="@{/saveWishlist(wishlistId=${wishlistId}, titlename=${titlename})}" class="btn btn-dark float-right mt-3 mb-0">Wunschliste speichern</a>
+
+                                <a id="saveWishList" th:href="@{/saveWishlist(wishlistId=${wishlistId}, titlename=${titlename}, topimage=24)}" class="btn btn-dark float-right mt-3 mb-0">Wunschliste speichern</a>
 
                             </p>
                         </fieldset>
                     </div>
-                     </form>
-                </div>
+                </form>
             </div>
-       
+        </div>
+
     </div>
     <!-- Ende von Wunsch einfuegen -->
 
@@ -147,8 +195,8 @@
             </div>
         </div>
     </div>
-    
-            <!--Eingabefenster für Save As CSV-->
+
+    <!--Eingabefenster für Save As CSV-->
     <div class="modal fade" id="save_csv" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content" style="background-color:#EBEBEB">
@@ -163,8 +211,8 @@
                         <input type="hidden" class="titlename" id="titlename" name="titlename" value="">
                         <input type="hidden" class="wishlistId" id="wishlistId" name="wishlistId" value="">
                         <textarea name="text_area" class="wishlistCsv" id="text_area" cols="40" th:text="${wishlistCsv}"></textarea>
-                   
-					  	<label class="index-text">Bitte geben Sie den Dateinamen ohne Endung ein:</label>
+
+                        <label class="index-text">Bitte geben Sie den Dateinamen ohne Endung ein:</label>
                         <input name="filename" id="filename" class="form-control" type="text" th:value="${titlename}+'_'+${wishlistId}" autofocus>
                     </div>
                     <div class="modal-footer">
@@ -188,7 +236,26 @@
             modal.find('.wishlistId').val(button.data('wishlistid'))
         })
     </script>
-        <!-- Fokus auf erstes Input-Feld im Modal, adaptiert von https://github.com/twbs/bootstrap/issues/12525 -->
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <!-- beibehalten von dem Titelbild nach einem Refresh -->
+    <script type="text/javascript">
+        $('#carousel').on('slid.bs.carousel', function() {
+            var currentSlide = $('#carousel div.active').index();
+            sessionStorage.setItem('lastSlide', currentSlide);
+            slideOne(currentSlide + 24);
+        });
+        if (sessionStorage.lastSlide) {
+            $("#carousel").carousel(sessionStorage.lastSlide * 1);
+        }
+    </script>
+
+    <!-- Fokus auf erstes Input-Feld im Modal, adaptiert von https://github.com/twbs/bootstrap/issues/12525 -->
     <script>
         $(document).on('shown.bs.modal', function(e) {
             $('[autofocus]', e.target).focus();
