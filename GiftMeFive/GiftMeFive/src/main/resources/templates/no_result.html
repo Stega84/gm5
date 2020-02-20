@@ -24,24 +24,23 @@
 
 <body class="container">
     <!--Navigation-->
-    <div class="bg-1">
+    <div class="bg-1 mb-2" th:style="'background:url('+ @{${topimagelink}} +');'">
         <!-- Home -->
         <a class="home pl-4" th:href="@{home}">Home<span class="sr-only">(current)</span></a>
         <!--Titeltext-->
         <div class="row text-center title-1">GiftMeFive</div>
-        <div class="title-1-text" th:text="|${titlename} Wunschliste!|"></div>
+        <div class="title-1-text" th:text="|Kein Ergebnis für ${titlename}!|"></div>
     </div>
 
     
     <!--Eintrag 1-->
     <div class="card mb-4 mt-2">
         <div class="row no-gutters">
-
-            
+           
                 <div class="card-body">
-                    <h5 class="card-title">Nichts gefunden!</h5>
+                    <h5 class="card-title">Diese Liste ist nicht vorhanden oder leer!</h5>
                     <div class="text-right">
-                        <a th:if="${titlename} !='Leere '" th:href="@{/wishform_list(wishlistId=${wishlistId}, titlename=${titlename})}" class="btn btn-primary">Zurück</a>
+                        <a th:if="${titlename} !='Leere ' AND ${wishlistId} !='0'" th:href="@{/wishform_list(wishlistId=${wishlistId}, titlename=${titlename})}" class="btn btn-primary">Zurück</a>
                        
                     </div>
                 </div>

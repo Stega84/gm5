@@ -352,43 +352,19 @@ public class WishRepository {
 	
 	public void moveToWishlist(List<Article> wishlist,
 			Long wishlistId) {
-	
-		Encode en = new Encode();		
-		wishlistId = en.decode(wishlistId);
 		
-		Connection connection = null;
-		PreparedStatement statement = null;
-		ResultSet generatedKeys = null;
-
-		try {
+		String articlename;
+		String description;
+		String imagelink;
+		String productlink;
+		
+		for (Article a : wishlist) {
+			articlename= a.getName();
+			description = a.getDescription();
+			imagelink = a.getImagelink();
+			productlink = a.getProductlink();
 			
-			for (Article a : wishlist) {
-				connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-				statement = connection.prepareStatement(
-						"INSERT INTO article (name, description, imagelink, productlink, wishlistId) VALUES (?, ?, ?, ?, ?);",
-						Statement.RETURN_GENERATED_KEYS);
-	
-				statement.setString(1, a.getName());
-				statement.setString(2, a.getDescription());
-				statement.setString(3, a.getImagelink());
-				statement.setString(4, a.getProductlink());
-				statement.setLong(5, wishlistId);
-	
-				if (statement.executeUpdate() != 1) {
-					throw new SQLException("failed to insert data");
-				}
-				generatedKeys = statement.getGeneratedKeys();
-				if (!generatedKeys.next()) {
-					throw new SQLException("failed to get inserted id");
-				}
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			JdbcUtils.closeResultSet(generatedKeys);
-			JdbcUtils.closeStatement(statement);
-			JdbcUtils.closeConnection(connection);
+			addWish (articlename, description, imagelink, productlink, wishlistId);
 		}
 	}
 
