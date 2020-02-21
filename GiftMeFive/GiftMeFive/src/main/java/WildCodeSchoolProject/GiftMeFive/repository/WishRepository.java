@@ -430,7 +430,7 @@ public class WishRepository {
 	}
 	
 	public String makeCsv (Object wishlist) {
-		//TODO convert wishlist to CSV
+
 		String wishlistCsv = "id,name,description,imagelink,creationdate,wishlistId\n";
 		@SuppressWarnings("unchecked")
 		List<Article> articles = (List<Article>) wishlist;

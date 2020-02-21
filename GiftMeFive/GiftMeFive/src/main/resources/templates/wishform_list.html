@@ -72,12 +72,12 @@
             <div class="carousel-item" th:style="'background:url('+ @{/getimage/27} +');'">
                 <a class="home pl-4" th:href="@{home}">Home</a>
                <!-- Export-Optionen -->
-                <a style="font-size: 1em" class="home pl-4" th:href="@{/toHTML(titlename=${titlename},wishlistId=${wishlistId}, sourceName='wishform_list')}">Speichern HTML</a>
-                <button class="btn btn-link pl-4" style="color: #ebebeb" data-toggle="modal" data-target="#save_csv"
-                 th:attr="data-titlename=${titlename}, data-wishlistid=${wishlistId}">Speichern CSV</button>
+<!--                 <a style="font-size: 1em" class="home pl-4" th:href="@{/toHTML(titlename=${titlename},wishlistId=${wishlistId},
+                 sourceName='wishform_list', topimagelink=${topimagelink})}">Speichern HTML</a>
+                <button class="btn btn-link pl-4 pb-2" style="color: #ebebeb" data-toggle="modal" data-target="#save_csv"
+                 th:attr="data-titlename=${titlename}, data-wishlistid=${wishlistId}">Speichern CSV</button> -->
                  
                 <div class="carousel-caption d-none d-md-block">
-
                     <div class="row text-center title-1">GiftMeFive</div>
                     <div class="title-1-text" th:text="|${titlename} Wunschliste!|"></div>
                 </div>

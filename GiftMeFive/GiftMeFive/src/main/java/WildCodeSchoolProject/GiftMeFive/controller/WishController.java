@@ -3,7 +3,6 @@ package WildCodeSchoolProject.GiftMeFive.controller;
 import java.io.IOException;
 import java.util.List;
 
-import org.jdom.JDOMException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -102,7 +101,7 @@ public class WishController {
 	public String addWish(RedirectAttributes redirect, Model model, @RequestParam String articlename,
 			@RequestParam String description, @RequestParam Long wishlistId, @RequestParam String titlename,
 			@RequestParam String CategoryImage, @RequestParam Long articleId, @RequestParam String productlink) {
-//userimage.equals("")
+		
 		if (articleId != null) {
 			
 			String  splitArticleName[] = articlename.split(" ");
@@ -185,25 +184,21 @@ public class WishController {
 		return "redirect:/wishlistoutput";
 	}
 
-	@GetMapping("/reservationoutput")
+	@PostMapping("/reservationoutput")
 	public String resevationoutput(Model model, @RequestParam String reservationname) {
 
 		List<Article> article = repository.showReservations(reservationname);
 		if(!(article.size()==0)) {
-			Encode en = new Encode();		
-			String topimagelink= repository.getWishlistImage(en.encode(article.get(0).getWishlistId()));	
-
+			String topimagelink = "/getimage/24";
 			model.addAttribute("topimagelink", topimagelink);
 		}else {
 			return "/index";
 		}
 		
-		
 		model.addAttribute("wishlist", article);
 		model.addAttribute("reservationname", reservationname);
 		String wishlistCsv = repository.makeCsv (model.getAttribute("wishlist"));
 		model.addAttribute("wishlistCsv", wishlistCsv);		
-
 		return "reservationoutput";
 	}
 
@@ -302,12 +297,13 @@ public class WishController {
 	}
 
 	@RequestMapping("/toHTML")
-	public String toPDF (Model model, @RequestParam String titlename, @RequestParam Long wishlistId, @RequestParam String sourceName) throws Exception, DocumentException {
+	public String toPDF (Model model, @RequestParam String titlename, @RequestParam Long wishlistId, @RequestParam String sourceName, @RequestParam String topimagelink) throws Exception, DocumentException {
 			String pageName = null;
 			String userId = titlename + "_" + "wishlistId";
 			String friendsId = titlename + "_" + wishlistId + "_friends";
 			model.addAttribute("titlename", titlename);
 			model.addAttribute("wishlistId", wishlistId);
+			model.addAttribute("topimagelink", topimagelink);
 			
 			model.addAttribute("wishlist", repository.showWishlist(wishlistId));
 			model.addAttribute("userId", userId);
