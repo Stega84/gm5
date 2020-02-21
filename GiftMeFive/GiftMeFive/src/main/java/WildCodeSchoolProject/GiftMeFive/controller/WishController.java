@@ -61,17 +61,12 @@ public class WishController {
 		
 		model.addAttribute("wishlist", repository.showWishlist(wishlistId));
 
-		//TODO create endpoint to display "no items selected"
 		@SuppressWarnings("unchecked")
 		List<Article> returnedwishlist = (List<Article>) model.getAttribute("wishlist");
 		if (returnedwishlist == null || returnedwishlist.isEmpty()) {
-			model.addAttribute("titlename", "Leere ");
-			model.addAttribute("wishlistId", wishlistId);
-			model.addAttribute("topimagelink", "/getimage/24");
-			return "no_result";
-//TODO extract no result module			
+			return no_result (model, "Leere ", 0l);
 		}
-		return "wishlistoutput";
+	return "wishlistoutput";
 	}
 
 	@GetMapping("/wishform_list")
@@ -176,11 +171,7 @@ public class WishController {
 		wishlistId = Long.parseLong(viewId[1]);
 
 		if (repository.getWishlistname(wishlistId).equals("")) {
-			redirect.addAttribute("wishlistId", "0");
-			redirect.addAttribute("titlename", viewId[0]);
-			redirect.addAttribute("topimagelink","/getimage/24" );
-			return "redirect:/no_result";
-//TODO extract no result module			
+			return no_result (model, viewId[0], 0l);
 		} 
 		
 		if (viewId.length == 2) {
@@ -208,11 +199,7 @@ public class WishController {
 			model.addAttribute("wishlist", article);
 			model.addAttribute("reservationname", reservationname);
 		}else {
-			model.addAttribute("titlename", reservationname);
-			model.addAttribute("wishlistId", 0);
-			model.addAttribute("topimagelink", "/getimage/24");
-			return "/no_result";
-//TODO extract no result module			
+			return no_result(model, reservationname, 0l);		
 		}
 				
 		return "reservationoutput";
@@ -320,13 +307,7 @@ public class WishController {
 		@SuppressWarnings("unchecked")
 		List<Article> movingwishlist = (List<Article>) model.getAttribute("wishlist");
 		if (movingwishlist == null || movingwishlist.isEmpty()) {
-			titlename = repository.getWishlistname(oldwishlistId);
-			redirectAttributes.addAttribute("titlename", titlename);
-			redirectAttributes.addAttribute("wishlistId", oldwishlistId);
-//			redirectAttributes.addAttribute("topimage", topimage);
-			//TODO create endpoint to display "no unreserved items selected, redirected to previous wishlist"
-			return "redirect:/no_result";
-//TODO extract no result module			
+			return no_result (model, titlename, oldwishlistId);
 		}
 		Long wishlistId = repository.createWishlist(titlename, enddate);
 		repository.moveToWishlist(movingwishlist, wishlistId);
@@ -339,11 +320,14 @@ public class WishController {
 	
 	@GetMapping("/no_result")
 	public String no_result (Model model, @RequestParam String titlename, @RequestParam Long wishlistId) {
+
+		if (wishlistId != 0) {
+			titlename = repository.getWishlistname(wishlistId);
+		} 
 		model.addAttribute("titlename", titlename);
 		model.addAttribute("wishlistId", wishlistId);
 		model.addAttribute("topimagelink", "getimage/24");
 		return "no_result";
-//TODO extract no result module		
 	}
 
 }
