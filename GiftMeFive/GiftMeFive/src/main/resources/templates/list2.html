@@ -21,12 +21,13 @@
 
 <body class="container">
   <!--Navigation-->
-  <div class="bg-1">
+  <div class="bg-1" th:style="'background:url('+ @{/getimage/24} +');'">
+  <!-- Home -->
+        <a class="home pl-4" th:href="@{home}">Home<span class="sr-only">(current)</span></a>
     <!--Titeltext-->
     <div class="row text-center title-1">GiftMeFive</div>
     <div class="title-1-text">Max Mustermann Wunschliste</div>
   </div>
-
 
   <!-- Liste -->
   <!--Eintrag 1-->

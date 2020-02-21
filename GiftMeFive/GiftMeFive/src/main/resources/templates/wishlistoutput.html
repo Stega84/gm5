@@ -26,16 +26,16 @@
     <!--Navigation-->
     <div class="bg-1" th:style="'background:url('+ @{${topimagelink}} +');'">
         <!-- Home -->
-        <a class="home pl-4" th:href="@{home}">Home<span class="sr-only">(current)</span></a>
+        <a class="home pl-4" style="text-shadow: 1px  1px 1px black, 1px -1px 1px black, -1px  1px 1px black, -1px -1px 1px black" th:href="@{home}">Home<span class="sr-only">(current)</span></a>
         <!--Titeltext-->
         <div class="row text-center title-1">GiftMeFive</div>
         <div class="title-1-text" th:text="|${titlename} Wunschliste!|"></div>
         <!-- Export-Optionen -->
         <div class="home pt-2">
-            <a style="font-size: 1em; text-shadow:  1px  1px 1px black, 1px -1px 1px black, -1px  1px 1px black, -1px -1px 1px black;"
+            <a style="font-size: 1em; text-shadow: 1px  1px 1px black, 1px -1px 1px black, -1px  1px 1px black, -1px -1px 1px black;"
              class="home pl-4" th:href="@{/toHTML(titlename=${titlename},wishlistId=${wishlistId},
              sourceName='wishlistoutput', topimagelink=${topimagelink})}">Speichern HTML</a>
-            <a href="#" style="font-size: 1em; text-shadow:  1px  1px 1px black, 1px -1px 1px black, -1px  1px 1px black, -1px -1px 1px black;"
+            <a href="#" style="font-size: 1em; text-shadow: 1px  1px 1px black, 1px -1px 1px black, -1px  1px 1px black, -1px -1px 1px black;"
              class="home pl-4" data-toggle="modal" data-target="#save_csv"
              th:attr="data-titlename=${titlename}, data-wishlistid=${wishlistId}">Speichern CSV</a>
         </div>
