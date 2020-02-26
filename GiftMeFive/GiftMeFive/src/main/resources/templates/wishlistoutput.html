@@ -145,11 +145,12 @@
             modal.find('.wishlistId').val(button.data('wishlistid'))
         })
     </script>
-    <script>
-        $(document).on('shown.bs.modal', function(e) {
-            $('[autofocus]', e.target).focus();
-        });
-    </script>
+    <!-- Fokus auf erstes Input-Feld im Modal, adaptiert von https://github.com/twbs/bootstrap/issues/12525 -->
+     <script>
+     $(document).on('shown.bs.modal', function (e) {
+        $('[autofocus]', e.target).focus();
+      });
+     </script>
 </body>
 
 </html>

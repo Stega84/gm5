@@ -134,6 +134,54 @@ public class WishRepository {
 		}
 		return null;
 	}
+	
+	public List<Article> showUnreserved(Long oldwishlistId) {
+
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		
+		Encode en = new Encode();		
+		oldwishlistId = en.decode(oldwishlistId);
+
+
+		try {
+			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			statement = connection.prepareStatement(
+					"SELECT *, wishlist.name AS wishlistname, reservation.reserved, reservation.name AS reservationname "
+					+ "FROM article JOIN wishlist ON wishlistId = wishlist.id JOIN reservation ON article.id = reservation.id "
+					+ "WHERE reservation.reserved = 0 AND wishlistId = ?;");
+			statement.setLong(1, oldwishlistId);
+
+			resultSet = statement.executeQuery();
+
+			List<Article> Article = new ArrayList<>();
+
+			while (resultSet.next()) {
+				Long id = resultSet.getLong("id");
+				String name = resultSet.getString("name");
+				String description = resultSet.getString("description");
+				String creationdate = resultSet.getString("creationdate");
+				String imagelink = resultSet.getString("imagelink");
+				String productlink = resultSet.getString("productlink");
+				String wishlistname = resultSet.getString("wishlistname");
+				Boolean reserved = resultSet.getBoolean("reserved");
+				String reservationname = resultSet.getString("reservationname");
+
+				Article.add(new Article(id, name, description, creationdate, imagelink, productlink, oldwishlistId,
+						wishlistname, reserved, reservationname));
+			}
+			return Article;
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		} finally {
+			JdbcUtils.closeResultSet(resultSet);
+			JdbcUtils.closeStatement(statement);
+			JdbcUtils.closeConnection(connection);
+		}
+		return null;
+	}
 
 	public List<Article> showWishlist(Long wishlistId) {
 
@@ -147,7 +195,9 @@ public class WishRepository {
 		try {
 			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 			statement = connection.prepareStatement(
-					"SELECT *, wishlist.name AS wishlistname, reservation.reserved, reservation.name AS reservationname FROM article JOIN wishlist ON wishlistId = wishlist.id JOIN reservation ON article.id = reservation.id WHERE wishlistId = ? ;");
+					"SELECT *, wishlist.name AS wishlistname, reservation.reserved, reservation.name AS reservationname "
+					+ "FROM article JOIN wishlist ON wishlistId = wishlist.id JOIN reservation ON article.id = reservation.id "
+					+ "WHERE wishlistId = ? ;");
 			statement.setLong(1, wishlistId);
 			resultSet = statement.executeQuery();
 
@@ -301,6 +351,24 @@ public class WishRepository {
 
 		return wishlistId;
 	}
+	
+	public void moveToWishlist(List<Article> wishlist,
+			Long wishlistId) {
+		
+		String articlename;
+		String description;
+		String imagelink;
+		String productlink;
+		
+		for (Article a : wishlist) {
+			articlename= a.getName();
+			description = a.getDescription();
+			imagelink = a.getImagelink();
+			productlink = a.getProductlink();
+			
+			addWish (articlename, description, imagelink, productlink, wishlistId);
+		}
+	}
 
 	public void unreserveWish(Long articleId) {
 
@@ -325,7 +393,7 @@ public class WishRepository {
 			JdbcUtils.closeConnection(connection);
 		}
 	}
-
+	
 	public Long createWishlist(String titlename, String enddate) {
 
 		Encode en = new Encode();
