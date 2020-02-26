@@ -9,6 +9,8 @@
     <title>Gift Me Five Extrawunsch</title>
     <script type="text/javascript" src="js/wishform.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Caveat&display=swap" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <!-- Bootstrap -->
     <link href="bootstrap-4.3.1-dist/css/bootstrap.min.css" rel="stylesheet">
@@ -22,14 +24,6 @@
 
 <body class="container">
     <!--Navigation-->
-<!--     <div class="bg-1">
-        Home
-        <a class="home pl-4" th:href="@{home}">Home<span class="sr-only">(current)</span></a>
-        Titeltext
-        <div class="row text-center title-1">GiftMeFive</div>
-        <div class="title-1-text" th:text="|${titlename} Wunschliste!|"></div>
-    </div> -->
-
 
 	<div id="carousel" class="carousel slide carousel-fade" data-ride="carousel" data-interval="false">
 		<ol class="carousel-indicators">
@@ -41,7 +35,7 @@
 		<div class="carousel-inner" role="listbox">
 			<!-- Slide One - Set the background image for this slide in the line below -->
 			<div class="carousel-item active"
-				th:style="'background:url('+ @{/getimage/24} +');'">
+				th:style="'background:url('+ @{${topimagelink}}+');'">
 				<a class="home pl-4" th:href="@{home}">Home</a>
 				<div class="carousel-caption d-none d-md-block">
 					
@@ -111,7 +105,7 @@
                                 <input class="form-control" id="articlenameFormTwo" name="articlename" type="text" th:value="${articlename}" placeholder="Mein Wunsch" onfocusout="dataFunction()">
 
                                 <label class="control-label mt-2 mb-0">Beschreibung:</label>
-                                <textarea class="form-control" id="descriptionFormTwo" name="description" th:text="${description}" placeholder="etwas großartiges" onfocusout="dataFunction()"></textarea>
+                                <textarea class="form-control" id="descriptionFormTwo" name="description" th:text="${description}" placeholder="..." onfocusout="dataFunction()"></textarea>
 
                                 <label class="control-label mt-2 mb-0">Kategorie:</label>
                                 <select class="form-control" id="Category" name="Category" onchange="imageFunction()">
@@ -150,6 +144,9 @@
                                 <input type="reset" onclick="imgResetFunction()" class="btn btn-danger mt-3 mb-0" value="Leeren">
                                 <input type="submit" class="btn btn-success mt-3 mb-0" value="Speichern">
                                 
+								<a class="btn btn-light float-right mt-3 mb-0 ml-1" data-toggle="modal" data-target="#recycle_wishlist" 
+								 th:attr="data-oldwishlistId=${wishlistId}">Recycle</a>
+
                         		<a id="saveWishList" th:href="@{/saveWishlist(wishlistId=${wishlistId}, titlename=${titlename}, topimage=24)}" class="btn btn-dark float-right mt-3 mb-0">Wunschliste speichern</a>
 
                             </p>
@@ -188,12 +185,46 @@
             </div>
         </div>
     </div>
+   <!--Eingabefenster für Wunschliste recyclen-->
+    <div class="modal fade" id="recycle_wishlist" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="background-color:#EBEBEB">
+                <div class="modal-header">
+                    <h5 class="modal-title googlef-indieflower">Recycle Wunschliste</h5>
+                    <button type="button" class="close" data-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                <span class="index-text">Nicht reservierte Wünsche werden in eine neue Wunschliste übertragen</span>
+                    <form action="/recycle" method="get">
+                        <label class="index-text">Bitte geben Sie einen Namen ohne Leerzeichen ein.</label>
+                        <input name="titlename" class="form-control" type="text" pattern="[\wäöüß]+" th:value="|${titlename}_recycelt|" autofocus>
+                        <label class="index-text">Bitte wählen Sie ein Datum.</label>
+                        <input name="enddate" class="form-control" type="date" required>
+                        <input name="oldwishlistId" type="hidden" th:value="${wishlistId}">
+                        <input name="topimage" type="hidden" value="24">
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary" value="Ausführen">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <!-- jQuery für Dateneintrag ins Modal, Quelle: https://getbootstrap.com/docs/4.0/components/modal/#varying-modal-content -->
+	    <script>
+	        $('#recycle_wishlist').on('show.bs.modal', function(event) {
+	            var button = $(event.relatedTarget) // Button that triggered the modal
+	            var modal = $(this)
+	            modal.find('.oldwishlistId').val(button.data('oldwishlistId'))
+	        })
+	    </script>
 	
 	<!-- beibehalten von dem Titelbild nach einem Refresh -->
 	 <script type="text/javascript">
@@ -207,6 +238,12 @@
 		 }
 	 </script>
 
+        <!-- Fokus auf erstes Input-Feld im Modal, adaptiert von https://github.com/twbs/bootstrap/issues/12525 -->
+	     <script>
+	     $(document).on('shown.bs.modal', function (e) {
+	        $('[autofocus]', e.target).focus();
+	      });
+	     </script>
 </body>
 
 </html>
