@@ -7,8 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Die 3 Meta-Tags oben *müssen* zuerst im head stehen; jeglicher sonstiger head-Inhalt muss *nach* diesen Tags kommen -->
     <title>Gift Me Five Reservierungen</title>
-    <script type="text/javascript" src="js/wishlistoutput.js"></script>
+    <script type="text/javascript" src="js/wishform.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Caveat&display=swap" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <!-- Bootstrap -->
     <link href="bootstrap-4.3.1-dist/css/bootstrap.min.css" rel="stylesheet">
@@ -24,10 +26,17 @@
     <!--Navigation-->
     <div class="bg-1" th:style="'background:url('+ @{${topimagelink}} +');'">
         <!-- Home -->
-        <a class="home pl-4" th:href="@{home}">Home<span class="sr-only">(current)</span></a>
+        <a class="home pl-4" style="text-shadow: 1px  1px 1px black, 1px -1px 1px black, -1px  1px 1px black, -1px -1px 1px black" th:href="@{home}">Home<span class="sr-only">(current)</span></a>
         <!--Titeltext-->
         <div class="row text-center title-1">GiftMeFive</div>
         <div class="title-1-text" th:text="|Reservierungen für ${reservationname}|"></div>
+        <!-- Export-Optionen -->
+        <div class="home pt-2">
+            <!--TODO: wishlistId not present, create separate route  <a style="font-size: 1em" class="home pl-4" th:href="@{/toPDF(titlename=${titelname},wishlistId=${wishlistId}">Speichern HTML</a> -->
+            <a style="font-size: 1em; text-shadow: 1px  1px 1px black, 1px -1px 1px black, -1px  1px 1px black, -1px -1px 1px black;"
+             class="home pl-4" href="#" data-toggle="modal" data-target="#save_csv"
+             th:attr="data-reservationname=${reservationname}, data-wishlistid='0'">Speichern CSV</a>
+        </div>
     </div>
 
     <!-- Liste -->
@@ -56,11 +65,51 @@
             </div>
         </div>
     </div>
+    <!--Eingabefenster für Save As CSV-->
+    <div class="modal fade" id="save_csv" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="background-color:#EBEBEB">
+                <div class="modal-header">
+                    <h5 class="modal-title googlef-indieflower">Liste lokal speichern im CSV-Format (in Ordner 'Downloads')</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                    </button>
+                </div>
+
+                <form name="saveform" method="post">
+                    <div class="modal-body">
+                        <input type="hidden" class="reservationname" id="reservationname" name="reservationname" th:value="${reservationname}">
+                        <input type="hidden" class="wishlistId" id="wishlistId" name="wishlistId" th:value="${wishlistId}">
+                        <textarea name="text_area" id="text_area" cols="40" th:text="${wishlistCsv}"></textarea>
+
+                        <label class="index-text">Bitte geben Sie den Dateinamen ohne Endung ein:</label>
+                        <input name="filename" id="filename" class="form-control" type="text" th:value="${reservationname}+'_reservations'" autofocus>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-primary" onClick="save();" value="Speichern">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!-- jQuery (wird für Bootstrap JavaScript-Plugins benötigt) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Binde alle kompilierten Plugins zusammen ein (wie hier unten) oder such dir einzelne Dateien nach Bedarf aus -->
     <script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+    <script>
+        $('#save_csv').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var modal = $(this)
+
+            modal.find('.reservationname').val(button.data('reservationname'))
+            modal.find('.wishlistId').val(button.data('wishlistid'))
+        })
+    </script>
+    <script>
+        $(document).on('shown.bs.modal', function(e) {
+            $('[autofocus]', e.target).focus();
+        });
+    </script>
 
 </body>
 

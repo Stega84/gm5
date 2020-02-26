@@ -93,7 +93,9 @@ public class WishRepository {
 	}
 
 	public List<Article> showReservations(String reservationname) {
-
+		
+		Encode en = new Encode();
+		
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -115,11 +117,59 @@ public class WishRepository {
 				String creationdate = resultSet.getString("creationdate");
 				String imagelink = resultSet.getString("imagelink");
 				String productlink = resultSet.getString("productlink");
-				Long wishlistId = resultSet.getLong("wishlistId");
+				Long wishlistId = en.encode(resultSet.getLong("wishlistId"));
 				String wishlistname = resultSet.getString("wishlistname");
 				Boolean reserved = resultSet.getBoolean("reserved");
 
 				Article.add(new Article(id, name, description, creationdate, imagelink, productlink, wishlistId,
+						wishlistname, reserved, reservationname));
+			}
+			return Article;
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		} finally {
+			JdbcUtils.closeResultSet(resultSet);
+			JdbcUtils.closeStatement(statement);
+			JdbcUtils.closeConnection(connection);
+		}
+		return null;
+	}
+	
+	public List<Article> showUnreserved(Long oldwishlistId) {
+
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		
+		Encode en = new Encode();		
+		oldwishlistId = en.decode(oldwishlistId);
+
+
+		try {
+			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			statement = connection.prepareStatement(
+					"SELECT *, wishlist.name AS wishlistname, reservation.reserved, reservation.name AS reservationname "
+					+ "FROM article JOIN wishlist ON wishlistId = wishlist.id JOIN reservation ON article.id = reservation.id "
+					+ "WHERE reservation.reserved = 0 AND wishlistId = ?;");
+			statement.setLong(1, oldwishlistId);
+
+			resultSet = statement.executeQuery();
+
+			List<Article> Article = new ArrayList<>();
+
+			while (resultSet.next()) {
+				Long id = resultSet.getLong("id");
+				String name = resultSet.getString("name");
+				String description = resultSet.getString("description");
+				String creationdate = resultSet.getString("creationdate");
+				String imagelink = resultSet.getString("imagelink");
+				String productlink = resultSet.getString("productlink");
+				String wishlistname = resultSet.getString("wishlistname");
+				Boolean reserved = resultSet.getBoolean("reserved");
+				String reservationname = resultSet.getString("reservationname");
+
+				Article.add(new Article(id, name, description, creationdate, imagelink, productlink, oldwishlistId,
 						wishlistname, reserved, reservationname));
 			}
 			return Article;
@@ -146,7 +196,9 @@ public class WishRepository {
 		try {
 			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 			statement = connection.prepareStatement(
+
 					"CALL ShowWishlist(?)");
+
 			statement.setLong(1, wishlistId);
 			resultSet = statement.executeQuery();
 
@@ -300,6 +352,24 @@ public class WishRepository {
 
 		return wishlistId;
 	}
+	
+	public void moveToWishlist(List<Article> wishlist,
+			Long wishlistId) {
+		
+		String articlename;
+		String description;
+		String imagelink;
+		String productlink;
+		
+		for (Article a : wishlist) {
+			articlename= a.getName();
+			description = a.getDescription();
+			imagelink = a.getImagelink();
+			productlink = a.getProductlink();
+			
+			addWish (articlename, description, imagelink, productlink, wishlistId);
+		}
+	}
 
 	public void unreserveWish(Long articleId) {
 
@@ -324,7 +394,7 @@ public class WishRepository {
 			JdbcUtils.closeConnection(connection);
 		}
 	}
-
+	
 	public Long createWishlist(String titlename, String enddate) {
 
 		Encode en = new Encode();
@@ -426,6 +496,22 @@ public class WishRepository {
 			JdbcUtils.closeConnection(connection);
 		}
 		return imageid;
+	}
+	
+	public String makeCsv (Object wishlist) {
+
+		String wishlistCsv = "id,name,description,imagelink,creationdate,wishlistId\n";
+		@SuppressWarnings("unchecked")
+		List<Article> articles = (List<Article>) wishlist;
+		for (Article article : articles) {
+			wishlistCsv = wishlistCsv.concat(article.getId() + ",");
+			wishlistCsv = wishlistCsv.concat(article.getName() + ",");
+			wishlistCsv = wishlistCsv.concat(article.getDescription() + ",");
+			wishlistCsv = wishlistCsv.concat(article.getImagelink() + ",");
+			wishlistCsv = wishlistCsv.concat(article.getCreationdate() + ",");
+			wishlistCsv = wishlistCsv.concat(article.getWishlistId() + "\n");
+		}
+		return (wishlistCsv);
 	}
 
 	public void saveWishListImage(int topimage, long wishlistId) {

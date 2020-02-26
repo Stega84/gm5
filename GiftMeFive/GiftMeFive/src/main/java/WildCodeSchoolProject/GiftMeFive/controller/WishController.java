@@ -16,9 +16,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.itextpdf.text.DocumentException;
+import WildCodeSchoolProject.GiftMeFive.util.WebPageToPdf;
+
 import WildCodeSchoolProject.GiftMeFive.entity.Article;
 import WildCodeSchoolProject.GiftMeFive.repository.WishRepository;
 import WildCodeSchoolProject.GiftMeFive.util.Encode;
+
 
 @Controller
 public class WishController {
@@ -58,9 +62,17 @@ public class WishController {
 		model.addAttribute("titlename", titlename);
 		model.addAttribute("wishlistId", wishlistId);
 		model.addAttribute("topimagelink", repository.getWishlistImage(wishlistId));
-		
 		model.addAttribute("wishlist", repository.showWishlist(wishlistId));
-		return "wishlistoutput";
+
+		String wishlistCsv = repository.makeCsv (model.getAttribute("wishlist"));
+		model.addAttribute("wishlistCsv", wishlistCsv);
+
+		@SuppressWarnings("unchecked")
+		List<Article> returnedwishlist = (List<Article>) model.getAttribute("wishlist");
+		if (returnedwishlist == null || returnedwishlist.isEmpty()) {
+			return no_result (model, "Leere ", 0l);
+		}
+	return "wishlistoutput";
 	}
 
 	@GetMapping("/wishform_list")
@@ -69,8 +81,11 @@ public class WishController {
 		model.addAttribute("wishlistId", wishlistId);
 		model.addAttribute("imagelink", "/getimage/1");
 		model.addAttribute("topimagelink", "/getimage/24");
-
 		model.addAttribute("wishlist", repository.showWishlistForm(wishlistId));
+
+		String wishlistCsv = repository.makeCsv (model.getAttribute("wishlist"));
+		model.addAttribute("wishlistCsv", wishlistCsv);
+
 		return "wishform_list";
 	}
 
@@ -82,8 +97,12 @@ public class WishController {
 		model.addAttribute("userId", userId);
 		model.addAttribute("friendsId", friendsId);
 		model.addAttribute("topimagelink", repository.getWishlistImage(wishlistId));
-		
 		model.addAttribute("wishlist", repository.showWishlistForm(wishlistId));
+
+		String wishlistCsv = repository.makeCsv (model.getAttribute("wishlist"));
+		model.addAttribute("wishlistCsv", wishlistCsv);		
+		//TODO Müssten das speichern abfangen oder dem User wieder etwas anzeigen. Produzieren halt viel Datenmüll damit.
+
 		return "wishlistSaved";
 	}
 
@@ -91,7 +110,7 @@ public class WishController {
 	public String addWish(RedirectAttributes redirect, Model model, @RequestParam String articlename,
 			@RequestParam String description, @RequestParam Long wishlistId, @RequestParam String titlename,
 			@RequestParam String CategoryImage, @RequestParam Long articleId, @RequestParam String productlink) {
-//userimage.equals("")
+
 		if (articleId != null) {
 			
 			String  splitArticleName[] = articlename.split(" ");
@@ -142,16 +161,14 @@ public class WishController {
 		return "redirect:/wishlistoutput";
 	}
 
-	@GetMapping("/unreserveWish")
-	public String unreservWish(RedirectAttributes redirect, Model model, @RequestParam Long articleId,
+	@RequestMapping("/unreserveWish")
+	public String unreservWish(Model model, @RequestParam Long articleId,
 			@RequestParam String articlename, @RequestParam String reservationname, @RequestParam Long wishlistId) {
 
 		repository.unreserveWish(articleId);
-
-		redirect.addAttribute("reservationname", reservationname);
-
+		model.addAttribute("reservationname", reservationname);
 		
-		return "redirect:/reservationoutput";
+		return reservationoutput (model, reservationname);
 	}
 
 	@GetMapping("/findWishlist")
@@ -161,6 +178,10 @@ public class WishController {
 		String[] viewId = userId.split("_");
 		wishlistId = Long.parseLong(viewId[1]);
 
+		if (repository.getWishlistname(wishlistId).equals("")) {
+			return no_result (model, viewId[0], 0l);
+		} 
+		
 		if (viewId.length == 2) {
 			redirect.addAttribute("userId", userId);
 			redirect.addAttribute("friendsId", userId + "_friends");
@@ -174,25 +195,21 @@ public class WishController {
 		return "redirect:/wishlistoutput";
 	}
 
-	@GetMapping("/reservationoutput")
-	public String resevationoutput(Model model, @RequestParam String reservationname) {
+	@PostMapping("/reservationoutput")
+	public String reservationoutput(Model model, @RequestParam String reservationname) {
 
 		List<Article> article = repository.showReservations(reservationname);
 		if(!(article.size()==0)) {
-			Encode en = new Encode();		
-			String topimagelink= repository.getWishlistImage(en.encode(article.get(0).getWishlistId()));	
-
+			String topimagelink = "/getimage/24";
 			model.addAttribute("topimagelink", topimagelink);
+			model.addAttribute("wishlist", article);
+			model.addAttribute("reservationname", reservationname);
 		}else {
-			return "/index";
+			return no_result(model, reservationname, 0l);		
 		}
-		
-		
-		model.addAttribute("wishlist", article);
-		model.addAttribute("reservationname", reservationname);
-		
-		
-		
+		String wishlistCsv = repository.makeCsv (model.getAttribute("wishlist"));
+		model.addAttribute("wishlistCsv", wishlistCsv);		
+
 		return "reservationoutput";
 	}
 
@@ -289,5 +306,64 @@ public class WishController {
 
 		return "wishform_list";
 	}
+	
+	@GetMapping("/recycle")
+	public String recycleWishlist(Model model, @RequestParam String titlename, @RequestParam String enddate, @RequestParam Long oldwishlistId,
+			@RequestParam int topimage, RedirectAttributes redirectAttributes) {
+		
+		model.addAttribute("wishlist", repository.showUnreserved(oldwishlistId));
+		@SuppressWarnings("unchecked")
+		List<Article> movingwishlist = (List<Article>) model.getAttribute("wishlist");
+		if (movingwishlist == null || movingwishlist.isEmpty()) {
+			return no_result (model, titlename, oldwishlistId);
+		}
+		Long wishlistId = repository.createWishlist(titlename, enddate);
+		repository.moveToWishlist(movingwishlist, wishlistId);
+	
+		redirectAttributes.addAttribute("titlename", titlename);
+		redirectAttributes.addAttribute("wishlistId", wishlistId);
+		redirectAttributes.addAttribute("topimage", topimage);
+		return "redirect:/saveWishlist";
+	}
+	
+	@GetMapping("/no_result")
+	public String no_result (Model model, @RequestParam String titlename, @RequestParam Long wishlistId) {
 
+		if (wishlistId != 0) {
+			titlename = repository.getWishlistname(wishlistId);
+		} 
+		model.addAttribute("titlename", titlename);
+		model.addAttribute("wishlistId", wishlistId);
+		model.addAttribute("topimagelink", "getimage/24");
+		return "no_result";
+	}
+
+	@RequestMapping("/toHTML")
+	public String toPDF (Model model, @RequestParam String titlename, @RequestParam Long wishlistId, @RequestParam String sourceName, @RequestParam String topimagelink) throws Exception, DocumentException {
+			String pageName = null;
+			String userId = titlename + "_" + "wishlistId";
+			String friendsId = titlename + "_" + wishlistId + "_friends";
+			model.addAttribute("titlename", titlename);
+			model.addAttribute("wishlistId", wishlistId);
+			model.addAttribute("topimagelink", topimagelink);
+			
+			model.addAttribute("wishlist", repository.showWishlist(wishlistId));
+			model.addAttribute("userId", userId);
+			model.addAttribute("friendsId", friendsId);
+			if (sourceName.equals("wishlistSaved")) {
+			pageName = "http://localhost:8080/" + "wishlistSaved?userId=" + userId + "&friendsId=" + friendsId + "&wishlistId=" + wishlistId + "&titlename=" + titlename;
+			} else {
+			pageName = 	"http://localhost:8080/"+ sourceName + "?wishlistId=" + wishlistId + "&titlename=" + titlename;
+			}
+			String fileName = sourceName + "_saved.html";
+			WebPageToPdf.saveHTML(pageName, fileName);
+			
+			return sourceName;
+	
+	}
+	@RequestMapping("/toCsv")
+	public String toCsv () {
+			return "Hallo CSV";
+	}
+	
 }
