@@ -102,8 +102,9 @@ public class WishRepository {
 
 		try {
 			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			System.out.println("ShowReservastion CALL");
 			statement = connection.prepareStatement(
-					"SELECT *, wishlist.name AS wishlistname, reservation.reserved, reservation.name AS reservationname FROM article JOIN wishlist ON wishlistId = wishlist.id JOIN reservation ON article.id = reservation.id WHERE reservation.name = ? ;");
+					"CALL ShowReservations(?)");
 			statement.setString(1, reservationname);
 			resultSet = statement.executeQuery();
 
@@ -195,9 +196,9 @@ public class WishRepository {
 		try {
 			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 			statement = connection.prepareStatement(
-					"SELECT *, wishlist.name AS wishlistname, reservation.reserved, reservation.name AS reservationname "
-					+ "FROM article JOIN wishlist ON wishlistId = wishlist.id JOIN reservation ON article.id = reservation.id "
-					+ "WHERE wishlistId = ? ;");
+
+					"CALL ShowWishlist(?)");
+
 			statement.setLong(1, wishlistId);
 			resultSet = statement.executeQuery();
 

@@ -46,6 +46,25 @@ SELECT *
 FROM article
 WHERE wishlistId = 1;
 
+DELIMITER / /
+CREATE PROCEDURE ShowWishlist(IN id INT)
+BEGIN
+SELECT *, wishlist.name AS wishlistname, reservation.reserved, reservation.name AS reservationname
+FROM article JOIN wishlist ON wishlistId = wishlist.id JOIN reservation ON article.id = reservation.id
+WHERE wishlistId = id ;
+END 
+/ / DELIMITER ;
+
+DELIMITER / /
+CREATE PROCEDURE ShowReservations(IN name VARCHAR(80))
+BEGIN
+SELECT *, wishlist.name AS wishlistname, reservation.reserved, reservation.name AS reservationname
+FROM article JOIN wishlist ON wishlistId = wishlist.id JOIN reservation ON article.id = reservation.id
+WHERE reservation.name = name;
+END / /
+DELIMITER ;
+
+
 INSERT INTO categoryimage(id, category) VALUES(1, LOAD_FILE('/var/lib/mysql-files/default.jpg'));
 INSERT INTO categoryimage(id, category) VALUES(2, LOAD_FILE('/var/lib/mysql-files/baby.webp'));
 INSERT INTO categoryimage(id, category) VALUES(3, LOAD_FILE('/var/lib/mysql-files/beauty.webp'));
