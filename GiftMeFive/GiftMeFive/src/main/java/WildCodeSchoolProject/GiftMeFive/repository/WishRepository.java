@@ -93,7 +93,9 @@ public class WishRepository {
 	}
 
 	public List<Article> showReservations(String reservationname) {
-
+		
+		Encode en = new Encode();
+		
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -114,7 +116,7 @@ public class WishRepository {
 				String creationdate = resultSet.getString("creationdate");
 				String imagelink = resultSet.getString("imagelink");
 				String productlink = resultSet.getString("productlink");
-				Long wishlistId = resultSet.getLong("wishlistId");
+				Long wishlistId = en.encode(resultSet.getLong("wishlistId"));
 				String wishlistname = resultSet.getString("wishlistname");
 				Boolean reserved = resultSet.getBoolean("reserved");
 
@@ -493,6 +495,22 @@ public class WishRepository {
 			JdbcUtils.closeConnection(connection);
 		}
 		return imageid;
+	}
+	
+	public String makeCsv (Object wishlist) {
+
+		String wishlistCsv = "id,name,description,imagelink,creationdate,wishlistId\n";
+		@SuppressWarnings("unchecked")
+		List<Article> articles = (List<Article>) wishlist;
+		for (Article article : articles) {
+			wishlistCsv = wishlistCsv.concat(article.getId() + ",");
+			wishlistCsv = wishlistCsv.concat(article.getName() + ",");
+			wishlistCsv = wishlistCsv.concat(article.getDescription() + ",");
+			wishlistCsv = wishlistCsv.concat(article.getImagelink() + ",");
+			wishlistCsv = wishlistCsv.concat(article.getCreationdate() + ",");
+			wishlistCsv = wishlistCsv.concat(article.getWishlistId() + "\n");
+		}
+		return (wishlistCsv);
 	}
 
 	public void saveWishListImage(int topimage, long wishlistId) {

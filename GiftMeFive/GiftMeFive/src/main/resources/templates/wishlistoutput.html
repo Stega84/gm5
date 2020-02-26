@@ -2,12 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="de">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Die 3 Meta-Tags oben *müssen* zuerst im head stehen; jeglicher sonstiger head-Inhalt muss *nach* diesen Tags kommen -->
     <title>Wunschliste für Freunde</title>
-    <script type="text/javascript" src="js/wishlistoutput.js"></script>
+    <script type="text/javascript" src="js/wishform.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Caveat&display=swap" rel="stylesheet">
@@ -22,14 +22,23 @@
       <![endif]-->
 </head>
 
-<body class="container" >
+<body class="container">
     <!--Navigation-->
     <div class="bg-1" th:style="'background:url('+ @{${topimagelink}} +');'">
         <!-- Home -->
-        <a class="home pl-4" th:href="@{home}">Home<span class="sr-only">(current)</span></a>
+        <a class="home pl-4" style="text-shadow: 1px  1px 1px black, 1px -1px 1px black, -1px  1px 1px black, -1px -1px 1px black" th:href="@{home}">Home<span class="sr-only">(current)</span></a>
         <!--Titeltext-->
         <div class="row text-center title-1">GiftMeFive</div>
         <div class="title-1-text" th:text="|${titlename} Wunschliste!|"></div>
+        <!-- Export-Optionen -->
+        <div class="home pt-2">
+            <a style="font-size: 1em; text-shadow: 1px  1px 1px black, 1px -1px 1px black, -1px  1px 1px black, -1px -1px 1px black;"
+             class="home pl-4" th:href="@{/toHTML(titlename=${titlename},wishlistId=${wishlistId},
+             sourceName='wishlistoutput', topimagelink=${topimagelink})}">Speichern HTML</a>
+            <a href="#" style="font-size: 1em; text-shadow: 1px  1px 1px black, 1px -1px 1px black, -1px  1px 1px black, -1px -1px 1px black;"
+             class="home pl-4" data-toggle="modal" data-target="#save_csv"
+             th:attr="data-titlename=${titlename}, data-wishlistid=${wishlistId}">Speichern CSV</a>
+        </div>
     </div>
 
     <!-- Liste -->
@@ -86,6 +95,33 @@
         </div>
     </div>
 
+    <!--Eingabefenster für Save As CSV-->
+    <div class="modal fade" id="save_csv" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="background-color:#EBEBEB">
+                <div class="modal-header">
+                    <h5 class="modal-title googlef-indieflower">Liste lokal speichern im CSV-Format (in Ordner 'Downloads')</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                    </button>
+                </div>
+
+                <form name="saveform">
+                    <div class="modal-body">
+                        <input type="hidden" class="titlename" id="titlename" name="titlename" value="">
+                        <input type="hidden" class="wishlistId" id="wishlistId" name="wishlistId" value="">
+                        <textarea name="text_area" id="text_area" cols="40" th:text="${wishlistCsv}"></textarea>
+
+                        <label class="index-text">Bitte geben Sie den Dateinamen ohne Endung ein:</label>
+                        <input name="filename" id="filename" class="form-control" type="text" th:value="${titlename}+'_'+${wishlistId}+'_friends'" autofocus>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-primary" onClick="save();" value="Speichern">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- jQuery (wird für Bootstrap JavaScript-Plugins benötigt) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Binde alle kompilierten Plugins zusammen ein (wie hier unten) oder such dir einzelne Dateien nach Bedarf aus -->
@@ -97,6 +133,15 @@
             var modal = $(this)
 
             modal.find('.articleId').val(button.data('articleid'))
+            modal.find('.wishlistId').val(button.data('wishlistid'))
+        })
+    </script>
+    <script>
+        $('#save_csv').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var modal = $(this)
+
+            modal.find('.titlename').val(button.data('titlename'))
             modal.find('.wishlistId').val(button.data('wishlistid'))
         })
     </script>

@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Die 3 Meta-Tags oben *müssen* zuerst im head stehen; jeglicher sonstiger head-Inhalt muss *nach* diesen Tags kommen -->
     <title>Gift Me Five - Wunschliste gespeichert</title>
-    <script type="text/javascript" src="js/wishlisSaved.js"></script>
+    <script type="text/javascript" src="js/wishform.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Caveat&display=swap" rel="stylesheet">
@@ -26,10 +26,19 @@
     <!--Navigation-->
     <div class="bg-1 mb-2" th:style="'background:url('+ @{${topimagelink}}+');'">
         <!-- Home -->
-        <a class="home pl-4" th:href="@{home}">Home<span class="sr-only">(current)</span></a>
+        <a class="home pl-4" style="text-shadow: 1px  1px 1px black, 1px -1px 1px black, -1px  1px 1px black, -1px -1px 1px black" th:href="@{home}">Home<span class="sr-only">(current)</span></a>
         <!--Titeltext-->
         <div class="row text-center title-1">GiftMeFive</div>
         <div class="title-1-text" th:text="|${titlename} Wunschliste!|"></div>
+        <!-- Export-Optionen -->
+        <div class="home pt-2">
+            <a style="font-size: 1em; text-shadow: 1px  1px 1px black, 1px -1px 1px black, -1px  1px 1px black, -1px -1px 1px black;" 
+            class="home pl-4" th:href="@{/toHTML(titlename=${titlename},wishlistId=${wishlistId},
+             sourceName='wishlistSaved', topimagelink=${topimagelink})}">Speichern HTML</a>
+            <a  style="font-size: 1em; text-shadow: 1px  1px 1px black, 1px -1px 1px black, -1px  1px 1px black, -1px -1px 1px black;"
+             class="home pl-4" href="#" data-toggle="modal" data-target="#save_csv"
+              th:attr="data-titlename=${titlename}, data-wishlistid=${wishlistId}, data-userid=${userId}">Speichern CSV</a>
+        </div>
     </div>
 
     <!-- Anzeige der IDs für User und für die Freunde. Button zum versenden oder Bearbeiten werden direkt angzeigt. -->
@@ -103,13 +112,41 @@
                         <small class="text-muted" th:text=" | in Liste ${article.wishlistId}|"></small>
                         <small class="text-muted" th:text=" | Reserviert=${article.reserved} für ${article.reservationname}|"></small>
                     </p>
-					<div class="text-right">
+                    <div class="text-right">
                         <a th:href="@{/loadWish(articleId=${article.id}, wishlistId=${wishlistId}, articlename=${article.name}, description=${article.description}, imagelink=${article.imagelink}, productlink=${article.productlink})}" class="btn btn-primary">Bearbeiten</a>
                         <a th:href="@{/removeWish(articleId=${article.id}, wishlistId=${wishlistId}, titlename=${titlename})}" class="btn btn-danger">Löschen</a>
-                        
-                 	</div>
-   
+
+                    </div>
+
                 </div>
+            </div>
+        </div>
+    </div>
+    <!--Eingabefenster für Save As CSV-->
+    <div class="modal fade" id="save_csv" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="background-color:#EBEBEB">
+                <div class="modal-header">
+                    <h5 class="modal-title googlef-indieflower">Liste lokal speichern im CSV-Format (in Ordner 'Downloads')</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                    </button>
+                </div>
+
+                <form name="saveform">
+                    <div class="modal-body">
+                        <input type="hidden" class="titlename" id="titlename" name="titlename" value="">
+                        <input type="hidden" class="wishlistId" id="wishlistId" name="wishlistId" value="">
+                        <input type="hidden" class="userId" id="userId" name="userId" value="">
+                        <input type="hidden" class="friendsId" id="friendsId" name="friendsId" value="friends">
+                        <textarea name="text_area" id="text_area" cols="40" th:text="${wishlistCsv}"></textarea>
+
+                        <label class="index-text">Bitte geben Sie den Dateinamen ohne Endung ein:</label>
+                        <input name="filename" id="filename" class="form-control" type="text" th:value="${titlename}+'_'+${wishlistId}+'_saved'" autofocus>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-primary" onClick="save();" value="Speichern">
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -128,12 +165,22 @@
             modal.find('.wishlistId').val(button.data('wishlistid'))
         })
     </script>
+    <script>
+        $('#save_csv').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var modal = $(this)
+
+            modal.find('.titlename').val(button.data('titlename'))
+            modal.find('.wishlistId').val(button.data('wishlistid'))
+            modal.find('.userId').val(button.data('userid'))
+        })
+    </script>
     <!-- Fokus auf erstes Input-Feld im Modal, adaptiert von https://github.com/twbs/bootstrap/issues/12525 -->
-	 <script>
-	 $(document).on('shown.bs.modal', function (e) {
-	    $('[autofocus]', e.target).focus();
-	  });
-	 </script>
+    <script>
+        $(document).on('shown.bs.modal', function(e) {
+            $('[autofocus]', e.target).focus();
+        });
+    </script>
 </body>
 
 </html>
