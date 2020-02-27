@@ -16,9 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.itextpdf.text.DocumentException;
-import WildCodeSchoolProject.GiftMeFive.util.WebPageToPdf;
-
 import WildCodeSchoolProject.GiftMeFive.entity.Article;
 import WildCodeSchoolProject.GiftMeFive.repository.WishRepository;
 import WildCodeSchoolProject.GiftMeFive.util.Encode;
@@ -338,32 +335,4 @@ public class WishController {
 		return "no_result";
 	}
 
-	@RequestMapping("/toHTML")
-	public String toPDF (Model model, @RequestParam String titlename, @RequestParam Long wishlistId, @RequestParam String sourceName, @RequestParam String topimagelink) throws Exception, DocumentException {
-			String pageName = null;
-			String userId = titlename + "_" + "wishlistId";
-			String friendsId = titlename + "_" + wishlistId + "_friends";
-			model.addAttribute("titlename", titlename);
-			model.addAttribute("wishlistId", wishlistId);
-			model.addAttribute("topimagelink", topimagelink);
-			
-			model.addAttribute("wishlist", repository.showWishlist(wishlistId));
-			model.addAttribute("userId", userId);
-			model.addAttribute("friendsId", friendsId);
-			if (sourceName.equals("wishlistSaved")) {
-			pageName = "http://localhost:8080/" + "wishlistSaved?userId=" + userId + "&friendsId=" + friendsId + "&wishlistId=" + wishlistId + "&titlename=" + titlename;
-			} else {
-			pageName = 	"http://localhost:8080/"+ sourceName + "?wishlistId=" + wishlistId + "&titlename=" + titlename;
-			}
-			String fileName = sourceName + "_saved.html";
-			WebPageToPdf.saveHTML(pageName, fileName);
-			
-			return sourceName;
-	
-	}
-	@RequestMapping("/toCsv")
-	public String toCsv () {
-			return "Hallo CSV";
-	}
-	
 }
